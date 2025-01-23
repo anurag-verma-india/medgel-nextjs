@@ -2,7 +2,9 @@ import Image from "next/image";
 // import Link from "next/link";
 // import Header from "app/pages/_common_component/Header";
 // import { cookies } from "next/headers";
-import EditModalContainer from "./EditModalContainer.tsx";
+// import EditModalContainer from "../../_common_component/EditModalContainer.jsx";
+// import EditModalContainer from "../../_common_component/EditModalContainer";
+import EditModalContainer from "@/app/pages/_common_component/EditModalContainer";
 import fetchPage from "@/helpers/getPage";
 
 const title = "about-us/life-at-medgel";

@@ -3,7 +3,7 @@
 // import { useEffect } from "react";
 import { useState } from "react";
 // import EditModal from "./EditModal";
-import FormWithModal from "./EditModalNew";
+import FormWithModal from "./EditModalv2";
 
 export default function EditModalContainer({ page, title }) {
     const [modalOpen, setModalOpen] = useState(false);
