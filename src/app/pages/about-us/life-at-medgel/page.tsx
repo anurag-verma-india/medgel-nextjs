@@ -4,8 +4,8 @@ import Image from "next/image";
 // import { cookies } from "next/headers";
 // import EditModalContainer from "../../_common_component/EditModalContainer.jsx";
 // import EditModalContainer from "../../_common_component/EditModalContainer";
-import EditModalContainer from "@/app/pages/_common_component/EditModalContainer";
 import fetchPage from "@/helpers/getPage";
+import VerifyAndShowEditButton from "@/app/pages/_common_component/VerifyAndShowEditButton";
 
 const title = "about-us/life-at-medgel";
 
@@ -15,14 +15,14 @@ const LifeAtMedgel = async () => {
     // or headers()
     // const career = await fetchCareer();
     const page = await fetchPage(title);
-
     return (
         <>
             <div className="min-h-screen bg-white">
                 {/* <Header /> */}
                 {/* Main Content */}
                 <main className="max-w-7xl mx-auto px-4 py-12">
-                    <EditModalContainer title={title} page={page} />
+                    <VerifyAndShowEditButton title={title} />
+                    {/* <EditModalContainer title={title} page={page} /> */}
                     {/* Header */}
                     <div className="text-center mb-12">
                         <h1 className="text-5xl font-bold text-teal-500 relative inline-block">
