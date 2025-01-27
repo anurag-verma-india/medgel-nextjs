@@ -3,10 +3,10 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
-import bcryptjs from "bcryptjs";
+// import bcryptjs from "bcryptjs";
 
 import { sendEmail } from "@/helpers/mailer";
-
+// TODO: Handle all the extra things from the signup nextauth route and page
 // connect();
 dbConnect();
 export async function POST(request: NextRequest) {
@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
         const newUser = new User({
             // username: username,
             email: email,
-            verificationExpiry: Date.now() + 24 * 60 * 60 * 100, // 24 Hours
             // password: hashedPassword,
         });
 

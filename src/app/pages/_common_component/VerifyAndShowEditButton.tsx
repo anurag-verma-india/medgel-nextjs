@@ -3,10 +3,14 @@ import EditModalContainer from "@/app/pages/_common_component/EditModalContainer
 import { cookies } from "next/headers";
 import fetchPage from "@/helpers/getPage";
 
-const VerifyAndShowEditButton = async ({ title }) => {
+type VerifyParams = {
+    title: string;
+};
+
+const VerifyAndShowEditButton = async ({ title }: VerifyParams) => {
     const cookieStore = await cookies();
     const page = await fetchPage(title);
-    // console.log("Cookie token: ", cookieStore.get("token"));
+    console.log("Cookie token: ", cookieStore.get("token"));
     const isVerified = true;
     // const isVerified = false;
     return (
