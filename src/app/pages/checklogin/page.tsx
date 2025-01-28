@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
-import EditModalContainer from "../_common_component/EditModalContainer";
+// import EditModalContainer from "../_common_component/EditModalContainer";
 
 const CheckLogin = async () => {
     let user: any;

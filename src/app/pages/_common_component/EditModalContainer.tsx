@@ -1,7 +1,7 @@
 "use client";
 
 // import { useEffect } from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 // import EditModal from "./EditModal";
 import FormWithModal from "./EditModalv2";
 import { PageObject } from "@/types";
@@ -13,8 +13,7 @@ type ModalContainer = {
 
 export default function EditModalContainer({ page, title }: ModalContainer) {
     const [modalOpen, setModalOpen] = useState(false);
-    // const [modalContainerState, setModalContainerState] = useState(page);
-    const modalContainerState = useRef(page);
+    const [modalContainerState, setModalContainerState] = useState(page);
     const onClick = () => {
         setModalOpen(!modalOpen);
     };
