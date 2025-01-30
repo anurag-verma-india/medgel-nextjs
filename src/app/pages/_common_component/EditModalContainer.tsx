@@ -11,6 +11,8 @@ type ModalContainer = {
     page: PageObject;
 };
 
+// TODO: Reverify email option
+
 export default function EditModalContainer({ page, title }: ModalContainer) {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalContainerState, setModalContainerState] = useState(page);
