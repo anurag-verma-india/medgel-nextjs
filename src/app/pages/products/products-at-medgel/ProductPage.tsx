@@ -6,6 +6,10 @@ import VerifyEmailModal from "./VerifyEmailModal";
 
 export default function ProductsPage() {
     const [activeTab, setActiveTab] = useState("OTC Products");
+    const [verifyModalOpen, setVerifyModalOpen] = useState(false);
+    const verifyOpenClose = () => {
+        setVerifyModalOpen(!verifyModalOpen);
+    };
 
     const categoryProducts = {
         "OTC Products": [
@@ -33,7 +37,9 @@ export default function ProductsPage() {
 
     return (
         <div className="container">
-            <VerifyEmailModal />
+            {verifyModalOpen && (
+                <VerifyEmailModal openCloseFn={verifyOpenClose} />
+            )}
             <h1 className="title">Products At MedGel</h1>
             <div className="underline"></div>
 
@@ -53,7 +59,11 @@ export default function ProductsPage() {
 
             <div className="productList">
                 {categoryProducts[activeTab].map((product, index) => (
-                    <div key={index} className="productItem">
+                    <div
+                        key={index}
+                        className="productItem"
+                        onClick={verifyOpenClose}
+                    >
                         <span className="productName">{product.name}</span>
                         <div className="productCount">
                             <span>{product.count} Products</span>
