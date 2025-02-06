@@ -4,35 +4,37 @@ import { NextRequest, NextResponse } from "next/server";
 // import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/helpers/mailer";
 
-// TODO: Handle all the extra things from the signup nextauth route and page
-dbConnect();
 export async function POST(request: NextRequest) {
   try {
-    // TODO: Validate user
-    const reqBody = request.json();
-    const { email } = await reqBody;
-
-    const user = await User.findOne({ email });
-
-    if (user) {
+    // Validating request has email
+    const reqBody = await request.json();
+    if (!Object.hasOwn(reqBody, "email")) {
       return NextResponse.json(
-        { error: "User already exists" },
+        {
+          error: "request body does not contain 'email' property",
+          success: false,
+        },
         { status: 400 },
       );
     }
+    const { email } = await reqBody;
+    dbConnect();
 
-    // const salt = await bcryptjs.genSalt(10);
-    // const hashedPassword = await bcryptjs.hash(password, salt);
+    // Checking if user already exists
+    const user = await User.findOne({ email });
 
+    if (!user) {
+      // return NextResponse.json(
+      //   { error: "User already exists", success: false },
+      //   { status: 400 },
+      // );
+    }
+
+    // create and save new user
     const newUser = new User({
-      // username: username,
       email: email,
-      // password: hashedPassword,
     });
-
     const savedUser = await newUser.save();
-
-    console.log("Saved user: ", savedUser);
 
     // Send verification mail
     const emailResponse = await sendEmail({
@@ -45,7 +47,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       message: "Email sent successfully",
       success: true,
-      // TODO: Remove some properties form savedUser before sending (like password, or something, check by console logging)
       savedUser,
     });
   } catch (error: any) {
