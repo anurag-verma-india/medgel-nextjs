@@ -71,50 +71,55 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
           </div>
           {/* Inputs */}
           {!emailSent && (
-            <div className="mb-6">
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                className="mt-3 w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                placeholder="user@example.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </div>
-          )}
-          {emailSent && (
-            <p className="pb-6 text-xl">
-              A please check your email inbox and possibly spam folder for
-              verification
-            </p>
+            <>
+              <div className="mb-6">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="text"
+                  className="mt-3 w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="user@example.com"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="flex w-full flex-row">
+                <div className="flex flex-auto justify-center">
+                  <button
+                    className="w-1/2 min-w-min rounded-lg bg-green-300 py-2"
+                    onClick={onSubmit}
+                  >
+                    Submit
+                  </button>
+                </div>
+                <div className="flex flex-auto justify-center">
+                  <button
+                    className="w-1/2 min-w-min rounded-lg bg-red-500 py-2"
+                    onClick={() => {
+                      openCloseFn();
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </>
           )}
           {/* Error */}
           {invalidEmailError && (
-            <div className="pb-4 text-red-600">{invalidEmailError}</div>
+            <>
+              <div className="pb-4 text-red-600">{invalidEmailError}</div>
+            </>
           )}
-          {/* Bottom Buttons */}
-          <div className="flex w-full flex-row">
-            <div className="flex flex-auto justify-center">
-              <button
-                className="w-1/2 min-w-min rounded-lg bg-green-300 py-2"
-                onClick={onSubmit}
-              >
-                Submit
-              </button>
-            </div>
-            <div className="flex flex-auto justify-center">
-              <button
-                className="w-1/2 min-w-min rounded-lg bg-red-500 py-2"
-                onClick={() => {
-                  openCloseFn();
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+          {emailSent && (
+            <>
+              <p className="pb-6 text-xl">
+                A please check your email inbox and possibly spam folder for
+                verification
+              </p>
+            </>
+          )}
         </div>
       </div>
     </>
