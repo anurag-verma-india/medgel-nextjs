@@ -8,15 +8,21 @@ import ProductList from "@/models/productList";
 import ProductCategory from "@/models/productCategory";
 
 /*
+GET
+Get all list ids from a list
+
 POST (Create a new resource)
+Create a new category (optionally also include listIDs)
 
 PUT (Replace an existing resource)
+Edit a category (add or remove listIDs from it)
+
+------
+DELETE
+Delete a list
  */
 
 export async function POST(request: NextRequest) {
-  /*
-  Create a new product category 
-   */
   try {
     await dbConnect();
     const body = await request.json();
