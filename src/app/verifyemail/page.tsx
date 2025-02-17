@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSearchParams } from "next/navigation";
 // import { useState } from "react";
 import { redirect } from "next/navigation";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useState } from "react";
 
 const VerifyEmail = () => {
@@ -28,7 +28,7 @@ const VerifyEmail = () => {
         setIsVerified(true);
         redirect("/");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log("Verifiaction error\n", error);
       // toast.error(
       //     `Verification failed with this message: \n${error.response.data}`,

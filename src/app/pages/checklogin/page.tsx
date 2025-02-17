@@ -5,7 +5,7 @@ import User from "@/models/user";
 // import EditModalContainer from "../_common_component/EditModalContainer";
 
 const CheckLogin = async () => {
-    let user: any;
+    let user;
     let userIsVerified: boolean = false;
     let userIsAdmin: boolean = false;
     // let decoded;

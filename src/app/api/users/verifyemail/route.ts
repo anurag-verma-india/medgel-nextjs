@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     );
     response.cookies.set("token", jwtToken, { httpOnly: true });
     return response;
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
       { message: "An error occurred" + error.message },
       { status: 500 },

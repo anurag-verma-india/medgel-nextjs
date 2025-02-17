@@ -9,7 +9,7 @@ export default async function checkIfUserIsAdmin(id: string) {
         }
         return false;
         // if (user.isAdmin) userIsAdmin = true;
-    } catch (error: any) {
+    } catch (error) {
         console.log("Checking if user is admin error");
         console.log(error);
     }

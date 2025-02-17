@@ -39,7 +39,7 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
             }
           });
         //   .catch(function (err) {});
-      } catch (err: any) {
+      } catch (err) {
         toast.error(`Sending email failed with this message \n${err.message}`, {
           position: "top-center",
         });

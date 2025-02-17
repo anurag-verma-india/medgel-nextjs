@@ -1,15 +1,14 @@
-import { NextResponse } from "next/server";
+// import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
 import dbConnect from "@/lib/dbConnect";
 
-import Product from "@/models/products";
-import ProductList from "@/models/productList";
+// import Product from "@/models/products";
+// import ProductList from "@/models/productList";
 import ProductCategory from "@/models/productCategory";
 
 /*
 POST (Create a new resource)
-
 PUT (Replace an existing resource)
  */
 

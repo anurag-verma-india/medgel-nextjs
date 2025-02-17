@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(page);
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json(
       { error: "Server error", details: error.message },
       { status: 500 },
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     // call revalidation function for that title
     revalidateTag(body.title);
     return new Response(JSON.stringify(savedPage), { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error creating page: ", error); // Log the complete error object
     return new Response(
       JSON.stringify({
@@ -101,7 +101,7 @@ export async function PUT(request: NextRequest) {
     console.log("Edited page from database: ", pageAfterUpdate);
     revalidateTag(title);
     return new Response(pageAfterUpdate, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error editing page: ", error); // Log the complete error object
     return new Response(
       JSON.stringify({

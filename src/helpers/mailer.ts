@@ -3,7 +3,22 @@ import User from "@/models/user";
 import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 
-export const sendEmail = async ({ email, emailType, userId }: any) => {
+enum EmailTypes {
+  VERIFY = "VERIFY",
+  RESET = "RESET",
+}
+
+type sendEmailType = {
+  email: string;
+  emailType: EmailTypes;
+  userId: string;
+};
+
+export const sendEmail = async ({
+  email,
+  emailType,
+  userId,
+}: sendEmailType) => {
   try {
     /*
         Determine email type
@@ -58,7 +73,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
 
     // remove password from the api response ❌❌❌
     return mailResponse;
-  } catch (error: any) {
+  } catch (error) {
     // console.log("An error occurred in sending email");
     // console.log(error);
     throw new Error(error.message);
