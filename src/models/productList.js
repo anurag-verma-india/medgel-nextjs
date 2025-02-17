@@ -6,9 +6,8 @@ const product_list = new mongoose.Schema({
     required: [true, "Please provide a product list name"],
     unique: true,
   },
-  products: [String],
+  product_ids: [String],
 });
-
 
 const ProductList =
   mongoose.models.product_list || mongoose.model("product_list", product_list);

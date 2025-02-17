@@ -8,6 +8,7 @@ import dbConnect from "@/lib/dbConnect";
 import ProductCategory from "@/models/productCategory";
 
 /*
+----- Authentication levels -----
 No authentication
 Get Categories and list names
 
@@ -120,6 +121,8 @@ export async function PUT(request: NextRequest) {
     // });
 
     // const savedCategory = await category.save();
+
+    // TODO: use findByIdAndUpdate instead of getting and posting
     let category;
     if (product_category_id) {
       category = await ProductCategory.findById(product_category_id);
@@ -194,6 +197,48 @@ export async function POST(request: NextRequest) {
     return new Response(
       JSON.stringify({
         message: "Failed to post product",
+        error: error.toString(),
+      }),
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  // TODO: Make sure the user is admin
+  /*
+  Delete a product category
+  */
+  try {
+    await dbConnect();
+
+    const body = await request.json();
+    const { product_category_name, product_category_id } = body;
+
+    console.log(
+      "product_category_name: ",
+      product_category_name,
+      "product_category_id: ",
+      product_category_id,
+    );
+
+    let category;
+    if (product_category_id) {
+      category = await ProductCategory.findByIdAndDelete(product_category_id);
+    } else {
+      category = await ProductCategory.findOneAndDelete({
+        product_category_name,
+      });
+    }
+    return NextResponse.json({
+      message: "Category Deleted successfully",
+      deleted_category: category,
+    });
+  } catch (error) {
+    console.error("Error in deleting category: ", error); // Log the complete error object
+    return new Response(
+      JSON.stringify({
+        message: "Failed to delete category",
         error: error.toString(),
       }),
       { status: 500 },
