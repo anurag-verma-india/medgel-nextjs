@@ -1,3 +1,14 @@
+/*
+GET: Working 
+  ID, Name
+POST: 
+  Working (with and without product_ids)
+PUT: 
+
+DELETE: 
+  ID, Name
+*/
+
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
@@ -30,6 +41,63 @@ Edit a list (add or remove productIDs from it)
 DELETE
 Delete a list
  */
+export async function GET(request: NextRequest) {
+  try {
+    await dbConnect();
+    const { searchParams } = new URL(request.url);
+
+    const product_list_name = searchParams.get("product_list_name");
+    const product_list_id = searchParams.get("product_list_id");
+
+    // const body = await request.json();
+    // const { product_category_name, product_category_id } = body;
+
+    console.log(
+      "product_list_name: ",
+      product_list_name,
+      "product_list_id: ",
+      product_list_id,
+    );
+
+    // const category = new ProductCategory({
+    //   product_category_name: product_category_name,
+    //   productLists: product_category_id_list,
+    // });
+
+    // const savedCategory = await category.save();
+    let product_list;
+    if (product_list_id) {
+      product_list = await ProductList.findById(product_list_id);
+    } else if (product_list_name) {
+      product_list = await ProductList.findOne({
+        product_list_name,
+      });
+    }
+    console.log("List found: ", product_list);
+    if (product_list) {
+      return NextResponse.json({
+        success: true,
+        product_list,
+      });
+    }
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Provided id or name does not exist in the product_list",
+      },
+      { status: 404 },
+    );
+  } catch (error) {
+    console.error("Error in getting product list", error); // Log the complete error object
+    return new Response(
+      JSON.stringify({
+        message: "Failed to find product list",
+        error: error.toString(),
+      }),
+      { status: 500 },
+    );
+  }
+}
 export async function POST(request: NextRequest) {
   // TODO: Make sure the user is admin
 
@@ -51,7 +119,6 @@ export async function POST(request: NextRequest) {
     );
 
     const product_list = new ProductList({ product_list_name, product_ids });
-
     const savedProductList = await product_list.save();
 
     return NextResponse.json({
@@ -69,8 +136,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {}
-export async function PUT(request: NextRequest) {}
+export async function PUT(request: NextRequest) {
+  try {
+  } catch (error) {
+    console.error("Error in deleting product list: ", error); // Log the complete error object
+    return new Response(
+      JSON.stringify({
+        message: "Failed to delete product list",
+        error: error.toString(),
+      }),
+      { status: 500 },
+    );
+  }
+}
 
 export async function DELETE(request: NextRequest) {
   // TODO: Make sure the user is admin
@@ -80,24 +158,25 @@ export async function DELETE(request: NextRequest) {
     const { product_list_id, product_list_name, product_ids } = body;
 
     console.log(
+      "product_list_id",
+      product_list_id,
       "product_list_name: ",
       product_list_name,
       "product_ids: ",
       product_ids,
     );
-    // let product_list;
-    // if (product_list_id) {
-      // product_list = await ProductList.findByIdAndDelete({});
-    // } else {
-    // }
+    let product_list;
+    if (product_list_id) {
+      product_list = await ProductList.findByIdAndDelete(product_list_id);
+    } else {
+      product_list = await ProductList.findOneAndDelete({ product_list_name });
+    }
 
     // const product_list = new ProductList({ product_list_name, product_ids });
-
     // const savedProductList = await product_list.save();
-
-    // return NextResponse.json({
-    //   savedProductList,
-    // });
+    return NextResponse.json({
+      deleted_product_list: product_list,
+    });
   } catch (error) {
     console.error("Error in deleting product list: ", error); // Log the complete error object
     return new Response(

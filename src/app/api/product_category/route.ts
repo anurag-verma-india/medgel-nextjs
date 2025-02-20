@@ -1,3 +1,11 @@
+/*
+Working:
+  GET
+  POST
+  PUT (add and remove)
+  DELETE
+/*
+
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
@@ -104,41 +112,77 @@ export async function PUT(request: NextRequest) {
     // const product_category_id = searchParams.get("product_category_id");
 
     const body = await request.json();
-    const { product_category_name, product_category_id, productLists } = body;
+    const {
+      product_category_name,
+      product_category_id,
+      product_lists_to_add,
+      product_lists_to_delete,
+    } = body;
 
     console.log(
       "product_category_name: ",
       product_category_name,
       "product_category_id: ",
       product_category_id,
-      "productLists: ",
-      productLists,
+      "product_lists_to_add: ",
+      product_lists_to_add,
+      "product_lists_to_delete: ",
+      product_lists_to_delete,
     );
 
-    // const category = new ProductCategory({
-    //   product_category_name: product_category_name,
-    //   productLists: product_category_id_list,
-    // });
+    let addition_details;
+    if (product_lists_to_add) {
+      if (product_category_id) {
+        addition_details = await ProductCategory.updateOne(
+          { _id: product_category_id },
+          { $push: { productLists: product_lists_to_add } },
+        );
+      } else {
+        addition_details = await ProductCategory.updateOne(
+          { product_category_name },
+          { $push: { productLists: product_lists_to_add } },
+        );
+      }
+    }
+    let deleteion_details;
+    if (product_lists_to_delete) {
+      if (product_category_id) {
+        deleteion_details = await ProductCategory.updateOne(
+          { _id: product_category_id },
+          { $pullAll: { productLists: product_lists_to_delete } },
+        );
+      } else {
+        deleteion_details = await ProductCategory.updateOne(
+          { product_category_name },
+          { $pullAll: { productLists: product_lists_to_delete } },
+        );
+      }
+    }
 
-    // const savedCategory = await category.save();
+    if (addition_details || deleteion_details) {
+      return NextResponse.json({
+        addition_details,
+        deleteion_details,
+      });
+    }
 
     // TODO: use findByIdAndUpdate instead of getting and posting
-    let category;
-    if (product_category_id) {
-      category = await ProductCategory.findById(product_category_id);
-    } else if (product_category_name) {
-      category = await ProductCategory.findOne({
-        product_category_name,
-      });
-    }
-    console.log("Category found: ", category);
-    if (category) {
-      category.productLists = category.productLists.concat(productLists);
-      const savedCategory = await category.save();
-      return NextResponse.json({
-        savedCategory,
-      });
-    }
+    // let category;
+    // if (product_category_id) {
+    //   category = await ProductCategory.findById(product_category_id);
+    // } else if (product_category_name) {
+    //   category = await ProductCategory.findOne({
+    //     product_category_name,
+    //   });
+    // }
+    // console.log("Category found: ", category);
+    // if (category) {
+    //   category.productLists = category.productLists.concat(productLists);
+    //   const savedCategory = await category.save();
+    //   return NextResponse.json({
+    //     savedCategory,
+    //   });
+    // }
     return NextResponse.json(
       {
         success: false,
