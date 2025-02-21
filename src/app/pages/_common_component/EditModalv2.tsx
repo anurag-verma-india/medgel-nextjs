@@ -76,7 +76,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
                   id={key}
                   name={key}
                   className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  rows="4"
+                  rows={4}
                   value={value}
                   onChange={(e) =>
                     setLocalData({

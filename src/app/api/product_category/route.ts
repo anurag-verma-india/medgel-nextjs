@@ -4,20 +4,22 @@ Working:
   POST
   PUT (add and remove)
   DELETE
-/*
+*/
 
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+// import { MongooseError } from "mongoose";
 
 import dbConnect from "@/lib/dbConnect";
 
 // import Product from "@/models/products";
 // import ProductList from "@/models/productList";
 import ProductCategory from "@/models/productCategory";
+// import { MongooseError } from "mongoose";
+import handleError from "@/helpers/handleError";
 
 /*
------ Authentication levels -----
-No authentication
+----- Authentication levels ----- No authentication
 Get Categories and list names
 
 Email verified check
@@ -45,6 +47,8 @@ Delete a list
 export async function GET(request: NextRequest) {
   // No authentication to get categories
   try {
+    // throw new Error("This is a custom error");
+    // throw new MongooseError("This is a custom mongoose error");
     await dbConnect();
     const { searchParams } = new URL(request.url);
     const product_category_name = searchParams.get("product_category_name");
@@ -90,13 +94,7 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.error("Error in getting lists from category: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to get lists from category",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to get lists from category");
   }
 }
 export async function PUT(request: NextRequest) {
@@ -193,13 +191,14 @@ export async function PUT(request: NextRequest) {
     );
   } catch (error) {
     console.error("Error in getting lists from category: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to get lists from category",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to get lists from category");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: ,
+    //     error,
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }
 
@@ -238,13 +237,14 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error in adding product: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to post product",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to post product");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to post product",
+    //     error,
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }
 
@@ -278,14 +278,15 @@ export async function DELETE(request: NextRequest) {
       message: "Category Deleted successfully",
       deleted_category: category,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error in deleting category: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to delete category",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to delete category");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to delete category",
+    //     error,
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }

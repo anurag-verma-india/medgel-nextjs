@@ -6,6 +6,7 @@ import dbConnect from "@/lib/dbConnect";
 // import Product from "@/models/products";
 // import ProductList from "@/models/productList";
 import ProductCategory from "@/models/productCategory";
+import handleError from "@/helpers/handleError";
 
 /*
 POST (Create a new resource)
@@ -75,14 +76,15 @@ export async function POST(request: NextRequest) {
 
     // const list = await ProductList.findById(product_list_id);
   } catch (error) {
-    console.error("Error in adding product: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to post product",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to post product");
+    // console.error("Error in adding product: ", error); // Log the complete error object
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to post product",
+    //     error: error.toString(),
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }
 
@@ -149,13 +151,14 @@ export async function PUT(request: NextRequest) {
 
     // const list = await ProductList.findById(product_list_id);
   } catch (error) {
-    console.error("Error in editing product: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to put product",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to put product");
+    // console.error("Error in editing product: ", error); // Log the complete error object
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to put product",
+    //     error: error.toString(),
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }

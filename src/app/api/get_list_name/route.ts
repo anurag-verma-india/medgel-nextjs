@@ -7,6 +7,8 @@ import dbConnect from "@/lib/dbConnect";
 import ProductList from "@/models/productList";
 // import ProductCategory from "@/models/productCategory";
 
+import handleError from "@/helpers/handleError";
+
 /*
 ----- Authentication levels -----
 No authentication
@@ -54,12 +56,13 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.error("Error in getting lists from category: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to get lists from category",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to get lists from category");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to get lists from category",
+    //     error: error.toString(),
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }

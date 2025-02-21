@@ -18,6 +18,8 @@ import dbConnect from "@/lib/dbConnect";
 // import ProductList from "@/models/productList";
 // import ProductCategory from "@/models/productCategory";
 import ProductList from "@/models/productList";
+// import { MongooseError } from "mongoose";
+import handleError from "@/helpers/handleError";
 
 /*
 ----- Authentication levels -----
@@ -41,6 +43,7 @@ Edit a list (add or remove productIDs from it)
 DELETE
 Delete a list
  */
+
 export async function GET(request: NextRequest) {
   try {
     await dbConnect();
@@ -88,14 +91,9 @@ export async function GET(request: NextRequest) {
       { status: 404 },
     );
   } catch (error) {
-    console.error("Error in getting product list", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to find product list",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    // console.error("Error in getting product list", error); // Log the complete error object
+    // const message = ;
+    return handleError(error, "Failed to find product list");
   }
 }
 export async function POST(request: NextRequest) {
@@ -125,28 +123,41 @@ export async function POST(request: NextRequest) {
       savedProductList,
     });
   } catch (error) {
-    console.error("Error in adding product list: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to add new product list",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    // console.error("Error in adding product list: ", error); // Log the complete error object
+    return handleError(error, "Failed to add new product list");
+    // if (error instanceof MongooseError) {
+    //   return new Response(
+    //     JSON.stringify({
+    //       message: "Failed to add new product list",
+    //       error: error.toString(),
+    //     }),
+    //     { status: 500 },
+    //   );
+    // } else {
+    //   return new Response(
+    //     JSON.stringify({
+    //       message: "Failed to add new product list",
+    //       error: "Unknown error",
+    //     }),
+    //     { status: 500 },
+    //   );
+    // }
   }
 }
 
-export async function PUT(request: NextRequest) {
+// export async function PUT(request: NextRequest) {
+export async function PUT() {
   try {
   } catch (error) {
-    console.error("Error in deleting product list: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to delete product list",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    // console.error("Error in deleting product list: ", error); // Log the complete error object
+    return handleError(error, "Failed to delete product list");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to delete product list",
+    //     error: error.toString(),
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }
 
@@ -178,13 +189,14 @@ export async function DELETE(request: NextRequest) {
       deleted_product_list: product_list,
     });
   } catch (error) {
-    console.error("Error in deleting product list: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to delete product list",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    // console.error("Error in deleting product list: ", error); // Log the complete error object
+    return handleError(error, "Failed to delete product list");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to delete product list",
+    //     error: error.toString(),
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }

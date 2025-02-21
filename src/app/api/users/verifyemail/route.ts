@@ -3,6 +3,7 @@ import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 // import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import handleError from "@/helpers/handleError";
 
 // import { sendEmail } from "@/helpers/mailer";
 
@@ -64,9 +65,10 @@ export async function POST(request: NextRequest) {
     response.cookies.set("token", jwtToken, { httpOnly: true });
     return response;
   } catch (error) {
-    return NextResponse.json(
-      { message: "An error occurred" + error.message },
-      { status: 500 },
-    );
+    return handleError(error, "Error occurred in creating new user");
+    // return NextResponse.json(
+    //   { message: "An error occurred" + error.message },
+    //   { status: 500 },
+    // );
   }
 }

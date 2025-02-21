@@ -3,6 +3,8 @@ import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 // import bcryptjs from "bcryptjs";
 import { sendEmail } from "@/helpers/mailer";
+import { EmailTypes } from "@/types";
+import handleError from "@/helpers/handleError";
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,7 +40,7 @@ export async function POST(request: NextRequest) {
     // Send verification mail
     const emailResponse = await sendEmail({
       email,
-      emailType: "VERIFY",
+      emailType: EmailTypes.VERIFY,
       userId: savedUser._id,
     });
     console.log("Email response: ", emailResponse);
@@ -49,6 +51,7 @@ export async function POST(request: NextRequest) {
       savedUser,
     });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return handleError(error, "Error in creating user");
+    // return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -3,10 +3,7 @@ import User from "@/models/user";
 import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 
-enum EmailTypes {
-  VERIFY = "VERIFY",
-  RESET = "RESET",
-}
+import { EmailTypes } from "@/types";
 
 type sendEmailType = {
   email: string;

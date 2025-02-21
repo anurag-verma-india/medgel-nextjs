@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Pages from "@/models/pages";
 import { revalidateTag } from "next/cache";
+import handleError from "@/helpers/handleError";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -26,10 +27,11 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(page);
   } catch (error) {
-    return NextResponse.json(
-      { error: "Server error", details: error.message },
-      { status: 500 },
-    );
+    return handleError(error, "Server error");
+    // return NextResponse.json(
+    //   { error: "Server error", details: error.message },
+    //   { status: 500 },
+    // );
   }
 }
 
@@ -61,13 +63,14 @@ export async function POST(request: NextRequest) {
     return new Response(JSON.stringify(savedPage), { status: 201 });
   } catch (error) {
     console.error("Error creating page: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to create page",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to create page");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to create page",
+    //     error: error.toString(),
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }
 
@@ -103,12 +106,13 @@ export async function PUT(request: NextRequest) {
     return new Response(pageAfterUpdate, { status: 200 });
   } catch (error) {
     console.error("Error editing page: ", error); // Log the complete error object
-    return new Response(
-      JSON.stringify({
-        message: "Failed to edit page",
-        error: error.toString(),
-      }),
-      { status: 500 },
-    );
+    return handleError(error, "Failed to edit page");
+    // return new Response(
+    //   JSON.stringify({
+    //     message: "Failed to edit page",
+    //     error: error.toString(),
+    //   }),
+    //   { status: 500 },
+    // );
   }
 }
