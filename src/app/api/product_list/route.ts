@@ -91,8 +91,6 @@ export async function GET(request: NextRequest) {
       { status: 404 },
     );
   } catch (error) {
-    // console.error("Error in getting product list", error); // Log the complete error object
-    // const message = ;
     return handleError(error, "Failed to find product list");
   }
 }
@@ -123,41 +121,104 @@ export async function POST(request: NextRequest) {
       savedProductList,
     });
   } catch (error) {
-    // console.error("Error in adding product list: ", error); // Log the complete error object
     return handleError(error, "Failed to add new product list");
-    // if (error instanceof MongooseError) {
-    //   return new Response(
-    //     JSON.stringify({
-    //       message: "Failed to add new product list",
-    //       error: error.toString(),
-    //     }),
-    //     { status: 500 },
-    //   );
-    // } else {
-    //   return new Response(
-    //     JSON.stringify({
-    //       message: "Failed to add new product list",
-    //       error: "Unknown error",
-    //     }),
-    //     { status: 500 },
-    //   );
-    // }
   }
 }
 
-// export async function PUT(request: NextRequest) {
-export async function PUT() {
+export async function PUT(request: NextRequest) {
+  // TODO: Check user is admin
   try {
+    const body = await request.json();
+    const {
+      product_list_name,
+      product_list_id,
+      product_ids_to_add,
+      product_ids_to_delete,
+    } = body;
+
+    console.log(
+      "product_list_name: ",
+      product_list_name,
+      "\n",
+      "product_list_id: ",
+      product_list_id,
+      "\n",
+      "product_ids_to_add: ",
+      product_ids_to_add,
+      "\n",
+      "product_ids_to_delete: ",
+      product_ids_to_delete,
+    );
+
+    let product_list;
+    if (product_list_id) {
+      product_list = await ProductList.findById(product_list_id);
+    } else if (product_list_name) {
+      product_list = await ProductList.findOne({
+        product_list_name,
+      });
+    }
+
+    if (!product_list) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Provided id or name does not exit in the product_list, send a post request to create a new list",
+        },
+        { status: 404 },
+      );
+    }
+
+    let addition_details;
+    let deletion_details;
+    if (product_list_id) {
+      // Finding the list by id
+      if (product_ids_to_add) {
+        addition_details = await ProductList.updateOne(
+          { _id: product_list_id },
+          { $push: { product_ids: product_ids_to_add } },
+        );
+      }
+      if (product_ids_to_delete) {
+        deletion_details = await ProductList.updateOne(
+          { _id: product_list_id },
+          { $pullAll: { product_ids: product_ids_to_delete } },
+        );
+      }
+    } else {
+      // Finding the list by name
+      if (product_ids_to_add) {
+        addition_details = await ProductList.updateOne(
+          { product_list_name },
+          { $push: { product_ids: product_ids_to_add } },
+        );
+      }
+      if (product_ids_to_delete) {
+        deletion_details = await ProductList.updateOne(
+          { product_list_name },
+          { $pullAll: { product_ids: product_ids_to_delete } },
+        );
+      }
+    }
+
+    if (addition_details || deletion_details) {
+      return NextResponse.json({
+        addition_details,
+        deletion_details,
+      });
+    }
+
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          "Provided id or name does not exit in the product_list, send a post request to create a new list",
+      },
+      { status: 404 },
+    );
   } catch (error) {
-    // console.error("Error in deleting product list: ", error); // Log the complete error object
-    return handleError(error, "Failed to delete product list");
-    // return new Response(
-    //   JSON.stringify({
-    //     message: "Failed to delete product list",
-    //     error: error.toString(),
-    //   }),
-    //   { status: 500 },
-    // );
+    return handleError(error, "Failed to edit product list");
   }
 }
 
