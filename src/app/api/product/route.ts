@@ -2,11 +2,11 @@
 GET: Working 
   ID, Name
 POST: 
-  Working (with and without product_ids)
+  Working
 PUT: 
-
+  Working
 DELETE: 
-  ID, Name
+  Working
 */
 
 import { NextResponse } from "next/server";
@@ -35,7 +35,6 @@ PUT, POST, DELETE
 
 export async function POST(request: NextRequest) {
   // TODO: Make sure the user is admin
-
   try {
     await dbConnect();
     const body = await request.json();
@@ -83,19 +82,48 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     // TODO: Make sure user is admin
-    // Implement put
+    const body = await request.json();
+    const product = body.product;
+    const { product_id } = body;
+    console.log("Product received\n", product);
+    // const { innovator, product, code, composition, color } = body.product;
+    if (!product) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "please provide a product body to edit",
+        },
+        { status: 400 },
+      );
+    }
+    await dbConnect();
+
+    console.log("Finding product: \nid: ", product_id);
+
+    const ProductDocument = await Product.findById(product_id);
+    console.log("Found product");
+
+    for (const key in product) {
+      ProductDocument[key] = product[key];
+    }
+
+    const edited_product = await ProductDocument.save();
+
+    return NextResponse.json({
+      success: true,
+      edited_product,
+    });
   } catch (error) {
-    return handleError(error, "Failed to delete product list");
+    return handleError(error, "Failed to edit product");
   }
 }
 
 export async function DELETE(request: NextRequest) {
   // TODO: Make sure the user is admin
   try {
-    await dbConnect();
     const body = await request.json();
     const { product_id } = body;
-    console.log(product_id);
+    // console.log(product_id);
     if (!product_id) {
       return NextResponse.json(
         {
@@ -105,6 +133,7 @@ export async function DELETE(request: NextRequest) {
         { status: 400 },
       );
     }
+    await dbConnect();
     const deleted_product = await Product.findByIdAndDelete(product_id);
     return NextResponse.json({
       deleted_product,
