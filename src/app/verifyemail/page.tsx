@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { redirect } from "next/navigation";
 // import { toast } from "react-toastify";
 import { useState } from "react";
+import { Suspense } from "react";
 
 const VerifyEmail = () => {
   // const [verificationResponse, setVerificationResponse] = useState("empty");
@@ -43,7 +44,7 @@ const VerifyEmail = () => {
       {/* <div>Response: {verificationResponse}</div> */}
       {!isVerified && (
         <button
-        className="bg-green-500"
+          className="bg-green-500"
           onClick={() => {
             verifyOnClick();
           }}
@@ -56,4 +57,15 @@ const VerifyEmail = () => {
   );
 };
 
-export default VerifyEmail;
+const VerifyEmailContainer = () => {
+  return (
+    <>
+      <Suspense>
+        <VerifyEmail />
+      </Suspense>
+    </>
+  );
+};
+export default VerifyEmailContainer;
+
+// export default VerifyEmail;

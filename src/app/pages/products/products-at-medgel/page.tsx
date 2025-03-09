@@ -2,7 +2,7 @@
 import ListOfProducts from "./ListOfProducts";
 
 export default function ProductPage() {
-  const tokenValid = true; // TODO: Check from cookies
+  const tokenValid = false; // TODO: Check from cookies
 
   return (
     <div className="flex flex-col items-center">
