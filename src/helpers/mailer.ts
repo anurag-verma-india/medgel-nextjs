@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import bcryptjs from "bcryptjs";
 
 import { EmailTypes } from "@/types";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 type sendEmailType = {
   email: string;
@@ -35,14 +36,39 @@ export const sendEmail = async ({
       });
     }
     // else if (emailType === "RESET") {
-    const transport = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      port: process.env.MAIL_PORT,
+    const mail_host = process.env.MAIL_HOST || "";
+    const mail_port = parseInt(process.env.MAIL_PORT || "0");
+    const auth_user = process.env.MAIL_USERNAME;
+    const auth_pass = process.env.MAIL_PASSWORD;
+
+    if (!mail_host || !mail_port || !auth_user || !auth_pass) {
+      console.log(`
+Email sending failed please check that these variables are present in environment variables:
+MAIL_HOST
+MAIL_PORT
+MAIL_USERNAME
+MAIL_PASSWORD
+        `);
+      return;
+    }
+
+    // const transport = nodemailer.createTransport({
+    //   host: process.env.MAIL_HOST,
+    //   port: process.env.MAIL_PORT,
+    //   auth: {
+    //     user: process.env.MAIL_USERNAME,
+    //     pass: process.env.MAIL_PASSWORD,
+    //   },
+    // });
+    const configOptions: SMTPTransport.Options = {
+      host: mail_host,
+      port: mail_port,
       auth: {
         user: process.env.MAIL_USERNAME,
         pass: process.env.MAIL_PASSWORD,
       },
-    });
+    };
+    const transport = nodemailer.createTransport(configOptions);
     const mailOptions = {
       from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_USERNAME}>`, // sender address
       to: email,
@@ -71,8 +97,10 @@ export const sendEmail = async ({
     // remove password from the api response ❌❌❌
     return mailResponse;
   } catch (error) {
-    // console.log("An error occurred in sending email");
+    const message = "An error occurred in sending email";
+    console.log(message);
+    console.log(error);
     // console.log(error);
-    throw new Error(error.message);
+    throw new Error(message);
   }
 };

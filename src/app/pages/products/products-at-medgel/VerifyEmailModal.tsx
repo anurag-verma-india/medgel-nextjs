@@ -42,7 +42,7 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
           });
         //   .catch(function (err) {});
       } catch (err) {
-        toast.error(`Sending email failed with this message \n${err.message}`, {
+        toast.error(`Sending email failed`, {
           position: "top-center",
         });
         console.log("Signup error", err);
