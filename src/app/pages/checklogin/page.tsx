@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
+import verifyJwtToken from "@/helpers/jwtHelper";
 // import EditModalContainer from "../_common_component/EditModalContainer";
 
 const CheckLogin = async () => {
@@ -17,8 +18,9 @@ const CheckLogin = async () => {
       await dbConnect();
       // const a =
       // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3OTc5NWFjODk5ODg2OTUwODk0ZmJjMiIsImlhdCI6MTczNzk4NzUyMiwiZXhwIjoxNzM4MDczOTIyfQ.GMgnxKWK5rzDY0pJXgKvUuqfhEgopwMahGfQE2rg8JU";
-      const decoded = jwt.verify(token!.value, process.env.TOKEN_SECRET!);
+      // const decoded = jwt.verify(token!.value, process.env.TOKEN_SECRET!);
       // const decoded = jwt.verify(a, process.env.TOKEN_SECRET!);
+      const decoded = verifyJwtToken(token!.value);
 
       console.log("decoded: ", decoded);
       const currentTimestamp = Math.floor(Date.now() / 1000);
