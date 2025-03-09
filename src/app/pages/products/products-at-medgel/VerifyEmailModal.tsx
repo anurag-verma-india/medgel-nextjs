@@ -14,8 +14,10 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
   const [email, setEmail] = useState("");
   const [invalidEmailError, setInvalidEmailError] = useState("");
   const [emailSent, setEmailSent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const onSubmit = async () => {
     // console.log("email: ", email);
+    setLoading(true);
     const emailRegex = /[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+/;
     if (emailRegex.test(email)) {
       setInvalidEmailError("");
@@ -49,6 +51,7 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
     } else {
       setInvalidEmailError("Invalid email address");
     }
+    setLoading(false);
   };
   return (
     <>
@@ -86,23 +89,39 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
               </div>
               <div className="flex w-full flex-row">
                 <div className="flex flex-auto justify-center">
-                  <button
-                    className="w-1/2 min-w-min rounded-lg bg-green-300 py-2"
-                    onClick={onSubmit}
-                  >
-                    Submit
-                  </button>
+                  {!loading && (
+                    <button
+                      className="w-1/2 min-w-min rounded-lg bg-green-300 py-2"
+                      onClick={onSubmit}
+                    >
+                      Submit
+                    </button>
+                  )}
+                  {loading && (
+                    <button className="w-1/2 min-w-min rounded-lg bg-green-100 py-2">
+                      Loading
+                    </button>
+                  )}
                 </div>
-                <div className="flex flex-auto justify-center">
-                  <button
-                    className="w-1/2 min-w-min rounded-lg bg-red-500 py-2"
-                    onClick={() => {
-                      openCloseFn();
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                {!loading && (
+                  <div className="flex flex-auto justify-center">
+                    <button
+                      className="w-1/2 min-w-min rounded-lg bg-red-500 py-2"
+                      onClick={() => {
+                        openCloseFn();
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+                {loading && (
+                  <div className="flex flex-auto justify-center">
+                    <button className="w-1/2 min-w-min rounded-lg bg-red-300 py-2">
+                      Cancel
+                    </button>
+                  </div>
+                )}
               </div>
             </>
           )}

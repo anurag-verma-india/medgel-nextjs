@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import VerifyEmailModal from "./VerifyEmailModal";
+import { redirect } from "next/navigation";
 
-function SvgComponent() {
+function RightPointerBracketSvg() {
   return (
     <svg
       fill="#a6a6a6"
@@ -20,39 +21,54 @@ function SvgComponent() {
   );
 }
 
-export default function ListOfProducts() {
+type ListOfProductsParams = {
+  tokenValid: boolean;
+};
+
+// Unlinked List of products
+export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
   const [modalOpen, setModalOpen] = useState(false);
   function openCloseFn() {
     setModalOpen(!modalOpen);
   }
+
+  const HandleListClick = (listId: string) => {
+    if (tokenValid) {
+      redirect(`/pages/product-list/${listId}`);
+    } else openCloseFn();
+  };
+
   return (
     <>
       {modalOpen && <VerifyEmailModal openCloseFn={openCloseFn} />}
       <div className="text-2xl text-orange-400">
         <div
           className="m-6 flex flex-row rounded-xl bg-white px-2 py-3"
+          // onClick={() => {
+          //   openCloseFn();
+          // }}
           onClick={() => {
-            openCloseFn();
+            HandleListClick("1");
           }}
         >
           <p className="w-full">Row 1</p>
           <div className="flex min-w-fit flex-row text-neutral-500">
             <p className="min-w-fit">4 Products</p>
-            <SvgComponent />
+            <RightPointerBracketSvg />
           </div>
         </div>
         <div className="m-6 flex flex-row rounded-xl bg-white px-2 py-3">
           <p className="w-full">Row 2</p>
           <div className="flex min-w-fit flex-row text-neutral-500">
             <p className="min-w-fit">4 Products</p>
-            <SvgComponent />
+            <RightPointerBracketSvg />
           </div>
         </div>
         <div className="m-6 flex flex-row rounded-xl bg-white px-2 py-3">
           <p className="w-full">Row 3</p>
           <div className="flex min-w-fit flex-row text-neutral-500">
             <p className="min-w-fit">4 Products</p>
-            <SvgComponent />
+            <RightPointerBracketSvg />
           </div>
         </div>
       </div>

@@ -43,6 +43,7 @@ const VerifyEmail = () => {
       {/* <div>Response: {verificationResponse}</div> */}
       {!isVerified && (
         <button
+        className="bg-green-500"
           onClick={() => {
             verifyOnClick();
           }}

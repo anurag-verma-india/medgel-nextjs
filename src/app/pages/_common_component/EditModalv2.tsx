@@ -14,7 +14,9 @@ type EditModalType = {
 const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
   const [localData, setLocalData] = useState(children.content);
 
-  const handleTaskSave = async (e) => {
+  const handleTaskSave = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     const confirmation = confirm("Are you sure?");
     try {

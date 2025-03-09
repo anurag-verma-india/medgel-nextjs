@@ -25,13 +25,6 @@ User is admin check
 PUT, POST, DELETE
 */
 
-// type Product = {
-//   innovator: string;
-//   product: string;
-//   code: string;
-//   composition: string;
-//   color: string;
-// };
 
 export async function POST(request: NextRequest) {
   // TODO: Make sure the user is admin
