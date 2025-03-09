@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { redirect } from "next/navigation";
 // import { toast } from "react-toastify";
 import { useState } from "react";
-import { Suspense } from "react";
+// import { Suspense } from "react";
 
 const VerifyEmail = () => {
   // const [verificationResponse, setVerificationResponse] = useState("empty");
@@ -58,11 +58,19 @@ const VerifyEmail = () => {
 };
 
 const VerifyEmailContainer = () => {
+  // https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+  /*
+    Added suspense to fix build error (will not opt out of c)
+
+    Error occurred prerendering page "/verifyemail". Read more: https://nextjs.org/docs/messages/prerender-error
+
+    useSearchParams() should be wrapped in a suspense boundary at page "/verifyemail". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+  */
   return (
     <>
-      <Suspense>
-        <VerifyEmail />
-      </Suspense>
+      {/* <Suspense> */}
+      <VerifyEmail />
+      {/* </Suspense> */}
     </>
   );
 };
