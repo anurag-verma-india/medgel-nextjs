@@ -40,19 +40,21 @@ const VerifyEmail = () => {
 
   return (
     <>
-      <div>Token: {token}</div>
+      {/* <div>Token: {token}</div> */}
       {/* <div>Response: {verificationResponse}</div> */}
-      {!isVerified && (
-        <button
-          className="bg-green-500"
-          onClick={() => {
-            verifyOnClick();
-          }}
-        >
-          Click here to verify
-        </button>
-      )}
-      {isVerified && <div>User verified successfully</div>}
+      <div className="m-10 flex h-20 justify-center">
+        {!isVerified && (
+          <button
+            className="rounded-xl bg-green-500 p-3 text-3xl"
+            onClick={() => {
+              verifyOnClick();
+            }}
+          >
+            Click here to verify your email
+          </button>
+        )}
+        {isVerified && <div>User verified successfully</div>}
+      </div>
     </>
   );
 };

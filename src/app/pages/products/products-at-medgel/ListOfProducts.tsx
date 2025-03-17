@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import VerifyEmailModal from "./VerifyEmailModal";
+// import VerifyEmailModal from "./VerifyEmailModal";
 import { redirect } from "next/navigation";
+import VerifyEmailModal from "./VerifyEmailModal";
+// import VerifyEmailPopup from "./VerifyEmailPopup";
 
 function RightPointerBracketSvg() {
   return (
@@ -41,6 +43,8 @@ export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
   return (
     <>
       {modalOpen && <VerifyEmailModal openCloseFn={openCloseFn} />}
+      {/* {modalOpen && <VerifyEmailPopup openCloseFn={openCloseFn} />} */}
+
       <div className="text-2xl text-orange-400">
         <div
           className="m-6 flex flex-row rounded-xl bg-white px-2 py-3"

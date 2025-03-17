@@ -23,33 +23,38 @@ export async function POST(request: NextRequest) {
     dbConnect();
 
     // Checking if user already exists
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
+    // if (user) {
+    //   return NextResponse.json(
+    //     { error: "User already exists", success: false },
+    //     { status: 400 },
+    //   );
+    // }
     if (!user) {
-      // return NextResponse.json(
-      //   { error: "User already exists", success: false },
-      //   { status: 400 },
-      // );
+      // If user does not already exist then create a new one
+      // create and save new user
+      const newUser = new User({
+        email: email,
+      });
+      user = await newUser.save();
     }
-
-    // create and save new user
-    const newUser = new User({
-      email: email,
-    });
-    const savedUser = await newUser.save();
+    console.log("User already exists");
 
     // Send verification mail
     const emailResponse = await sendEmail({
       email,
       emailType: EmailTypes.VERIFY,
-      userId: savedUser._id,
+      userId: user._id,
     });
     console.log("Email response: ", emailResponse);
 
-    return NextResponse.json({
-      message: "Email sent successfully",
+    const response_to_send_back = NextResponse.json({
+      message: "Email sent successfully, and user created in database",
       success: true,
-      savedUser,
+      savedUser: user,
     });
+    response_to_send_back.cookies.set("email", email, { httpOnly: true });
+    return response_to_send_back;
   } catch (error) {
     return handleError(error, "Error in creating user");
     // return NextResponse.json({ error: error.message }, { status: 500 });

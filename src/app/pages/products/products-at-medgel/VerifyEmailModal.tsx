@@ -1,9 +1,8 @@
-// Remake this modal after defining the structure more clearly
+"use client";
 
-// import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+// import { cookies } from "next/headers";
 
 interface VerifyModalOpenParams {
   openCloseFn: () => void;
@@ -11,8 +10,12 @@ interface VerifyModalOpenParams {
 
 // Test send email to valid email address and invalid email address
 const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
+  // const cookieStore = await cookies();
+  // const tokenObj = cookieStore.get("token");
+  // const token = tokenObj ? tokenObj.value : "";
+
   const [email, setEmail] = useState("");
-  const [invalidEmailError, setInvalidEmailError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [emailSent, setEmailSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const onSubmit = async () => {
@@ -20,36 +23,31 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
     setLoading(true);
     const emailRegex = /[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+/;
     if (emailRegex.test(email)) {
-      setInvalidEmailError("");
+      setErrorMessage("");
       try {
         await axios
           .post("/api/users/signup", {
             email: email,
           })
           .then(function (response) {
-            // console.log("Signup response", response);
             if (response.data.success) {
-              toast.success("Email sent successfully", {
-                position: "top-center",
-              });
               setEmailSent(true);
             } else {
-              toast.error("Some error occured", {
-                position: "top-center",
-              });
-              console.log("Error occurred: ", response);
+              console.log(
+                "Error occurred when creating a new user: \n",
+                response,
+              );
+              setErrorMessage(
+                "Error occurred while sending email to this address",
+              );
             }
           });
         //   .catch(function (err) {});
       } catch (err) {
-        toast.error(`Sending email failed`, {
-          position: "top-center",
-        });
-        console.log("Signup error", err);
+        console.log("Signup error\n", err);
       }
-      console.log("Valid email address");
     } else {
-      setInvalidEmailError("Invalid email address");
+      setErrorMessage("Invalid email address");
     }
     setLoading(false);
   };
@@ -99,7 +97,7 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
                   )}
                   {loading && (
                     <button className="w-1/2 min-w-min rounded-lg bg-green-100 py-2">
-                      Loading
+                      Sending email
                     </button>
                   )}
                 </div>
@@ -126,16 +124,16 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
             </>
           )}
           {/* Error */}
-          {invalidEmailError && (
+          {errorMessage && (
             <>
-              <div className="pb-4 text-red-600">{invalidEmailError}</div>
+              <div className="pb-4 text-red-600">{errorMessage}</div>
             </>
           )}
           {emailSent && (
             <>
               <p className="pb-6 text-xl">
                 A please check your email inbox and possibly spam folder for
-                verification
+                verification email
               </p>
             </>
           )}
