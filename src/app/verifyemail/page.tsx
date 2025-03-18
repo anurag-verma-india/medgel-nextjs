@@ -1,59 +1,71 @@
 "use client";
 
-// import React from "react";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-// import { useState } from "react";
-import { redirect } from "next/navigation";
-// import { toast } from "react-toastify";
+// import { redirect } from "next/navigation";
 import { useState } from "react";
 // import { Suspense } from "react";
 
 const VerifyEmail = () => {
-  // const [verificationResponse, setVerificationResponse] = useState("empty");
   const params = useSearchParams();
   const [isVerified, setIsVerified] = useState(false);
+  const [tokenValid, setTokenValid] = useState(true);
 
   const token = params.get("token");
   console.log("Token Parameter:", token);
 
   const verifyOnClick = async () => {
+    console.log("\nInside verifyOnClick\n");
     try {
+      console.log("Making axios post call with token: ", token);
       const response = await axios.post(`/api/users/verifyemail`, {
         token,
       });
-      console.log("Making axios post call with token: ", token);
+      // .then(() => {
+      //   setIsVerified(true);
+      //   // redirect("/");
+      // })
+      // .catch(() => {
+      //   setTokenValid(false);
+      // });
       console.log("response from verify: ", response);
       if (response.data.success) {
-        // setVerificationResponse("ok");
         setIsVerified(true);
-        redirect("/");
+        // redirect("/"); (Giving error)
       }
     } catch (error) {
-      console.log("Verifiaction error\n", error);
-      // toast.error(
-      //     `Verification failed with this message: \n${error.response.data}`,
-      //     { position: "top-center" }
-      // );
+      setTokenValid(false);
+      console.log("Verification error\n", error);
     }
   };
 
   return (
     <>
-      {/* <div>Token: {token}</div> */}
-      {/* <div>Response: {verificationResponse}</div> */}
       <div className="m-10 flex h-20 justify-center">
-        {!isVerified && (
-          <button
-            className="rounded-xl bg-green-500 p-3 text-3xl"
-            onClick={() => {
-              verifyOnClick();
-            }}
-          >
-            Click here to verify your email
-          </button>
+        {!tokenValid && (
+          <div>
+            An error occurred.
+            <br />
+            Please try clicking the link from the email again.
+            <br />
+            or generate a new verification link.
+          </div>
         )}
-        {isVerified && <div>User verified successfully</div>}
+        {tokenValid && (
+          <>
+            {!isVerified && (
+              <button
+                className="rounded-xl bg-green-500 p-3 text-3xl"
+                onClick={() => {
+                  verifyOnClick();
+                }}
+              >
+                Click here to verify your email
+              </button>
+            )}
+            {isVerified && <div>User verified successfully</div>}
+          </>
+        )}
       </div>
     </>
   );

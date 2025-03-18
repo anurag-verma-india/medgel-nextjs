@@ -8,15 +8,75 @@ interface VerifyModalOpenParams {
   openCloseFn: () => void;
 }
 
+interface SendEmailInputsParams {
+  openCloseFn: () => void;
+  setErrorMessage: (str: string) => void;
+  setEmailSent: (b: boolean) => void;
+}
+
 // Test send email to valid email address and invalid email address
 const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
   // const cookieStore = await cookies();
   // const tokenObj = cookieStore.get("token");
   // const token = tokenObj ? tokenObj.value : "";
 
-  const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [emailSent, setEmailSent] = useState(false);
+  return (
+    <>
+      {/* Overlay */}
+      <div className="fixed inset-0 z-10 bg-black bg-opacity-50" />
+      {/* Modal */}
+      <div className="fixed inset-0 z-20 flex h-5/6 flex-col items-center justify-center pt-20">
+        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 mx-auto flex w-5/6 flex-col overflow-y-auto rounded-xl bg-white p-6 shadow-lg sm:w-1/2">
+          {/* Close Button (×) */}
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={openCloseFn}
+              // onClick={() => setModalOpen(false)}
+              className="cursor-pointer border-none bg-transparent text-2xl"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          {/* Inputs */}
+
+          {!emailSent && (
+            <SendEmailInputs
+              setErrorMessage={setErrorMessage}
+              setEmailSent={setEmailSent}
+              openCloseFn={openCloseFn}
+            />
+          )}
+          {/* Error */}
+          {errorMessage && (
+            <>
+              <div className="pb-4 text-red-600">{errorMessage}</div>
+            </>
+          )}
+
+          {emailSent && (
+            <>
+              <p className="pb-6 text-xl">
+                A please check your email inbox and possibly spam folder for
+                verification email
+              </p>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+const SendEmailInputs = ({
+  setErrorMessage,
+  setEmailSent,
+  openCloseFn,
+}: SendEmailInputsParams) => {
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const onSubmit = async () => {
     // console.log("email: ", email);
@@ -51,93 +111,58 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
     }
     setLoading(false);
   };
+
   return (
     <>
-      {/* Overlay */}
-      <div className="fixed inset-0 z-10 bg-black bg-opacity-50" />
-      {/* Modal */}
-      <div className="fixed inset-0 z-20 flex h-5/6 flex-col items-center justify-center pt-20">
-        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 mx-auto flex w-5/6 flex-col overflow-y-auto rounded-xl bg-white p-6 shadow-lg sm:w-1/2">
-          {/* Close Button (×) */}
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={openCloseFn}
-              // onClick={() => setModalOpen(false)}
-              className="cursor-pointer border-none bg-transparent text-2xl"
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </div>
-          {/* Inputs */}
-          {!emailSent && (
-            <>
-              <div className="mb-6">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="text"
-                  className="mt-3 w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="user@example.com"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="flex w-full flex-row">
-                <div className="flex flex-auto justify-center">
-                  {!loading && (
-                    <button
-                      className="w-1/2 min-w-min rounded-lg bg-green-300 py-2"
-                      onClick={onSubmit}
-                    >
-                      Submit
-                    </button>
-                  )}
-                  {loading && (
-                    <button className="w-1/2 min-w-min rounded-lg bg-green-100 py-2">
-                      Sending email
-                    </button>
-                  )}
-                </div>
-                {!loading && (
-                  <div className="flex flex-auto justify-center">
-                    <button
-                      className="w-1/2 min-w-min rounded-lg bg-red-500 py-2"
-                      onClick={() => {
-                        openCloseFn();
-                      }}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                )}
-                {loading && (
-                  <div className="flex flex-auto justify-center">
-                    <button className="w-1/2 min-w-min rounded-lg bg-red-300 py-2">
-                      Cancel
-                    </button>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-          {/* Error */}
-          {errorMessage && (
-            <>
-              <div className="pb-4 text-red-600">{errorMessage}</div>
-            </>
-          )}
-          {emailSent && (
-            <>
-              <p className="pb-6 text-xl">
-                A please check your email inbox and possibly spam folder for
-                verification email
-              </p>
-            </>
-          )}
-        </div>
+      <div className="mb-6">
+        <label htmlFor="email">Email</label>
+        <input
+          type="text"
+          className="mt-3 w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          placeholder="user@example.com"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+      </div>
+      <div className="flex w-full flex-row">
+        {!loading && (
+          <>
+            <div className="flex flex-auto justify-center">
+              <button
+                className="w-1/2 min-w-min rounded-lg bg-green-300 py-2"
+                onClick={onSubmit}
+              >
+                Submit
+              </button>
+            </div>
+            <div className="flex flex-auto justify-center">
+              <button
+                className="w-1/2 min-w-min rounded-lg bg-red-500 py-2"
+                onClick={() => {
+                  openCloseFn();
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </>
+        )}
+        {loading && (
+          <>
+            <div className="flex flex-auto justify-center">
+              <button className="w-1/2 min-w-min rounded-lg bg-green-100 py-2">
+                Sending email
+              </button>
+            </div>
+            <div className="flex flex-auto justify-center">
+              <button className="w-1/2 min-w-min rounded-lg bg-red-300 py-2">
+                Cancel
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

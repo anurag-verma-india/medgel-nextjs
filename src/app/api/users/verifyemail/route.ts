@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
+      console.log(`${token}\nUser with this token not found`);
       return NextResponse.json(
         { message: "Invalid token", success: false, invalidToken: true },
         { status: 400 },

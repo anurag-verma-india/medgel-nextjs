@@ -8,6 +8,7 @@ export default function handleError(error: unknown, message: string) {
       JSON.stringify({
         message,
         error: error.toString(),
+        success: false,
       }),
       { status: 500 },
     );
@@ -16,6 +17,7 @@ export default function handleError(error: unknown, message: string) {
       JSON.stringify({
         message,
         error: "Unknown error",
+        success: false,
       }),
       { status: 500 },
     );
