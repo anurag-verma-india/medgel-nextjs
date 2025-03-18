@@ -29,6 +29,7 @@ type ListOfProductsParams = {
 
 // Unlinked List of products
 export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
+
   const [modalOpen, setModalOpen] = useState(false);
   function openCloseFn() {
     setModalOpen(!modalOpen);

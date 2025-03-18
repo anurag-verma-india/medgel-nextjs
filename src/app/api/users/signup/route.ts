@@ -53,7 +53,11 @@ export async function POST(request: NextRequest) {
       success: true,
       savedUser: user,
     });
-    response_to_send_back.cookies.set("email", email, { httpOnly: true });
+    response_to_send_back.cookies.set(
+      "email",
+      email,
+      // { httpOnly: true }
+    );
     return response_to_send_back;
   } catch (error) {
     return handleError(error, "Error in creating user");

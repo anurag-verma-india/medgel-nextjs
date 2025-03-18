@@ -1,8 +1,21 @@
 // import LinkedListOfProducts from "./LinkedListOfProducts";
+import { cookies } from "next/headers";
 import ListOfProducts from "./ListOfProducts";
+import verifyJwtToken from "@/helpers/jwtHelper";
 
-export default function ProductPage() {
-  const tokenValid = false; // TODO: Check from cookies
+export default async function ProductPage() {
+  let tokenValid = false; // TODO: Check from cookies
+
+  const cookieStore = await cookies();
+  const tokenObj = cookieStore.get("token");
+  const token = tokenObj ? tokenObj.value : "";
+  // console.log("Token:", token);
+
+  const decodedToken = verifyJwtToken(token);
+  console.log("Decoded token:", decodedToken);
+  if (decodedToken.exp > Date.now() / 1000) {
+    tokenValid = true;
+  }
 
   return (
     <div className="flex flex-col items-center">

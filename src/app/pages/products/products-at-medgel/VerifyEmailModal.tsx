@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 // import { cookies } from "next/headers";
+import Cookies from "universal-cookie";
 
 interface VerifyModalOpenParams {
   openCloseFn: () => void;
@@ -19,6 +20,9 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
   // const cookieStore = await cookies();
   // const tokenObj = cookieStore.get("token");
   // const token = tokenObj ? tokenObj.value : "";
+  const cookies = new Cookies();
+  const email = cookies.get("email");
+  console.log("Email in cookies:", email);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [emailSent, setEmailSent] = useState(false);
