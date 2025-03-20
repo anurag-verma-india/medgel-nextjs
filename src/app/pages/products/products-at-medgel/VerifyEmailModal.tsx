@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 // import { cookies } from "next/headers";
 import Cookies from "universal-cookie";
+import { redirect } from "next/navigation";
 
 interface VerifyModalOpenParams {
   openCloseFn: () => void;
@@ -20,9 +21,8 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
   // const cookieStore = await cookies();
   // const tokenObj = cookieStore.get("token");
   // const token = tokenObj ? tokenObj.value : "";
-  const cookies = new Cookies();
-  const email = cookies.get("email");
-  console.log("Email in cookies:", email);
+  // const email = cookies.get("email");
+  // console.log("Email in cookies:", email);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [emailSent, setEmailSent] = useState(false);
@@ -80,7 +80,21 @@ const SendEmailInputs = ({
   setEmailSent,
   openCloseFn,
 }: SendEmailInputsParams) => {
-  const [email, setEmail] = useState("");
+  const cookies = new Cookies();
+  const [email, setEmail] = useState(cookies.get("email"));
+  const [emailMessage, setEmailMessage] = useState("");
+  useEffect(() => {
+    if (email) {
+      setEmailMessage(
+        "Email verification expired, please reverify to continue",
+      );
+    } else {
+      setEmailMessage("Please verify your email to view products");
+    }
+  }, []);
+
+  // const [email, setEmail] = useState(email);
+
   const [loading, setLoading] = useState(false);
   const onSubmit = async () => {
     // console.log("email: ", email);
@@ -119,12 +133,16 @@ const SendEmailInputs = ({
   return (
     <>
       <div className="mb-6">
+        <p className="flex w-full items-center justify-center text-xl">
+          {emailMessage}
+        </p>
+        <br />
         <label htmlFor="email">Email</label>
         <input
           type="text"
           className="mt-3 w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="user@example.com"
-          value={email}
+          value={email ? email : ""}
           onChange={(e) => {
             setEmail(e.target.value);
           }}

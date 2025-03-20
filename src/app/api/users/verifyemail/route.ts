@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
     }
     const jwtToken = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
       expiresIn: "1d",
+      // expiresIn: "1s",
     });
     // console.log("ttt: \n" + jwtToken + "\n");
 

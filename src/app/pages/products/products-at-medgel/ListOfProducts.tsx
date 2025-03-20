@@ -1,4 +1,5 @@
 "use client";
+// Make this a server component
 
 import { useState } from "react";
 // import VerifyEmailModal from "./VerifyEmailModal";
@@ -27,10 +28,19 @@ type ListOfProductsParams = {
   tokenValid: boolean;
 };
 
+
+// const ModalContainer = () => {
+//   "use client"
+//   const [modalOpen, setModalOpen] = useState(false);
+//   return (
+//   )
+// }
+
+
 // Unlinked List of products
 export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
-
   const [modalOpen, setModalOpen] = useState(false);
+  // const [emailSent, setEmailSent] = useState(false);
   function openCloseFn() {
     setModalOpen(!modalOpen);
   }
@@ -48,6 +58,16 @@ export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
 
       <div className="text-2xl text-orange-400">
         <div
+          className="m-6 flex flex-row rounded-xl bg-white px-2 py-3"
+          onClick={() => HandleListClick("1")}
+        >
+          <p className="w-full">Row 1</p>
+          <div className="flex min-w-fit flex-row text-neutral-500">
+            <p className="min-w-fit">4 Products</p>
+            <RightPointerBracketSvg />
+          </div>
+        </div>
+        {/* <div
           className="m-6 flex flex-row rounded-xl bg-white px-2 py-3"
           // onClick={() => {
           //   openCloseFn();
@@ -75,7 +95,7 @@ export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
             <p className="min-w-fit">4 Products</p>
             <RightPointerBracketSvg />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
