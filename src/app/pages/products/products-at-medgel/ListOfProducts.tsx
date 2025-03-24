@@ -4,8 +4,7 @@
 import { useState } from "react";
 // import VerifyEmailModal from "./VerifyEmailModal";
 import { redirect } from "next/navigation";
-import VerifyEmailModal from "./VerifyEmailModal";
-// import VerifyEmailPopup from "./VerifyEmailPopup";
+import ModalContainer from "./ModalContainer";
 
 function RightPointerBracketSvg() {
   return (
@@ -28,19 +27,9 @@ type ListOfProductsParams = {
   tokenValid: boolean;
 };
 
-
-// const ModalContainer = () => {
-//   "use client"
-//   const [modalOpen, setModalOpen] = useState(false);
-//   return (
-//   )
-// }
-
-
 // Unlinked List of products
 export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
   const [modalOpen, setModalOpen] = useState(false);
-  // const [emailSent, setEmailSent] = useState(false);
   function openCloseFn() {
     setModalOpen(!modalOpen);
   }
@@ -53,8 +42,8 @@ export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
 
   return (
     <>
-      {modalOpen && <VerifyEmailModal openCloseFn={openCloseFn} />}
-      {/* {modalOpen && <VerifyEmailPopup openCloseFn={openCloseFn} />} */}
+      {/* {modalOpen && <VerifyEmailModal openCloseFn={openCloseFn} />} */}
+      {<ModalContainer modalOpen={modalOpen} openCloseFn={openCloseFn} />}
 
       <div className="text-2xl text-orange-400">
         <div

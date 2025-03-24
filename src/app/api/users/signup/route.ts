@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
       email,
       // { httpOnly: true }
     );
+    response_to_send_back.cookies.set("sent", "true");
     return response_to_send_back;
   } catch (error) {
     return handleError(error, "Error in creating user");

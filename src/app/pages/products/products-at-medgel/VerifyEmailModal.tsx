@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 // import { cookies } from "next/headers";
 import Cookies from "universal-cookie";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 interface VerifyModalOpenParams {
+  emailSent: boolean;
   openCloseFn: () => void;
 }
 
@@ -17,7 +18,10 @@ interface SendEmailInputsParams {
 }
 
 // Test send email to valid email address and invalid email address
-const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
+const VerifyEmailModal = ({
+  openCloseFn,
+  emailSent,
+}: VerifyModalOpenParams) => {
   // const cookieStore = await cookies();
   // const tokenObj = cookieStore.get("token");
   // const token = tokenObj ? tokenObj.value : "";
@@ -25,7 +29,7 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
   // console.log("Email in cookies:", email);
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [emailSent, setEmailSent] = useState(false);
+  const [emailSentLocal, setEmailSentLocal] = useState(emailSent);
   return (
     <>
       {/* Overlay */}
@@ -47,10 +51,10 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
           </div>
           {/* Inputs */}
 
-          {!emailSent && (
+          {!emailSentLocal && (
             <SendEmailInputs
               setErrorMessage={setErrorMessage}
-              setEmailSent={setEmailSent}
+              setEmailSent={setEmailSentLocal}
               openCloseFn={openCloseFn}
             />
           )}
@@ -61,7 +65,7 @@ const VerifyEmailModal = ({ openCloseFn }: VerifyModalOpenParams) => {
             </>
           )}
 
-          {emailSent && (
+          {emailSentLocal && (
             <>
               <p className="pb-6 text-xl">
                 A please check your email inbox and possibly spam folder for
@@ -110,6 +114,7 @@ const SendEmailInputs = ({
           .then(function (response) {
             if (response.data.success) {
               setEmailSent(true);
+              // cookies.set("sent", true);
             } else {
               console.log(
                 "Error occurred when creating a new user: \n",

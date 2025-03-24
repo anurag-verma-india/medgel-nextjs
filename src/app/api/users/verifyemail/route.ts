@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     }
     const jwtToken = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
       expiresIn: "1d",
-      // expiresIn: "1s",
+      // expiresIn: "1s", // For testing purposes
     });
     // console.log("ttt: \n" + jwtToken + "\n");
 
@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
       { status: 200 },
     );
     response.cookies.set("token", jwtToken, { httpOnly: true });
+    response.cookies.set("sent", "false"); // So that user can verify on the next day
     return response;
   } catch (error) {
     return handleError(error, "Error occurred in creating new user");

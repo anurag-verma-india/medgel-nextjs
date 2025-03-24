@@ -1,9 +1,25 @@
 "use client";
 
-const ModalContainer = () => {
-  return (
-    <div>ModalContainer</div>
-  )
-}
+// import { useState } from "react";
+import VerifyEmailModal from "./VerifyEmailModal";
+import Cookies from "universal-cookie";
 
-export default ModalContainer
+type ModalContainerArgs = {
+  modalOpen: boolean;
+  openCloseFn: () => void;
+};
+
+const ModalContainer = ({ modalOpen, openCloseFn }: ModalContainerArgs) => {
+  const cookies = new Cookies();
+  const emailSent = cookies.get("sent");
+
+  return (
+    <>
+      {modalOpen && (
+        <VerifyEmailModal openCloseFn={openCloseFn} emailSent={emailSent} />
+      )}
+    </>
+  );
+};
+
+export default ModalContainer;
