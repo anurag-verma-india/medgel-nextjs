@@ -4,7 +4,7 @@ import ListOfProducts from "./ListOfProducts";
 import verifyJwtToken from "@/helpers/jwtHelper";
 
 export default async function ProductPage() {
-  let tokenValid = false; // TODO: Check from cookies
+  let tokenValid = false; 
 
   const cookieStore = await cookies();
   const tokenObj = cookieStore.get("token");
@@ -14,6 +14,7 @@ export default async function ProductPage() {
   const decodedToken = verifyJwtToken(token);
   console.log("Decoded token:", decodedToken);
   if (decodedToken.exp > Date.now() / 1000) {
+    // JWT uses seconds instead of milliseconds for exp
     tokenValid = true;
   }
 

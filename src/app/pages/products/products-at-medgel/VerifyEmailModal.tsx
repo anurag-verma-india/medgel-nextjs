@@ -17,7 +17,24 @@ interface SendEmailInputsParams {
   setEmailSent: (b: boolean) => void;
 }
 
-// Test send email to valid email address and invalid email address
+// const Timer = () => {
+//   const [seconds, setSeconds] = useState(60);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setSeconds((prevSeconds) => prevSeconds - 1);
+//     }, 1000);
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return (
+//     <div>
+//       <h1>Timer: {seconds} seconds</h1>
+//     </div>
+//   );
+// };
+
+// TODO: Test send email to valid email address and invalid email address
 const VerifyEmailModal = ({
   openCloseFn,
   emailSent,
@@ -68,7 +85,9 @@ const VerifyEmailModal = ({
           {emailSentLocal && (
             <>
               <p className="pb-6 text-xl">
-                A please check your email inbox and possibly spam folder for
+                {/* <Timer /> */}
+                <br />
+                please check your email inbox and possibly spam folder for
                 verification email
               </p>
             </>

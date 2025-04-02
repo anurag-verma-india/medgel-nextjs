@@ -30,15 +30,28 @@ export async function POST(request: NextRequest) {
     //     { status: 400 },
     //   );
     // }
+    console.log("User found\n", user);
+    console.log("---");
+    if (user && user.allowVerificationAfter > Date.now()) {
+      return NextResponse.json(
+        {
+          message: "Verification now allowed right now",
+          success: false,
+        },
+        { status: 400 },
+      );
+    }
     if (!user) {
       // If user does not already exist then create a new one
       // create and save new user
       const newUser = new User({
         email: email,
+        allowVerificationAfter: Date.now() + 1 * 60 * 1000, // 1 min in milliseconds
       });
       user = await newUser.save();
     }
-    console.log("User already exists");
+    console.log("Verification expiry: ", user.verificationExpiry);
+    // console.log("User already exists");
 
     // Send verification mail
     const emailResponse = await sendEmail({

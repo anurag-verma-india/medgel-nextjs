@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     console.log("user (in verify token): ", user);
 
     // user.isVerified = true;
-    user.verificationExpiry = Date.now() + 24 * 60 * 60 * 1000;
+    user.verificationExpiry = Date.now() + 24 * 60 * 60 * 1000; // 24 Hours in milliseconds
     console.log("User verification expiry: ", user.verificationExpiry);
     user.verifyToken = undefined;
     user.verifyTokenExpiry = undefined;
