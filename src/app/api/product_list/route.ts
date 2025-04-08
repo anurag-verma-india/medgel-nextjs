@@ -45,6 +45,7 @@ Delete a list
  */
 
 export async function GET(request: NextRequest) {
+  // TODO: Check user's token and send error if not verified
   try {
     await dbConnect();
     const { searchParams } = new URL(request.url);

@@ -37,6 +37,7 @@ export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
   const HandleListClick = (listId: string) => {
     if (tokenValid) {
       redirect(`/pages/product-list/${listId}`);
+      // TODO: This API must check user's JWT token from cookies
     } else openCloseFn();
   };
 
@@ -48,7 +49,7 @@ export default function ListOfProducts({ tokenValid }: ListOfProductsParams) {
       <div className="text-2xl text-orange-400">
         <div
           className="m-6 flex flex-row rounded-xl bg-white px-2 py-3"
-          onClick={() => HandleListClick("1")}
+          onClick={() => HandleListClick("67bc63335bb9c277d5fc532f")}
         >
           <p className="w-full">Row 1</p>
           <div className="flex min-w-fit flex-row text-neutral-500">

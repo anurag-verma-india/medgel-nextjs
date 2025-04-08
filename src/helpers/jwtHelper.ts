@@ -15,6 +15,7 @@ export default function verifyJwtToken(token: string) {
       };
       // console.log(decoded)
     } else {
+      // If decoded token is a string
       decoded = {
         id: decodedTemp,
         iat: 0,
@@ -27,7 +28,7 @@ export default function verifyJwtToken(token: string) {
     );
     console.log(error);
   }
-    return decoded;
+  return decoded;
   // TODO: Handle token expired error
   // try {
   //   const decoded = jwt.verify(token, process.env.TOKEN_SECRET!);

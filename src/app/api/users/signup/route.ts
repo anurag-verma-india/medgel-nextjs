@@ -1,3 +1,6 @@
+// TODO: Cap email requests from same IP address or something to prevent email request spam, DDoS attack
+// TODO: Differentiate between error in sending email to a particular address and general email sending failure
+
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
@@ -30,6 +33,7 @@ export async function POST(request: NextRequest) {
     //     { status: 400 },
     //   );
     // }
+
     console.log("User found\n", user);
     console.log("---");
     if (user && user.allowVerificationAfter > Date.now()) {
@@ -72,6 +76,15 @@ export async function POST(request: NextRequest) {
       // { httpOnly: true }
     );
     response_to_send_back.cookies.set("sent", "true");
+    const allowVerificationAfterMilliseconds = new Date(
+      user.allowVerificationAfter,
+    )
+      .getTime()
+      .toString();
+    response_to_send_back.cookies.set(
+      "allowVerificationAfter",
+      allowVerificationAfterMilliseconds,
+    );
     return response_to_send_back;
   } catch (error) {
     return handleError(error, "Error in creating user");
