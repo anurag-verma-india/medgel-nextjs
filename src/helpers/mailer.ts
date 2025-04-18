@@ -77,7 +77,7 @@ MAIL_PASSWORD
       //     ? "Verify your email"
       //     : "Reset your password",
       html: `<p>Click <a href="${
-        process.env.NEXT_PUBLIC_API_URL
+        process.env.NEXT_PUBLIC_SITE_URL
       }/verifyemail?token=${hashedToken}">here</a> to verify your email${
         " "
         // emailType === "VERIFY"
@@ -87,7 +87,7 @@ MAIL_PASSWORD
                 or copy the link below in your browser
                 <br>
                  ${
-                   process.env.NEXT_PUBLIC_API_URL
+                   process.env.NEXT_PUBLIC_SITE_URL
                  }/verifyemail?token=${hashedToken}
                 </p>`,
     };
