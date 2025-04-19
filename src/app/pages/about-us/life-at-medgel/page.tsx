@@ -53,7 +53,7 @@ const LifeAtMedgel = async () => {
             <div className="relative overflow-hidden rounded-lg shadow-lg">
               <div className="relative aspect-[497/269] w-full">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}/${page.content.img}`}
+                  src={`${process.env.NEXT_PUBLIC_SITE_URL}/${page.content.img}`}
                   alt="Life at Medgel"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
