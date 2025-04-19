@@ -1,7 +1,7 @@
 import { PageObject } from "@/types";
 export default async function fetchPage(title: string): Promise<PageObject> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/page/?title=${title}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/page/?title=${title}`,
     {
       cache: "force-cache",
       // cache: "no-store",
