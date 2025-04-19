@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  // TODO: User email verified check
+  // TODO: Check user's token and send error if not verified
   try {
     await dbConnect();
     const { searchParams } = new URL(request.url);

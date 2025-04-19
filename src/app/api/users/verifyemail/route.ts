@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user) {
+      console.log(`${token}\nUser with this token not found`);
       return NextResponse.json(
         { message: "Invalid token", success: false, invalidToken: true },
         { status: 400 },
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
     console.log("user (in verify token): ", user);
 
     // user.isVerified = true;
-    user.verificationExpiry = Date.now() + 24 * 60 * 60 * 1000;
+    user.verificationExpiry = Date.now() + 24 * 60 * 60 * 1000; // 24 Hours in milliseconds
     console.log("User verification expiry: ", user.verificationExpiry);
     user.verifyToken = undefined;
     user.verifyTokenExpiry = undefined;
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
     }
     const jwtToken = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
       expiresIn: "1d",
+      // expiresIn: "1s", // For testing purposes
     });
     // console.log("ttt: \n" + jwtToken + "\n");
 
@@ -63,6 +65,7 @@ export async function POST(request: NextRequest) {
       { status: 200 },
     );
     response.cookies.set("token", jwtToken, { httpOnly: true });
+    response.cookies.set("sent", "false"); // So that user can verify on the next day
     return response;
   } catch (error) {
     return handleError(error, "Error occurred in creating new user");

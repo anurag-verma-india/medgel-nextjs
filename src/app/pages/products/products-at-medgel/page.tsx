@@ -1,8 +1,22 @@
-// import LinkedListOfProducts from "./LinkedListOfProducts";
+import { cookies } from "next/headers";
 import ListOfProducts from "./ListOfProducts";
+import verifyJwtToken from "@/helpers/jwtHelper";
 
-export default function ProductPage() {
-  const tokenValid = false; // TODO: Check from cookies
+export default async function ProductPage() {
+  let tokenValid = false;
+
+  const cookieStore = await cookies();
+  const tokenObj = cookieStore.get("token");
+  const token = tokenObj ? tokenObj.value : "";
+  // console.log("Token:", token);
+
+  const decodedToken = verifyJwtToken(token);
+  console.log("Decoded token:", decodedToken);
+  if (decodedToken.exp > Date.now() / 1000) {
+    // milliseconds -> seconds
+    // JWT uses seconds instead of milliseconds for exp
+    tokenValid = true;
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -25,9 +39,8 @@ export default function ProductPage() {
             OTC Products
           </div>
         </div>
+
         <ListOfProducts tokenValid={tokenValid} />
-        {/* {!tokenValid && <ListOfProducts />} */}
-        {/* {tokenValid && <LinkedListOfProducts />} */}
       </div>
     </div>
   );

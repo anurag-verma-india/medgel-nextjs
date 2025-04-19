@@ -1,3 +1,6 @@
+// TODO: Cap email requests from same IP address or something to prevent email request spam, DDoS attack
+// TODO: Differentiate between error in sending email to a particular address and general email sending failure
+
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
@@ -23,33 +26,65 @@ export async function POST(request: NextRequest) {
     dbConnect();
 
     // Checking if user already exists
-    const user = await User.findOne({ email });
-    if (!user) {
-      // return NextResponse.json(
-      //   { error: "User already exists", success: false },
-      //   { status: 400 },
-      // );
-    }
+    let user = await User.findOne({ email });
+    // if (user) {
+    //   return NextResponse.json(
+    //     { error: "User already exists", success: false },
+    //     { status: 400 },
+    //   );
+    // }
 
-    // create and save new user
-    const newUser = new User({
-      email: email,
-    });
-    const savedUser = await newUser.save();
+    console.log("User found\n", user);
+    console.log("---");
+    if (user && user.allowVerificationAfter > Date.now()) {
+      return NextResponse.json(
+        {
+          message: "Verification now allowed right now",
+          success: false,
+        },
+        { status: 400 },
+      );
+    }
+    if (!user) {
+      // If user does not already exist then create a new one
+      // create and save new user
+      const newUser = new User({
+        email: email,
+        allowVerificationAfter: Date.now() + 1 * 60 * 1000, // 1 min in milliseconds
+      });
+      user = await newUser.save();
+    }
+    console.log("Verification expiry: ", user.verificationExpiry);
+    // console.log("User already exists");
 
     // Send verification mail
     const emailResponse = await sendEmail({
       email,
       emailType: EmailTypes.VERIFY,
-      userId: savedUser._id,
+      userId: user._id,
     });
     console.log("Email response: ", emailResponse);
 
-    return NextResponse.json({
-      message: "Email sent successfully",
+    const response_to_send_back = NextResponse.json({
+      message: "Email sent successfully, and user created in database",
       success: true,
-      savedUser,
+      savedUser: user,
     });
+    response_to_send_back.cookies.set(
+      "email",
+      email,
+      // { httpOnly: true }
+    );
+    response_to_send_back.cookies.set("sent", "true");
+
+    const currentTime = new Date().getTime();
+    response_to_send_back.cookies.set(
+      "allowVerificationAfter",
+      // 60 sec in milliseconds
+      (currentTime + 60 * 1000).toString(),
+      // (currentTime + 1 * 1000).toString(), // 1 sec for testing
+    );
+    return response_to_send_back;
   } catch (error) {
     return handleError(error, "Error in creating user");
     // return NextResponse.json({ error: error.message }, { status: 500 });

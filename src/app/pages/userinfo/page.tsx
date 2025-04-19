@@ -24,6 +24,8 @@ export default async function UserInfo() {
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg5Mjgzdzg5aSIsImlhdCI6MTc0MTUyMDg1MiwiZXhwIjoxNzQxNTIwODUzfQ.twADziUrtsSklBxZW3zxt0q5UhQhDO9-OlhMYoxZdeE";
 
   const decoded: decodedToken = verifyJwtToken(token);
+  let expired;
+  if (decoded.exp < Date.now() / 1000) expired = true;
 
   console.log("token: ", token);
   console.log("decoded: ", decoded);
@@ -31,6 +33,10 @@ export default async function UserInfo() {
     <div className="px-20 py-10">
       <h1>Token</h1>
       <div>{token}</div>
+      <div>
+        Expired: {expired && "Yes"}
+        {!expired && "No"}
+      </div>
       <br />
       <h2>Decrypted token</h2>
       <div>{`{`}</div>
