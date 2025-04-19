@@ -44,7 +44,8 @@ export default async function ProductList({ params }: ProductListParams) {
             >
               {/* <p className="w-full">Row 1</p> */}
               <p className="w-full">
-                {res_json.product_list.product_list_name}
+                {res_json.product_list &&
+                  res_json.product_list.product_list_name}
               </p>
 
               {/* <div className="flex min-w-fit flex-row text-neutral-500"> */}

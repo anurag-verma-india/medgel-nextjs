@@ -1,4 +1,3 @@
-// import LinkedListOfProducts from "./LinkedListOfProducts";
 import { cookies } from "next/headers";
 import ListOfProducts from "./ListOfProducts";
 import verifyJwtToken from "@/helpers/jwtHelper";
@@ -40,11 +39,9 @@ export default async function ProductPage() {
             OTC Products
           </div>
         </div>
+
         <ListOfProducts tokenValid={tokenValid} />
-        {/* {!tokenValid && <ListOfProducts />} */}
-        {/* {tokenValid && <LinkedListOfProducts />} */}
       </div>
     </div>
   );
 }
-  

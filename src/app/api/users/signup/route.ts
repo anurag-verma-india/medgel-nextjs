@@ -76,14 +76,13 @@ export async function POST(request: NextRequest) {
       // { httpOnly: true }
     );
     response_to_send_back.cookies.set("sent", "true");
-    const allowVerificationAfterMilliseconds = new Date(
-      user.allowVerificationAfter,
-    )
-      .getTime()
-      .toString();
+
+    const currentTime = new Date().getTime();
     response_to_send_back.cookies.set(
       "allowVerificationAfter",
-      allowVerificationAfterMilliseconds,
+      // 60 sec in milliseconds
+      (currentTime + 60 * 1000).toString(),
+      // (currentTime + 1 * 1000).toString(), // 1 sec for testing
     );
     return response_to_send_back;
   } catch (error) {

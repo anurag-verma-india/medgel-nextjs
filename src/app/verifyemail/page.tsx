@@ -1,8 +1,8 @@
 "use client";
 
 import axios from "axios";
+// import { redirect, RedirectType } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-// import { redirect } from "next/navigation";
 import { useState } from "react";
 // import { Suspense } from "react";
 
@@ -31,6 +31,7 @@ const VerifyEmail = () => {
       console.log("response from verify: ", response);
       if (response.data.success) {
         setIsVerified(true);
+        // redirect(`/pages/products/products-at-medgel`, RedirectType.push);
         // redirect("/"); (Giving error)
       }
     } catch (error) {
