@@ -4,7 +4,7 @@ import axios from "axios";
 // import { redirect, RedirectType } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-// import { Suspense } from "react";
+import { Suspense } from "react";
 
 const VerifyEmail = () => {
   const params = useSearchParams();
@@ -83,9 +83,9 @@ const VerifyEmailContainer = () => {
   */
   return (
     <>
-      {/* <Suspense> */}
+      <Suspense>
       <VerifyEmail />
-      {/* </Suspense> */}
+      </Suspense>
     </>
   );
 };
