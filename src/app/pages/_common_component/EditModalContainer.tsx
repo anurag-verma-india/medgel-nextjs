@@ -1,9 +1,11 @@
+// EditModalContainer.tsx
+
 "use client";
 
 // import { useEffect } from "react";
 import { useState } from "react";
 // import EditModal from "./EditModal";
-import FormWithModal from "./EditModalv2";
+import FormWithModal from "./EditModal";
 import { PageObject } from "@/types";
 
 type ModalContainer = {

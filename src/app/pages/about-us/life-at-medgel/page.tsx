@@ -1,3 +1,5 @@
+// page.tsx
+
 import Image from "next/image";
 // import Link from "next/link";
 // import Header from "app/pages/_common_component/Header";
@@ -6,15 +8,29 @@ import Image from "next/image";
 // import EditModalContainer from "../../_common_component/EditModalContainer";
 import fetchPage from "@/helpers/getPage";
 import VerifyAndShowEditButton from "@/app/pages/_common_component/VerifyAndShowEditButton";
+import { BasePageContent } from "@/types";
 
 const title = "about-us/life-at-medgel";
+
+interface LifeAtMedgelContent extends BasePageContent {
+  page_title: string;
+  img: string;
+  title_1: string;
+  title1_des_1: string;
+  title1_des_2: string;
+  title_2: string;
+  title2_des_1: string;
+  title2_des_2: string;
+}
 
 //! connecting to db
 const LifeAtMedgel = async () => {
   // cookies()
   // or headers()
   // const career = await fetchCareer();
-  const page = await fetchPage(title);
+  // const page = await fetchPage(title);
+  const page = await fetchPage<LifeAtMedgelContent>(title);
+
   return (
     <>
       <div className="min-h-screen bg-white">
@@ -26,8 +42,8 @@ const LifeAtMedgel = async () => {
           {/* Header */}
           <div className="mb-12 text-center">
             <h1 className="relative inline-block text-5xl font-bold text-teal-500">
-              {page.content.page_title}
               {/* {page.content["page_title"] || ""} */}
+              {page.content.page_title}
               <div className="absolute bottom-0 left-0 right-0 -mb-2 h-1 bg-orange-400"></div>
             </h1>
           </div>

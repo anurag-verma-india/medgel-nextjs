@@ -1,9 +1,9 @@
-"use client";
+// EditModal.tsx
 
+"use client";
 import { useState } from "react";
-// import { useEffect } from "react";
 import axios from "axios";
-import { PageObject } from "@/types";
+import { PageObject, BasePageContent } from "@/types";
 
 type EditModalType = {
   children: PageObject;
@@ -12,7 +12,7 @@ type EditModalType = {
 };
 
 const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
-  const [localData, setLocalData] = useState(children.content);
+  const [localData, setLocalData] = useState<BasePageContent>(children.content);
 
   const handleTaskSave = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -39,6 +39,65 @@ const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
     setLocalData(children.content);
   };
 
+  // Convert value to string for textarea - ensure it always returns a string
+  const getStringValue = (value: unknown): string => {
+    if (value === null || value === undefined) {
+      return "";
+    }
+    if (typeof value === "object") {
+      return JSON.stringify(value);
+    }
+    return String(value);
+  };
+
+  // Parse string back to original type when updating
+  const updateValue = (key: string, newValue: string) => {
+    const originalValue = children.content[key];
+
+    // Determine the appropriate type based on the original value
+    let parsedValue:
+      | string
+      | number
+      | boolean
+      | Record<string, unknown>
+      | unknown[]
+      | null
+      | undefined = newValue;
+
+    // Try to preserve the original type
+    if (typeof originalValue === "number") {
+      const num = Number(newValue);
+      if (!isNaN(num)) {
+        parsedValue = num;
+      }
+    } else if (typeof originalValue === "boolean") {
+      if (newValue.toLowerCase() === "true") parsedValue = true;
+      else if (newValue.toLowerCase() === "false") parsedValue = false;
+    } else if (typeof originalValue === "object" && originalValue !== null) {
+      try {
+        const parsed = JSON.parse(newValue);
+        if (Array.isArray(originalValue)) {
+          parsedValue = Array.isArray(parsed) ? parsed : [parsed];
+        } else {
+          parsedValue =
+            typeof parsed === "object" && parsed !== null ? parsed : {};
+        }
+      } catch (e) {
+        // If parsing fails, keep as string
+        parsedValue = newValue;
+        console.log("Error in parsing\n", e);
+      }
+    }
+
+    // Create new object that satisfies BasePageContent
+    const updatedData: BasePageContent = {
+      ...localData,
+      [key]: parsedValue,
+    };
+
+    setLocalData(updatedData);
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -63,10 +122,12 @@ const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
               ×
             </button>
           </div>
-
           {/* Dynamic Inputs */}
-          {Object.entries(localData).map(([key, value]) => (
-            <>
+          {Object.entries(localData).map(([key, value]) => {
+            // Explicitly ensure the textarea value is always a valid string
+            const textValue: string = getStringValue(value);
+
+            return (
               <div key={key} className="mb-6">
                 <label
                   htmlFor={key}
@@ -79,17 +140,12 @@ const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
                   name={key}
                   className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   rows={4}
-                  value={value}
-                  onChange={(e) =>
-                    setLocalData({
-                      ...localData,
-                      [key]: e.target.value,
-                    })
-                  }
+                  value={textValue}
+                  onChange={(e) => updateValue(key, e.target.value)}
                 />
               </div>
-            </>
-          ))}
+            );
+          })}
         </div>
         {/* Buttons */}
       </div>
