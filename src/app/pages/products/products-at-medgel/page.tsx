@@ -1,3 +1,5 @@
+// page.tsx
+
 import { cookies } from "next/headers";
 import ListOfProducts from "./ListOfProducts";
 import verifyJwtToken from "@/helpers/jwtHelper";

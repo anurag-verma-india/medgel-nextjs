@@ -1,3 +1,6 @@
+// ListItem.tsx
+
+"use client";
 import PopupContext from "@/app/contexts/PopupContext";
 import { redirect, RedirectType } from "next/navigation";
 import { useContext } from "react";

@@ -1,3 +1,5 @@
+// ListOfProducts.tsx
+
 "use client";
 import PopupContextProvider from "@/app/contexts/PopupContextProvider";
 
