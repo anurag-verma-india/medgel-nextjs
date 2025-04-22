@@ -1,4 +1,4 @@
-// import GET from "@/app/api/product_list";
+// product-list/[listId]/page.tsx
 
 type ProductListParams = {
   params: Promise<{ listId: string }>;

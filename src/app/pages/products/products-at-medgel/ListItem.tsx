@@ -1,5 +1,4 @@
-// ListItem.tsx
-
+// pages/products/products-at-medgel/ListItem.tsx
 "use client";
 import PopupContext from "@/app/contexts/PopupContext";
 import { redirect, RedirectType } from "next/navigation";
@@ -9,7 +8,7 @@ function RightPointerBracketSvg() {
   return (
     <svg
       fill="#a6a6a6"
-      className="w-6"
+      className="w-4 md:w-6"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 330 330"
       xmlSpace="preserve"
@@ -40,15 +39,19 @@ const ListItem = ({ ListTitle, NumberOfProducts, ListId }: ListItemType) => {
 
   return (
     <div
-      className="m-6 flex flex-row rounded-xl bg-white px-2 py-3 text-2xl text-orange-400"
+      className="m-3 flex cursor-pointer flex-row rounded-xl bg-white px-2 py-2 text-lg text-orange-400 md:m-6 md:py-3 md:text-2xl"
       onClick={() => {
         HandleListClick(ListId);
       }}
     >
       <p className="w-full">{ListTitle}</p>
-      <div className="flex min-w-fit flex-row text-neutral-500">
-        <p className="min-w-fit">{NumberOfProducts} Products</p>
-        <RightPointerBracketSvg />
+      <div className="flex min-w-fit flex-row items-center text-neutral-500">
+        <p className="min-w-fit text-sm md:text-base">
+          {NumberOfProducts} Products
+        </p>
+        <div className="ml-1 md:ml-2">
+          <RightPointerBracketSvg />
+        </div>
       </div>
     </div>
   );
