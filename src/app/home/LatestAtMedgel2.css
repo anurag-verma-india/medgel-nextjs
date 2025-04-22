@@ -1,0 +1,27 @@
+.homenews-list {
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden; 
+    max-height: 400px; 
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.homenews-item {
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.homenews-item h3 {
+    color: #f9ad42;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.homenews-item p {
+    color: #333;
+    font-size: 18px;
+}

@@ -1,0 +1,167 @@
+.portfolio-container {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.portfolio-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2E99A3;
+  margin-bottom: 10px;
+  position: relative;
+}
+/* Add blue transparency overlay */
+.portfolio-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(46, 153, 163, 0.5); /* Blue transparency for #2E99A3 */
+  
+  z-index: 1; /* Place the overlay above the image */
+  pointer-events: none; /* Allow interactions with child elements */
+}
+.portfolio-title::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background-color: yellow;
+  margin: 10px auto 0;
+}
+
+.portfolio-grid {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4-column grid */
+  gap: 10px; /* Space between grid items */
+}
+
+.portfolio-item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 150px; /* Default height for smaller rectangles */
+  background-color: rgba(0, 123, 206, 0.1); /* Light blue background */
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #ddd; /* Border for defined edges */
+}
+
+.portfolio-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.portfolio-item h3 {
+  position: relative; /* Position text above the overlay */
+  font-size: 1rem;
+  color: #2E99A3; /* White text */
+  z-index: 2; /* Ensure text is above the overlay */
+  margin: 0;
+}
+
+.portfolio-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0; /* Ensure the image is below the overlay */
+}
+
+.text-rectangle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding: 20px;
+  background-color: #ddd; /* Solid blue for text rectangle */
+  color: #0b0a0a; /* White text */
+  height: auto;
+  border: 1px solid #ddd;
+}
+
+.text-rectangle h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.text-rectangle p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Specific grid item sizes with unique images */
+.text-grid {
+  grid-column: span 2; /* Top-left text rectangle spans 2 columns */
+  grid-row: span 2;
+}
+
+.respiratory {
+  grid-column: span 2;
+  grid-row: span 2; /* Larger height */
+  /* background-image: url('../../Images/campus1.jpeg'); */
+}
+
+.hiv {
+  grid-column: span 1;
+  grid-row: span 1;
+  /* background-image: url('../../Images/campus1.jpeg'); */
+}
+
+.oncology {
+  grid-column: span 2; /* Wider rectangle */
+  grid-row: span 1;
+  /* background-image: url('../../Images/campus1.jpeg'); */
+}
+
+.generics {
+  grid-column: span 1;
+  grid-row: span 1;
+  /* background-image: url('../../Images/campus1.jpeg'); */
+}
+
+.otc {
+  grid-column: span 2;
+  grid-row: span 1;
+  /* background-image: url('../../Images/campus1.jpeg'); */
+}
+
+.diagnostics {
+  grid-column: span 1;
+  grid-row: span 2; /* Taller rectangle */
+  /* background-image: url('../../Images/campus1.jpeg'); */
+}
+
+.other-therapies {
+  grid-column: span 1;
+  grid-row: span 1;
+  /* background-image: url('../../Images/campus1.jpeg'); */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2-column grid on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr; /* Single-column layout */
+  }
+
+  .portfolio-item {
+    height: 120px; /* Reduce height for smaller screens */
+  }
+}

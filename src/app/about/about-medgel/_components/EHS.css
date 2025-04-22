@@ -1,0 +1,76 @@
+.ehs-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: rgba(239, 239, 239, 1);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .ehs-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ehs-title {
+    text-align: center;
+    color: #0D9488;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    position: relative;
+    text-decoration: underline;
+    text-underline-offset: 0.8rem;
+    text-decoration-color:rgba(249, 173, 66, 1) ;
+
+  }
+
+  .ehs-subtitle {
+    color: #0D9488;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .ehs-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ehs-text p {
+    color: #1F2937;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .ehs-title {
+      font-size: 2rem;
+    }
+
+    .ehs-subtitle {
+      font-size: 1.5rem;
+    }
+
+    .ehs-text p {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ehs-container {
+      padding: 16px;
+    }
+
+    .ehs-title {
+      font-size: 1.75rem;
+    }
+
+    .ehs-subtitle {
+      font-size: 1.25rem;
+    }
+  }

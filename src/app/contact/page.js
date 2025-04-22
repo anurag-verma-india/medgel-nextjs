@@ -1,0 +1,144 @@
+"use client"
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import './ContactUs.css';
+
+const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+  };
+
+  return (
+    <div className="container">
+      <h1 className="title">Contact Us</h1>
+      <div className="subtitle">Enquiry / Feedback</div>
+
+      <div className="content-grid">
+        {/* Contact Form */}
+        <div className="form-container">
+          <form onSubmit={handleSubmit} >
+            <div className="contact-form">
+              <div className="form-field">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name*"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              {/* <div className="form-row"> */}
+              <div className='flex h-10 w-11/12 pr-3'>
+                <input
+                  className='border-2 border-black w-10/12 rounded'
+                  type="email"
+                  name="email"
+                  placeholder="Your Email*"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+                <div className='w-5' />
+                <input
+                  className='border-2 border-black w-10/12 rounded'
+                  type="text"
+                  name="subject"
+                  placeholder="Subject*"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="form-field">
+                <textarea
+                  name="message"
+                  placeholder="Your Message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  rows={4}
+                  required
+                />
+              </div>
+              <button type="submit" className="submit-button">
+                Contact Us
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Map */}
+        <div className="map-container">
+          <div className="map-placeholder">
+            Map goes here
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Information */}
+      <div className="info-grid">
+        <div className="info-card">
+          <div className="icon-container">
+            <Mail className="icon" />
+          </div>
+          <h3 className="info-title">EMAIL</h3>
+          <p className="info-text">marketing@medgel.net</p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon-container">
+            <Phone className="icon" />
+          </div>
+          <h3 className="info-title">PHONE</h3>
+          <p className="info-text">+91-07292-256205</p>
+          <p className="info-text">+91-07292-256206</p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon-container">
+            <MapPin className="icon" />
+          </div>
+          <h3 className="info-title">OFFICE</h3>
+          <p className="info-text">
+            Special Economic Zone,<br />
+            Plot No.-19-20, Pharma Zone<br />
+            Phase-II, Sector-III,<br />
+            Pithampur, Dist- Dhar (M.P.)<br />INDIA
+            <br />Pincode 454775
+
+          </p>
+        </div>
+
+        <div className="info-card">
+          <div className="icon-container">
+            <Clock className="icon" />
+          </div>
+          <h3 className="info-title">BUSINESS HOURS</h3>
+          <p className="info-text">
+            Mon-Fir<br />
+            10:00 AM - 6:00 PM IST
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+export default ContactUs;

@@ -1,0 +1,154 @@
+.medgelservices-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    font-family: arial, sans-serif;
+  }
+
+  .medgelservices-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .medgelservices-header h1 {
+    color: #0D9488;
+    font-size: 3em;
+    font-weight:bold ;
+    margin-bottom: 8px;
+    text-decoration: underline;
+    text-decoration-color: #FB923C;
+    text-underline-offset: 1rem;
+  }
+  .medgelservices-cardContainer{
+    background-color: rgba(225, 225, 225, 1);
+    padding-top: 1.5rem;
+    border-radius: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  .medgelservices-card {
+    width: 95%;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .medgelservices-mission {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .medgelservices-services-section h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .medgelservices-services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .medgelservices-service-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .medgelservices-checkmark {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-top: 4px;
+
+  }
+
+  .medgelservices-footer {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #E5E7EB;
+    padding: 0.5rem;
+    margin-top: 2rem;
+    gap: 40rem;
+    border-radius: 0.8rem;
+  }
+
+  .medgelservices-brochure-text {
+    display: inline-block;
+    color: #FB923C;
+    font-weight: 500;
+  }
+
+  .medgelservices-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #0D9488;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .medgelservices-download-btn:hover {
+    background-color: #0F766E;
+  }
+
+  .medgelservices-arrow {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .medgelservices-container {
+      padding: 16px;
+    }
+
+    .medgelservices-header h1 {
+      font-size: 2rem;
+    }
+
+    .medgelservices-mission {
+      font-size: 1.25rem;
+    }
+
+    .medgelservices-card {
+      padding: 24px;
+    }
+
+    .medgelservices-service-item {
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .medgelservices-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .medgelservices-mission {
+      font-size: 1.1rem;
+    }
+
+    .medgelservices-footer {
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .medgelservices-download-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }

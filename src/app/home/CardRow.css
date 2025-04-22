@@ -1,0 +1,103 @@
+.homecard-row {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center;
+  gap: 5vw;
+  padding: 2em;
+}
+
+.homecard {
+  background-color: #36bfbf;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 10rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+@media (max-width: 600px) {
+  .homecard-row {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .homecard {
+    width: 8rem;
+    height: 8rem;
+  }
+}
+
+.homecard:hover {
+  transform: scale(1.05);
+}
+
+.homecardicon-style {
+  color: #333; /* Dark theme for icons */
+  font-size: 2rem;
+}
+
+.homecardvalue {
+  font-size: 1.5rem;
+  color: orange;
+  font-weight: bold;
+}
+
+.homecarddescription {
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+
+/* Responsive Adjustments */
+
+/* Tablet View (Max Width: 768px) */
+/* @media (max-width: 768px) {
+  .card {
+    width: 120px; 
+    height: 120px;
+  }
+
+  .icon-style {
+    font-size: 1.8rem;
+  }
+
+  .value {
+    font-size: 1.3rem;
+  }
+
+  .description {
+    font-size: 0.8rem;
+  }
+} */
+
+/* Mobile View (Max Width: 480px) */
+/* @media (max-width: 480px) {
+  .card-row {
+    flex-direction: column; /* Stack cards vertically */
+    /* gap: 15px; /* Reduce spacing */
+/* 
+  .card {
+
+    width: 80%; 
+    max-width: 9em;
+    padding: 20px; 
+    height: auto; 
+  }
+
+  .icon-style {
+    font-size: 1.5rem; 
+  }
+
+  .value {
+    font-size: 1.2rem;
+  }
+
+  .description {
+    font-size: 0.75rem;
+  }
+} */

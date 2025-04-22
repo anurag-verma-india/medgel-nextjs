@@ -1,0 +1,52 @@
+.purpose-nav {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #36bfbf;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  margin: auto;
+  margin-top: -5rem;
+  margin-bottom: 2rem;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 5px;
+  color: transparent;
+  text-shadow: 0 0 0 #1D8892;
+}
+
+.nav-item p {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1200px) {
+  .purpose-nav {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    padding: 0;
+  }
+
+  .nav-item {
+    min-width: 150px;
+  }
+
+}
+
+@media (max-width: 1000px) {
+  .purpose-nav {
+    /* background-color: red; */
+    max-width: 90%;
+  }
+}

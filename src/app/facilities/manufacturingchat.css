@@ -1,0 +1,62 @@
+.contract-manufacturing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .contract-manufacturing-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .contract-manufacturing-title .contract-manufacturing-highlight {
+    color: #00a7e1;
+    border-bottom: 3px solid #00a7e1;
+  }
+  
+  .contract-manufacturing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .contract-manufacturing-image-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 800px;
+  }
+  
+  .contract-manufacturing-image {
+    width: 45%;
+    max-width: 350px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .contract-manufacturing-gears-section {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .contract-manufacturing-gears {
+    max-width: 200px;
+    width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .contract-manufacturing-title {
+      font-size: 1.8rem;
+    }
+  
+    .contract-manufacturing-image {
+      width: 100%;
+    }
+  }
+  

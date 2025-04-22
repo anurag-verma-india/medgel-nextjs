@@ -1,0 +1,128 @@
+.tech-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  .tech-title {
+    color: #0D9488;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: #FB923C;
+    text-underline-offset: 1rem;
+  }
+  .intro-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .category-section {
+    margin-bottom: 30px;
+  }
+
+  .category-title {
+    color: #FB923C;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-list {
+    list-style-type: decimal;
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+
+  .product-list li {
+    margin-bottom: 5px;
+  }
+
+  .equipment-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .equipment-item {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .equipment-item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .equipment-image {
+    width: 500px;
+    height: 303px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .equipment-details {
+    flex: 1;
+  }
+
+  .equipment-details h3 {
+    color: #FB923C;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  .equipment-details p {
+    margin-bottom: 8px;
+  }
+
+  .equipment-details ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .equipment-details li {
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .equipment-item,
+    .equipment-item:nth-child(even) {
+      flex-direction: column;
+    }
+
+    .equipment-image {
+      width: 100%;
+      height: auto;
+    }
+
+    .tech-title {
+      font-size: 2rem;
+    }
+
+    .category-title {
+      font-size: 1.3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tech-container {
+      padding: 15px;
+    }
+
+    .tech-title {
+      font-size: 1.75rem;
+    }
+
+    .intro-text {
+      font-size: 1rem;
+    }
+
+    .equipment-details h3 {
+      font-size: 1.2rem;
+    }
+  }

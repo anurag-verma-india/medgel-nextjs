@@ -1,0 +1,137 @@
+.rd-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .rd-card {
+    display: flex;
+    background: #0D9488;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .rd-image-section {
+    flex: 1;
+    background: url('/images/Capsule.png') center/cover;
+    position: relative;
+  }
+
+  .rd-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    
+    align-items: center;
+    
+  }
+
+  .rd-title {
+    display: flex;
+    text-align: center;
+    color: white;
+    font-size: 3rem;
+    line-height: 1.2;
+  }
+
+  .rd-content {
+    flex: 1;
+    padding: 40px;
+    color: white;
+  }
+
+  .rd-services-title {
+    font-size: 2rem;
+    margin: 0 0 30px 0;
+  }
+
+  .rd-services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .rd-services-list li {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  .rd-services-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: #FB923C;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z'/%3E%3C/svg%3E");
+    mask-size: cover;
+    -webkit-mask-size: cover;
+  }
+
+  @media (max-width: 1024px) {
+    .rd-title {
+      font-size: 2.5rem;
+    }
+    
+    .rd-services-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .rd-card {
+      flex-direction: column;
+    }
+
+    .rd-image-section {
+      min-height: 300px;
+    }
+
+    .rd-content {
+      padding: 30px;
+    }
+
+    .rd-services-list li {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .rd-container {
+      padding: 10px;
+    }
+
+    .rd-title {
+      font-size: 2rem;
+    }
+
+    .rd-services-title {
+      font-size: 1.5rem;
+    }
+
+    .rd-image-section {
+      min-height: 250px;
+    }
+
+    .rd-content {
+      padding: 20px;
+    }
+
+    .rd-services-list li {
+      font-size: 1rem;
+      padding-left: 30px;
+    }
+  }

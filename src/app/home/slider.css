@@ -1,0 +1,92 @@
+.homeslider-container {
+  overflow: hidden;
+  position: relative; 
+}
+
+.slick-dots {
+  bottom: 25px;
+}
+
+.slick-dots li button:before {
+  color: white;
+}
+
+.slick-dots li.slick-active button:before {
+  color: orange;
+}
+
+.homeslide {
+  position: relative;
+}
+
+.homeslide-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.homeslide-content {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+  color: white;
+  z-index: 10;
+  user-select: text;
+}
+
+.homeslide-content h1 {
+  font-size: 4.0vw;
+  font-weight: bold;
+  margin: 0;
+}
+
+.highlight {
+  color: orange;
+}
+
+.homeslide-content p {
+  font-size: 1.55vw;
+  margin: 10px 0 0 3.5px;
+  color: #07033C;
+}
+
+.homeslide-button {
+  margin: 20px 0 0 3.5px;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1vw;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.homeslide-button:hover {
+  background: orange;
+  color: white;
+  border-color: orange;
+}
+
+/* Custom Navigation Buttons */
+.homeslider-nav-button {
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 3vw;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.homeslider-nav-button.prev {
+  left: 10px;
+  color: #c8c8c8;
+}
+
+.homeslider-nav-button.next {
+  right: 10px;
+  color: #c8c8c8;
+}
