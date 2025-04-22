@@ -47,26 +47,22 @@ const menuItems: MenuItem[] = [
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   // Check if the current route matches a menu item or its subitems
   const isCurrentPage = (item: MenuItem): boolean => {
     const basePath = pathname.split("?")[0];
-
+    
     if (item.href === "/" && basePath === "/") return true;
     if (item.href !== "/" && basePath.startsWith(item.href)) return true;
-    if (item.subItems?.some((subItem) => basePath.startsWith(subItem.href)))
-      return true;
-
+    if (item.subItems?.some(subItem => basePath.startsWith(subItem.href))) return true;
+    
     return false;
   };
 
   // Check if the route exactly matches this specific page
   const isExactCurrentPage = (href: string): boolean => {
     const basePath = pathname.split("?")[0];
-    return (
-      basePath === href || (href !== "/" && basePath.startsWith(`${href}/`))
-    );
+    return basePath === href || (href !== "/" && basePath.startsWith(`${href}/`));
   };
 
   return (
@@ -82,15 +78,11 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden space-x-6 lg:flex">
+          <nav className="hidden lg:flex space-x-6">
             {menuItems.map((item) => (
-              <div
-                key={item.label}
-                className="group relative"
-                onMouseEnter={() =>
-                  item.subItems && setActiveDropdown(item.label)
-                }
-                onMouseLeave={() => item.subItems && setActiveDropdown(null)}
+              <div 
+                key={item.label} 
+                className="relative group"
               >
                 <Link
                   href={item.href}
@@ -106,9 +98,9 @@ export default function Header() {
                   )}
                 </Link>
 
-                {/* Desktop dropdown */}
-                {item.subItems && activeDropdown === item.label && (
-                  <div className="absolute left-0 z-20 mt-1 w-64 rounded-md bg-white py-2 shadow-lg">
+                {/* Desktop dropdown using CSS-only approach */}
+                {item.subItems && (
+                  <div className="absolute left-0 mt-1 w-64 bg-white py-2 shadow-lg rounded-md z-20 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
                     {item.subItems.map((subItem) => (
                       <Link
                         key={subItem.label}
@@ -131,7 +123,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-gray-500 hover:text-blue-600 focus:outline-none lg:hidden"
+            className="lg:hidden text-gray-500 hover:text-blue-600 focus:outline-none"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

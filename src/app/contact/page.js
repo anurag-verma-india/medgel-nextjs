@@ -25,7 +25,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="container">
+    <div className="contact-container">
       <h1 className="title">Contact Us</h1>
       <div className="subtitle">Enquiry / Feedback</div>
 
