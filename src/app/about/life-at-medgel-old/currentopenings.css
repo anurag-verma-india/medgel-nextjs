@@ -1,0 +1,60 @@
+
+  /* Section Styles */
+  .openings-section {
+    margin: 2rem 0;
+  }
+  
+  .openings-section h2 {
+    text-align: left;
+    margin-bottom: 1rem;
+    color: #007bff;
+  }
+  
+  .openings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  
+  /* Card Styles */
+  .opening-card {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .opening-card h3 {
+    color: #007bff;
+  }
+  
+  .opening-card p {
+    margin: 0.5rem 0;
+  }
+  
+  .opening-card button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .opening-card button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .openings-section h2 {
+      font-size: 1.2rem;
+    }
+  }
+  

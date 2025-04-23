@@ -26,6 +26,7 @@ const menuItems: MenuItem[] = [
     subItems: [
       { label: "About Medgel", href: "/about/about-medgel" },
       { label: "Life At Medgel", href: "/about/life-at-medgel" },
+      { label: "Life At Medgel Old", href: "/about/life-at-medgel-old" },
       { label: "Awards & Accreditation", href: "/about/awards_" },
       { label: "Awards & Accreditation All", href: "/about/awardsviewall" },
     ],
