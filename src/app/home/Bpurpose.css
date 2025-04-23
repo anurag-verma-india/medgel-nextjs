@@ -30,6 +30,11 @@
   font-size: 0.9rem;
   text-transform: uppercase;
 }
+.tr-icons {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
 
 @media (max-width: 1200px) {
   .purpose-nav {

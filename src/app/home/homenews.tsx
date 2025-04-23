@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import "./LatestAtMedgel2.css"; 
+import "./homenews.css"; 
 import { latestNews } from "./fetch_latestnews"; 
 
-const LatestAtMedgel2: React.FC = () => {
+const HomeNews: React.FC = () => {
     const [newsList, setNewsList] = useState<any[]>([]); 
     const newsContainerRef = useRef<HTMLDivElement | null >( null );
 
@@ -27,18 +27,15 @@ const LatestAtMedgel2: React.FC = () => {
 
             const interval = setInterval(() => {
                 if (container) {
-                    container.scrollTop += 1; // Increment scroll position
-
-                    // Check if we've reached the bottom
+                    container.scrollTop += 4;
                     if (container.scrollTop + container.offsetHeight >= container.scrollHeight) {
-                        // Append the first item to the end
                         setNewsList((prevList) => [...prevList.slice(1), prevList[0]]);
                         container.scrollTop = 0;
                     }
                 }
-            }, 9999); // Adjust interval for smoother scrolling
+            }, 400); 
 
-            return () => clearInterval(interval); // Cleanup on unmount
+            return () => clearInterval(interval);
         }
     }, [newsList]);
 
@@ -47,9 +44,7 @@ const LatestAtMedgel2: React.FC = () => {
             <div className="homecontent">
                 <h2>LATEST AT MEDGEL</h2>
                 <div className="homenews-section">
-                    <div className="homenews-image">
-                        <img src="/images/news.png" alt="SoftGel Capsules" />
-                    </div>
+                    
                     <div
                         className="homenews-list"
                         ref={newsContainerRef}
@@ -69,10 +64,13 @@ const LatestAtMedgel2: React.FC = () => {
                             <p>No latest news available</p>
                         )}
                     </div>
+                    <div className="homenews-image">
+                        <img src="/images/news.png" alt="SoftGel Capsules" />
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default LatestAtMedgel2;
+export default HomeNews;
