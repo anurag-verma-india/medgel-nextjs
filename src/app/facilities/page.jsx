@@ -9,13 +9,11 @@ import AContractManufacturing from "./manufacturingchat";
 function facilities() {
     return (
         <div>
-            <Header />
             <ManufacturingSection />
             {/* <AContractManufacturing/> */}
             <ContractManufacturing />
             <ResearchDevelopment />
             <TechnologySection/>
-            <Footer />
         </div>
     )
 }
