@@ -8,6 +8,13 @@ export default async function ProductPage() {
   let tokenValid = false;
   const cookieStore = await cookies();
   const tokenObj = cookieStore.get("token");
+  const allowVerificationAfter = cookieStore.get(
+    "allowVerificationAfter",
+  )?.value;
+  console.log("allowVerificationAfter:", allowVerificationAfter);
+  const emailSent = cookieStore.get("sent")?.value;
+  console.log("Email sent:", emailSent);
+
   const token = tokenObj ? tokenObj.value : "";
   // console.log("Token:", token);
   const decodedToken = verifyJwtToken(token);
@@ -62,7 +69,11 @@ export default async function ProductPage() {
       <div className="mb-10 w-11/12 overflow-hidden rounded-2xl border-2 bg-neutral-100 md:w-5/6">
         <ProductCategories categories={categories} />
         {/* TODO: Make it so that the active category is the one currently active right now in state*/}
-        <ListOfProducts tokenValid={tokenValid} />
+        <ListOfProducts
+          tokenValid={tokenValid}
+          allowVerificationAfter={allowVerificationAfter}
+          emailSent={emailSent}
+        />
       </div>
     </div>
   );

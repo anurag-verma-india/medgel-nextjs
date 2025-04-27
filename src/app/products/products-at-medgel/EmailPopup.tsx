@@ -42,7 +42,7 @@ const VerificationTimer = () => {
       <p className="pb-4 text-lg">
         {timeRemaining > 0
           ? `You can request another verification email in ${timeRemaining} seconds`
-          : "You can now request another verification email"}
+          : "Loading..."}
       </p>
     </div>
   );
@@ -53,9 +53,10 @@ const EmailPopup = () => {
   const cookies = new Cookies();
 
   // if email is in cookies set it in state too
-  useEffect(() => {
-    setPopupState({ ...popupState, email: cookies.get("email") });
-  }, []);
+  // useEffect(() => {
+  //   setPopupState({ ...popupState, email: cookies.get("email") });
+  //   console.log("Email from cookies: ", cookies.get("email"));
+  // }, []);
 
   const sendVerificationEmail = async () => {
     setPopupState({ ...popupState, loading: true, errorMessage: "" });
@@ -91,8 +92,8 @@ const EmailPopup = () => {
           loading: false,
           allowVerificationAfter: allowVerificationAfter,
           canResend: false,
-          message:
-            "Verification email sent! Please check your inbox (refresh this page afterwards)",
+          message: "Verification email sent!",
+          submessage: "Please check your inbox (refresh this page afterwards)",
           errorMessage: "",
         });
         console.log("State after sending email:", popupState);
@@ -120,6 +121,8 @@ const EmailPopup = () => {
       emailSent: false,
       canResend: false,
       message: "Please verify your email to view products.",
+      submessage:
+        "If verification already requested please check your email inbox & spam folder",
     });
     sendVerificationEmail();
   };
@@ -149,12 +152,15 @@ const EmailPopup = () => {
             <p className="flex w-full items-center justify-center text-center text-xl">
               {popupState.message}
             </p>
+            <p className="flex w-full items-center justify-center text-center text-base text-stone-500">
+            {popupState.submessage}
+            </p>
             <br />
 
             {/* Only show email input if email not sent or can resend */}
             {(!popupState.emailSent || popupState.canResend) && (
               <>
-                <label htmlFor="email">Email</label>
+                <label className="text-3xl" htmlFor="email">Email</label>
                 <input
                   type="text"
                   id="email"

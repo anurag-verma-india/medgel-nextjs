@@ -5,17 +5,31 @@ import { useContext, useEffect } from "react";
 import EmailPopup from "./EmailPopup";
 import Cookies from "universal-cookie";
 
-const PopupContainer = ({ tokenValid }: { tokenValid: boolean }) => {
+type PopupContainerParams = {
+  tokenValid: boolean;
+  allowVerificationAfter: number;
+  emailSent: boolean;
+};
+
+const PopupContainer = ({
+  tokenValid,
+  allowVerificationAfter,
+  emailSent,
+}: PopupContainerParams) => {
   const { popupState, setPopupState } = useContext(PopupContext);
   const cookies = new Cookies();
 
   // To set whatever value is obtained from server into this client component
   useEffect(() => {
-    const allowVerificationAfter = cookies.get("allowVerificationAfter");
-    console.log("verification after from cookies: ", allowVerificationAfter);
+    // const allowVerificationAfter = cookies.get("allowVerificationAfter");
+    // console.log("verification after from cookies :", allowVerificationAfter);
+    console.log("verification after from server:", allowVerificationAfter);
     setPopupState({
       ...popupState,
-      tokenValid: tokenValid,
+      email: cookies.get("email"),
+      tokenValid: tokenValid || false,
+      // allowVerificationAfter: allowVerificationAfter || 0,
+      emailSent: emailSent || false,
       allowVerificationAfter: allowVerificationAfter || 0,
     });
   }, []);

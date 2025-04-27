@@ -33,10 +33,11 @@ const menuItems: MenuItem[] = [
   },
   {
     label: "Products",
-    href: "/products",
+    href: "/#",
     subItems: [
       { label: "Products At Medgel", href: "/products/products-at-medgel" },
       { label: "About Medgel", href: "/products/medgel-services" },
+      { label: "pl-clv2", href: "/products/pl-clv2/abcd" },
     ],
   },
   { label: "Quality & Compliance", href: "/quality" },
@@ -52,18 +53,21 @@ export default function Header() {
   // Check if the current route matches a menu item or its subitems
   const isCurrentPage = (item: MenuItem): boolean => {
     const basePath = pathname.split("?")[0];
-    
+
     if (item.href === "/" && basePath === "/") return true;
     if (item.href !== "/" && basePath.startsWith(item.href)) return true;
-    if (item.subItems?.some(subItem => basePath.startsWith(subItem.href))) return true;
-    
+    if (item.subItems?.some((subItem) => basePath.startsWith(subItem.href)))
+      return true;
+
     return false;
   };
 
   // Check if the route exactly matches this specific page
   const isExactCurrentPage = (href: string): boolean => {
     const basePath = pathname.split("?")[0];
-    return basePath === href || (href !== "/" && basePath.startsWith(`${href}/`));
+    return (
+      basePath === href || (href !== "/" && basePath.startsWith(`${href}/`))
+    );
   };
 
   return (
@@ -79,12 +83,9 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex space-x-6">
+          <nav className="hidden space-x-6 lg:flex">
             {menuItems.map((item) => (
-              <div 
-                key={item.label} 
-                className="relative group"
-              >
+              <div key={item.label} className="group relative">
                 <Link
                   href={item.href}
                   className={`relative block px-1 py-2 ${
@@ -101,7 +102,7 @@ export default function Header() {
 
                 {/* Desktop dropdown using CSS-only approach */}
                 {item.subItems && (
-                  <div className="absolute left-0 mt-1 w-64 bg-white py-2 shadow-lg rounded-md z-20 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
+                  <div className="invisible absolute left-0 z-20 mt-1 w-64 rounded-md bg-white py-2 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:opacity-100">
                     {item.subItems.map((subItem) => (
                       <Link
                         key={subItem.label}
@@ -124,7 +125,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-gray-500 hover:text-blue-600 focus:outline-none"
+            className="text-gray-500 hover:text-blue-600 focus:outline-none lg:hidden"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}

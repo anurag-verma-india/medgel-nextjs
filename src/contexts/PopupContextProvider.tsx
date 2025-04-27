@@ -19,6 +19,7 @@ export default function PopupContextProvider({
     email: "",
     errorMessage: "",
     message: "Please verify your email to view products.",
+    submessage: "If email already requested check your inbox & spam folder",
   });
 
   return (
