@@ -12,28 +12,26 @@
     display: flex;
     flex-direction: column;
   }
-  
-  .CM-header {
-    width: 100%;
-    margin-bottom: 40px;
-  }
-  
+
   .CM-title {
-    color: #20878c;
+    display: flex;
+    margin: auto;  
+    color: rgba(29, 136, 146, 1);
     font-size: 3.5rem;
-    margin-bottom: 10px;
-    display: inline-block;
+    margin-bottom: 2rem;
     text-decoration: underline;
     text-decoration-color: rgba(249, 173, 66, 1);
     text-underline-offset: 0.8rem;
   }
   
   .CM-image-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-bottom: 30px;
-    position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .CM-image-grid img {
+    margin-bottom: 1rem;
   }
   
   .CM-manufacturing-image {
@@ -41,14 +39,6 @@
     height: auto;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .CM-gear-icon {
-    position: absolute;
-    right: 0;
-    bottom: -50px;
-    width: 150px;
-    height: auto;
   }
   
   .CM-description {
@@ -62,37 +52,38 @@
   }
   
   .CM-services-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 2rem;
     margin-top: 20px;
   }
   
-  .CM-service-section {
-    padding: 20px;
-  }
   
   .CM-section-title {
     font-size: 1.5rem;
-    color: #333;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
     margin-bottom: 20px;
-    border-bottom: 2px solid #20878c;
     padding-bottom: 10px;
   }
   
-  .CM-service-list {
+  /* .CM-service-list {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
+  } */
   
   .CM-service-item {
-    color: #333;
+    color: rgba(0, 0, 0, 1);
     display: flex;
     align-items: flex-start;
     margin-bottom: 15px;
     font-size: 1rem;
-    line-height: 1.4;
+    line-height: 1.2;
+    font-weight: 400;
   }
   
   .CM-checkmark {
@@ -101,18 +92,17 @@
     font-size: 1.2rem;
   }
   
-  /* Media Queries */
-  @media (max-width: 768px) {
+  @media (max-width: 1160px) {
+
     .CM-services-container {
-      grid-template-columns: 1fr;
+      justify-content:left;
     }
     
-    .CM-image-grid {
-      grid-template-columns: 1fr;
-    }
+  }
+  @media (max-width: 768px) {
     
-    .CM-gear-icon {
-      width: 100px;
+    .CM-image-grid  img{
+      margin-bottom: 1rem;
     }
     
     .CM-title {
@@ -132,7 +122,6 @@
     }
   }
   
-  /* Additional mobile optimization */
   @media (max-width: 480px) {
     .CM-title {
       font-size: 1.8rem;

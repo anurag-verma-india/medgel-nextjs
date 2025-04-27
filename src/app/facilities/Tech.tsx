@@ -30,9 +30,9 @@ const TechnologySection = () => {
           <img src="/images/bottlepackingline.png" alt="Automatic Bottle Packing Line" className="equipment-image" />
           <div className="equipment-details">
             <h3>Automatic Bottle Packing Line</h3>
-            <p>Capacity: 15 Bottles Per Minute</p>
-            <p>Bottle type: Glass/HDPE</p>
-            <p>Bottle size: 30ml to 1000ml</p>
+            <p><strong>Capacity</strong>: 15 Bottles Per Minute</p>
+            <p><strong>Bottle type</strong>: Glass/HDPE</p>
+            <p><strong>Bottle size</strong>: 30ml to 1000ml</p>
           </div>
         </div>
 
@@ -41,8 +41,8 @@ const TechnologySection = () => {
           <img src="/images/CapsuleSortingM.png" alt="Capsule Sorting Machine" className="equipment-image" />
           <div className="equipment-details">
             <h3>Automatic Capsule Sorting Machine</h3>
-            <p>Sorting Capacity: 100,000 capsules per hour.</p>
-            <p>Sorting limit size: 3 to 20mm.</p>
+            <p><strong>Sorting Capacity</strong>: 100,000 capsules per hour.</p>
+            <p><strong>Sorting limit size</strong>: 3 to 20mm.</p>
           </div>
         </div>
 
@@ -62,9 +62,9 @@ const TechnologySection = () => {
           <img src="/images/ChillerM.png" alt="Chiller" className="Chiller Machine" />
           <div className="equipment-details">
             <h3>Chiller</h3>
-            <p>Chillers: 2 Nos</p>
-            <p>Chiller1: 128 TR</p>
-            <p>Chiller2: 210 TR</p>
+            <p><strong>Chillers</strong>: 2 Nos</p>
+            <p><strong>Chiller1</strong>: 128 TR</p>
+            <p><strong>Chiller2</strong>: 210 TR</p>
           </div>
         </div>
 
@@ -72,7 +72,7 @@ const TechnologySection = () => {
           <img src="/images/DGSet.png" alt="DG Set" className="equipment-image" />
           <div className="equipment-details">
             <h3>DG Set</h3>
-            <p>DG Sets 600 KVA – 2 Nos Provides Continuous power supply for smooth running of organization.</p>
+            <p><strong>DG Sets 600 KVA</strong>: 2 Nos Provides Continuous power supply for smooth running of organization.</p>
           </div>
         </div>
 
@@ -80,7 +80,7 @@ const TechnologySection = () => {
         <img src="/images/FuelSource.png" alt="Fuel Source" className="equipment-image" />
           <div className="equipment-details">
             <h3>Fuel Source</h3>
-            <p>Furnace & Diesel Oil Tank: 15 KL</p>
+            <p><strong>Furnace & Diesel Oil Tank:</strong> 15 KL</p>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@
 
 .whitebg {
   background-color: white;
-  width: 60;
+  /* width: 60; */
   position: relative;
   color: white;
   margin-bottom: 6vw;
@@ -48,22 +48,23 @@
   font-style: bold;
   text-decoration: underline;
   text-decoration-color: rgba(249, 173, 66, 1);
-  text-underline-offset: 1.5vw;
+  text-underline-offset: 1.0vw;
 }
 
-.hero-content h1 {
+/* .hero-content h1 {
   font-size: 3.5vw;
-}
+} */
 
 .content-section {
   width: 90%;
-
+  
   margin: 2vw auto;
   /* padding: 40px 20px; */
 }
 
 .description {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  text-align: justify;
   line-height: 1.6;
   color: #333;
   margin-bottom: 24px;
