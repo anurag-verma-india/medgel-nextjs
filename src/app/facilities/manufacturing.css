@@ -1,7 +1,7 @@
 .manufacturing-container {
   width: 100%;
   overflow: hidden;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: sans-serif;
 }
 
 .whitebg {
@@ -9,27 +9,57 @@
   width: 60;
   position: relative;
   color: white;
-  padding-bottom: 2rem;
+  margin-bottom: 6vw;
 }
-
+.manufacturing-title-box {
+  position: relative;
+}
 .manufacturing-title-box img {
-  width: 100%;
-  margin-left: -0.5rem;
-  margin-top: -5.8rem;
-  border-radius: 5rem;
+  width:100%;
+   margin-left: -0.5vw;
+  margin-top: -6vw; 
+  border-radius: 5vw;
   transform: rotate(-6deg);
-  
+  display: block;
+}
+.transparent-col {
+  position: absolute;
+  border-radius: 5vw;
+  margin-left: -0.5vw;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(29, 136, 146, 0.5);
+  transform: rotate(-6deg);
+  z-index: 1;
+}
+.manufacturing-title  {
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  color: black;
+  z-index: 2;
+}
+.manufacturing-title h1{
+  position: relative;
+  font-size: 4vw;
+  color: white;
+  font-style: bold;
+  text-decoration: underline;
+  text-decoration-color: rgba(249, 173, 66, 1);
+  text-underline-offset: 1.5vw;
 }
 
 .hero-content h1 {
-  font-size: 3.5rem;
-  margin: 0;
+  font-size: 3.5vw;
 }
 
 .content-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  width: 90%;
+
+  margin: 2vw auto;
+  /* padding: 40px 20px; */
 }
 
 .description {
@@ -42,7 +72,7 @@
 .stats-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 2vw  ;
   margin: 50px 0;
 }
 
@@ -51,13 +81,14 @@
 }
 
 .stat-item h2 {
-  font-size: 2.5rem;
+  font-size: 2.0rem;
   color: #FB923C;
   margin: 0;
 }
 
 .stat-item p {
-  color: #666;
+  font-size: 1.4rem;
+  color: rgba(255, 146, 1, 1);
   margin-top: 8px;
 }
 

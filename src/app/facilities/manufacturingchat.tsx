@@ -1,6 +1,6 @@
 import './manufacturingchat.css';
 
-const aContractManufacturing = () => {
+const AContractManufacturing = () => {
   return (
     <div className="contract-manufacturing-container">
       <h1 className="contract-manufacturing-title">
@@ -9,19 +9,19 @@ const aContractManufacturing = () => {
       <div className="contract-manufacturing-content">
         <div className="contract-manufacturing-image-section">
           <img
-            src="image1.jpg" 
+            src="/images/ContractManufacturing1.png" 
             alt="Machine 1"
             className="contract-manufacturing-image"
           />
           <img
-            src="image2.jpg"
+            src="/images/contractmanufacturing2.png"
             alt="Machine 2"
             className="contract-manufacturing-image"
           />
         </div>
         <div className="contract-manufacturing-gears-section">
           <img
-            src="gears.png"
+            src="/images/gear.png"
             alt="Gears Design"
             className="contract-manufacturing-gears"
           />
@@ -31,4 +31,4 @@ const aContractManufacturing = () => {
   );
 };
 
-export default aContractManufacturing;
+export default AContractManufacturing;

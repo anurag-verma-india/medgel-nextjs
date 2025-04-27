@@ -27,17 +27,18 @@ const ContractManufacturing = () => {
         <header className="CM-header">
           <h1 className="CM-title">Contract<br /> Manufacturing</h1>
         </header>
-
         <div className="CM-image-grid">
           <img src='/images/ContractManufacturing1.png' alt='manufacturing-image1' />
+          
           <img
             src="/images/gear.png"
             alt="Gear Icon"
             className="gear-icon"
           />
-        </div>
+        
         <div className="overlay-image">
           <img src="/images/contractmanufacturing2.png" alt="manufacturing-image2" />
+        </div>
         </div>
       </div>
 
