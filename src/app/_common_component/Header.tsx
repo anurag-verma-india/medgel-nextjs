@@ -19,7 +19,7 @@ interface MenuItem {
 
 // Define the menu structure
 const menuItems: MenuItem[] = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/home" },
   {
     label: "About Us",
     href: "#",

@@ -4,6 +4,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { PageObject, BasePageContent } from "@/types";
+import Image from "next/image";
 
 type EditModalType = {
   children: PageObject;
@@ -98,6 +99,15 @@ const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
     setLocalData(updatedData);
   };
 
+  const handleImageDownload = (imageUrl: string, fileName: string) => {
+    // Create a temporary link element
+    const link = document.createElement("a");
+    link.href = imageUrl;
+    link.download = fileName;
+    // Programmatically click the link to trigger the download
+    link.click();
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -126,6 +136,31 @@ const EditModal = ({ children, title, setModalOpen }: EditModalType) => {
           {Object.entries(localData).map(([key, value]) => {
             // Explicitly ensure the textarea value is always a valid string
             const textValue: string = getStringValue(value);
+            if (
+              textValue.endsWith(".jpg") ||
+              textValue.endsWith(".jpeg") ||
+              textValue.endsWith(".png") ||
+              textValue.endsWith("svg")
+            )
+              return (
+                <div key={key} className="mb-6 w-72">
+                  {/* The {textValue} is an image */}
+                  <Image
+                    src={`/${textValue}`}
+                    alt={textValue}
+                    width={1000}
+                    height={1000}
+                  />
+                  <button
+                    className="my-4 flex rounded-lg bg-[#46A6A5] p-4"
+                    onClick={() =>
+                      handleImageDownload(`/${textValue}`, textValue)
+                    }
+                  >
+                    Download
+                  </button>
+                </div>
+              );
 
             return (
               <div key={key} className="mb-6">
