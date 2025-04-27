@@ -8,11 +8,11 @@ export default async function ProductPage() {
   let tokenValid = false;
   const cookieStore = await cookies();
   const tokenObj = cookieStore.get("token");
-  const allowVerificationAfter = cookieStore.get(
-    "allowVerificationAfter",
-  )?.value;
+  const allowVerificationAfter = Number(
+    cookieStore.get("allowVerificationAfter")?.value,
+  );
   console.log("allowVerificationAfter:", allowVerificationAfter);
-  const emailSent = cookieStore.get("sent")?.value;
+  const emailSent = Boolean(cookieStore.get("sent")?.value);
   console.log("Email sent:", emailSent);
 
   const token = tokenObj ? tokenObj.value : "";
@@ -45,7 +45,8 @@ export default async function ProductPage() {
   //   "680769426ef2f0812a269550",
   // ];
 
-  categories.forEach(async (category, i) => {
+  // categories.forEach(async (category, i) => {
+  categories.forEach(async (category) => {
     // console.log(`Product Name ${i}: ${v}`);
     const category_details = await fetch(
       // `${process.env.NEXT_PUBLIC_API_URL}/page/?title=${title}`,
