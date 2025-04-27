@@ -1,8 +1,8 @@
 // 'use client';
 
 import React from 'react';
-import { ChevronRight } from 'lucide-react';
-import Link from 'next/link';
+// import { ChevronRight } from 'lucide-react';
+// import Link from 'next/link';
 import { fetchPolicy} from './fetch_investor';
 import { fetchShareholder} from './fetch_investor';
 

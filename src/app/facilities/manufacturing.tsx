@@ -25,7 +25,7 @@ const ManufacturingSection = () => {
         </p>
 
         <p className="description">
-          Additional four Encapsulation machines can be installed, to meet the future demand for any dedicated specific product, products or buyer's requirement. Integrated rotary packaging lines are installed to be cost effective.
+          Additional four Encapsulation machines can be installed, to meet the future demand for any dedicated specific product, products or buyer&#39;s requirement. Integrated rotary packaging lines are installed to be cost effective.
         </p>
 
         <div className="stats-container">
@@ -47,7 +47,7 @@ const ManufacturingSection = () => {
           <div className="stat-item">
             
             <h2>550k</h2>
-            <p>Customer's Feedback</p>
+            <p>Customer&#39;s Feedback</p>
             <hr />
           </div>
         </div>

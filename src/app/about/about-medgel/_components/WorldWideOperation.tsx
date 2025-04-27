@@ -1,5 +1,5 @@
 import "./WorldWideOperation.css";
-import Header from "app/pages/_common_component/Header";
+// import Header from "app/pages/_common_component/Header";
 import {fetchWorldWide} from "../fetch";
 
 
