@@ -1,4 +1,4 @@
-// EditModal.tsx
+// file_path: "@/src/app/_common_component/EditModal.tsx"
 
 "use client";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-// VerifyAndShowEditButton.tsx
+// file_path: "@/src/app/_common_component/VerifyAndShowEditButton.tsx"
 
 import React from "react";
 import EditModalContainer from "@/app/_common_component/EditModalContainer";

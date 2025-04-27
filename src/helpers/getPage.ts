@@ -1,4 +1,5 @@
-// getPage.ts
+// file_path: "@/helpers/getPage"
+
 import { PageObject, BasePageContent } from "@/types";
 
 export default async function fetchPage<T extends BasePageContent = BasePageContent>(

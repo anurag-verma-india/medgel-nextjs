@@ -1,4 +1,4 @@
-// page.tsx
+// file_path: "@/app/about/life-at-medgel/page.tsx"
 
 import Image from "next/image";
 // import Link from "next/link";

@@ -1,4 +1,5 @@
-//  types.ts
+// file_path: "@/types.ts"
+
 import { JwtPayload } from "jsonwebtoken";
 
 export interface BasePageContent {

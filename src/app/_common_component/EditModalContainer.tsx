@@ -1,4 +1,4 @@
-// EditModalContainer.tsx
+// file_path: "@/src/app/_common_component/EditModalContainer.tsx"
 
 "use client";
 
@@ -12,8 +12,6 @@ type ModalContainer = {
   title: string;
   page: PageObject;
 };
-
-// TODO: Reverify email option
 
 export default function EditModalContainer({ page, title }: ModalContainer) {
   const [modalOpen, setModalOpen] = useState(false);

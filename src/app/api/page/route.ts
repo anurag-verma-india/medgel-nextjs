@@ -1,4 +1,5 @@
-// api/page/route.ts
+// file_name: "@/app/api/page/route.ts"
+
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Pages from "@/models/pages";

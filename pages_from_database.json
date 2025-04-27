@@ -1,0 +1,161 @@
+{
+  "1": 
+  {
+    "_id": { "$oid": "678f313462e158d76364140c" },
+    "title": "about-us/life-at-medgel",
+    "content": {
+      "page_title": "Life At Medgel",
+      "title_1": "Life At Medgel",
+      "title1_des_1": "Life at Medgel means an opportunity for ample learning, growth and fun at work. We recognize that our business depends on the creativity, dedication and performance of our employees. We encourage them to focus on achievement through collaboration and innovation.",
+      "title1_des_2": "We value the diversity that exists within our employees and leverage this to bring about synergy within the organization. This enables individuals and groups to contribute to their fullest potential.",
+      "title_2": "Training sessions at Medgel Pvt. Ltd.",
+      "title2_des_2": "At Medgel, employees are trained for all types of technical as well as organizational skills for excellence. Our Strategic Learning Partners support these development initiatives at Medgel.",
+      "img": "life-at-medgel.png"
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1737437492645" } },
+    "__v": { "$numberInt": "0" }
+  }
+  ,
+  "2": {
+    "_id": { "$oid": "679f812b0efc5b46dbe313af" },
+    "title": "facilities#research-and-dev",
+    "content": {
+      "list_1": "Life At Medgel",
+      "list_2": "Training sessions at Medgel Pvt. Ltd.",
+      "list_3": "Training sessions at Medgel Pvt. Ltd."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738506539891" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "3": {
+    "_id": { "$oid": "679f87a60efc5b46dbe313bf" },
+    "title": "facilities#contract-manufacturing",
+    "content": {
+      "description": "Medgel is dedicated to provide the best services in contract manufacturing space, by manufacturing consistently quality products Global buyers. The manufacturing facility is equipped with best of the machinery and technology available in the market. The manufacturing facility is also backed with our esteemed QA/QC team which is responsible for all the quality tests of material from the time of entry through production till it reaches finish good stores and sold. ",
+      "service_1": "Formulation Development.",
+      "service_2": "Specification of Raw and packing Materials.",
+      "service_3": "Complete testing of raw material to finished product.",
+      "service_4": "Documentation for international regulatory authorities.",
+      "service_5": "Lab. batch to trial bat. to pilot mfg.and transfer of tech.",
+      "service_6": "Primary and secondary atomized packing facility into bulk Packing, blister, jars and bottles.",
+      "service_7": "Process, cleaning and Analytical method validation.",
+      "usp_1": "Inline drying technology for the first time in Asia.",
+      "usp_2": "Facility complying to meet the US cGMP regulation.",
+      "usp_3": "Built on strong R&D, ARD and F&D infrastructure.",
+      "usp_4": "Unilateral flow of raw material and packing material.",
+      "usp_5": "Dedicated Air handling system.",
+      "usp_6": "Well designed utilities like purified water, compressed air etc."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738508198166" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "4": {
+    "_id": { "$oid": "67a0eb4a866cb5c7f10868ae" },
+    "title": "about-us/about-medgel$ehs",
+    "content": {
+      "description": "Providing a Clean Environment and a Healthy & Safe Workplace",
+      "para1": "At Medgel, we are fully committed to achieving excellence in Environment, Health & Safety (EHS) and conduct our activities in the most responsible manner. The importance of EHS is continually stressed and extensively promoted as a part of our corporate culture.",
+      "para2": "The implementation of the EHS Policy is ensured by institutionalising a robust EHS Management System, adequately supported by a well-defined organisational structure."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738599242178" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "5": {
+    "_id": { "$oid": "67a0ef27866cb5c7f10868b5" },
+    "title": "about-us/about-medgel$overview",
+    "content": {
+      "quote": "There is no design without discipline. There is no discipline without intelligence.",
+      "quote_by": "Steven Snell Google",
+      "para1": "Medgel Pvt. Ltd is a leading soft gelatin Manufacturer with quality production And innovative marketing support. Medgel has introduced new Improvised technology from USA to provide high quality product In order to satisfy the customer which is our main motto. A Joint Venture between two professionally organized renowned Pharmaceutical Companies of India.",
+      "para2": "Medgel plans to serve a perfect solution for manufacturing Nutraceutical with quick delivery and consistent quality. Medgel is a Sister Company of M/S. Medi-Caps Limited (MCL). is housed in a facility of 90,000 Sq.ft. having an annual production capacity of 2100 million capsules (size 11 oblong with fish oil). Located in Pharma Zone of SEZ, Pithampur."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738600231810" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "6": {
+    "_id": { "$oid": "67a0f206866cb5c7f10868b8" },
+    "title": "about-us/about-medgel$mission-values",
+    "content": {
+      "our_mission": "Our mission at Medgel is to ensure highest standards in quality, customer focused service, ethical functioning and maintaining a price advantage with a diligent focus on R&D.",
+      "our_vision": "To become a 'technology drive', innovation centered and customer oriented multinational pharmaceutical company and our commitment is to provide Fast, Economical, Accurate and Professional services to all our customers.",
+      "value_name1": "Achievement",
+      "value_des_1": "We applaud achievement and strive towards our vision, with perseverance",
+      "value_name2": "Respect ",
+      "value_des_2": "We respect all our stakeholders",
+      "value_name3": "Knowledge",
+      "value_des_3": "We value knowledge for it empowers our people to develop innovative solutions and to manage change",
+      "value_name4": "Honesty and Integrity",
+      "value_des_4": "We perform our duties with extreme honesty and integrity",
+      "usp1": "Inline drying technology for the first time in Asia",
+      "usp2": "Facility complying to meet the US cGMP regulation",
+      "usp3": "Built on strong R&D, ARD and F&D infrastructure",
+      "usp4": "Unilateral flow of raw material and packing material.",
+      "usp5": "Dedicated Air handling system",
+      "usp6": "Well designed utilities like purified water, compressed air etc."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738600966921" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "7": {
+    "_id": { "$oid": "67a0f359866cb5c7f10868bb" },
+    "title": "about-us/about-medgel$medicaps-group",
+    "content": {
+      "moto": "Our work speaks louder than words.",
+      "para1": "Today the group's activities span manufacturing of Hard Gelatin Capsule Shells , Education , Industrial Packaging & related products ,Finance , Real Estate and is a renowned name in central India.",
+      "para2": "The Flagship Company Medi-Caps Limited has emerged as India's second largest & admired supplier of empty hard gelatin capsules."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738601305859" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "8": {
+    "_id": { "$oid": "67a0f489866cb5c7f10868be" },
+    "title": "about-us/about-medgel$world-wide-operations",
+    "content": {
+      "para1": "The products for Worldwide Business are manufactured in a State-of-the-Art facility which has been accredited by WHO-GMP and various other reputed Regulatory Authorities.",
+      "para2": "Over the years, Medgel has earned a reputation of a partner providing high quality products backed by adequate regulatory support. Adding strength to this business are Medgel's capability to customize formulations and packaging, and timely delivery facilitated by well articulated logistics. Quality and Customer Satisfaction have helped Medgel earn the patronage of prime customers in Australia, UK, Europe, Asia and Africa.",
+      "para3": "Medgel is committed to going that extra mile to offer quality products and services, while working towards becoming a favourite Global Partner."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738601609172" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "9": {
+    "_id": { "$oid": "67a0f95d866cb5c7f10868c1" },
+    "title": "quality-compliance",
+    "content": {
+      "qualtiy_overview_para1": "To strive to attain high level of Quality for all the products which shall provide maximum value to its customers by consistent supply of quality products and reliable services.",
+      "quality_overview_para2": "To meet the required GMP requirements pertaining to the countries where the business is being carried out.",
+      "quality_overview_para3": "Every activity is closely monitored by IPQC Inspectors, to evaluate the quality and hence attaining the desired Product Quality. Medgel follow various systems in accordance with ISO 9001:2000 to assure that each activity is carried out in a defined way as per the system.",
+      "quality_policy_para1": "To strive to attain high level of Quality for all the products which shall provide maximum value to its customers by consistent supply of quality products and reliable services.",
+      "quality_policy1": "Team Work",
+      "quality_policy2": "Customer Satisfaction",
+      "quality_policy3": "Surpassing Safety and Health norms",
+      "quality_policy4": "Providing Product at Competitive Price",
+      "quality_policy5": "Competent Manpower",
+      "quality_policy_para2": "To continue our world class manufacturing status, we will ensuer compliance to cGMP and applicable regulatory expectation, We will continue to invest in other related Quality Managment Systems.",
+      "quality_policy_para3": "The quality policy and objectives are reviewed periodically for their continuing suitability.",
+      "quality_policy_para4": "We shall ensure that these are understood, implemented and maintained at all levels in the organization.",
+      "quality_control": "The most sophisticated testing machinery at Medgel's laboratory ensures the best quality product of highest & most pure standards. All raw materials from time of entry through in process to finished goods are tested by the stringent & strict methods. Quality Control follows established pharmacopeia methods such as USP, BP, IP & others. A highly automated plant reduces actual material handling & dramatically decreases the possibility of contamination by limiting human contact.",
+      "quality_assurance_para1": "Quality Assurance department ensures consistent quality products by maintaining vigil through qa checks at each stage. Medgel have team of qualified, experienced & dedicated professionals. Medgel also makes sure high quality nutraceuticals products are always delivered through our 'best in class' infrastructure, world class technology and experienced staff.",
+      "quality_assurance_para2": "Quality Assurance & Quality Control staff tries to set advance technology systems in manufacturing plant so that our customers get the best product."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738602845409" } },
+    "__v": { "$numberInt": "0" }
+  },
+  "10": {
+    "_id": { "$oid": "67a1eab449a4f0c0303a2d71" },
+    "title": "products/medgel-services",
+    "content": {
+      "description": "Medgel is dedicated to provide the best services in contract manufacturing space, by manufacturing consistently quality products Global buyers.",
+      "service1": "Formulation Development.",
+      "service2": "Specification of Raw and packing Materials.",
+      "service3": "Complete testing of raw material to finished product.",
+      "service4": "Documentation for international regulatory authorities.",
+      "service5": "Lab. batch to trial bat. to pilot mfg.and transfer of tech.",
+      "service6": "Stability studies as per ICH guidelines.",
+      "service7": "Process, cleaning and Analytical method validation.",
+      "service8": "Primary and secondary atomized packing facility into bulk Packing, blister, jars and bottles."
+    },
+    "lastUpdated": { "$date": { "$numberLong": "1738664628438" } },
+    "__v": { "$numberInt": "0" }
+  }
+}
