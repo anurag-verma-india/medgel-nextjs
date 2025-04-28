@@ -250,7 +250,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
       </div>
 
       {/* Action buttons */}
-      <div className="absolute bottom-0 left-0 z-50 flex w-screen flex-col items-center justify-center space-y-2 bg-gray-800 p-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+      <div className="fixed bottom-0 left-0 z-50 flex w-screen flex-row items-center justify-center space-x-4 space-y-0 bg-gray-800 p-4">
         <button
           type="button"
           onClick={() => setModalOpen(false)}
