@@ -8,6 +8,24 @@ interface ImageState {
   alt: string;
 }
 
+interface ImageDimensions {
+  width: number;
+  height: number;
+  aspectRatio: number;
+}
+
+// Configuration for image validation
+const IMAGE_VALIDATION = {
+  // minWidth: 800,
+  // minHeight: 600,
+  minWidth: 0,
+  minHeight: 0,
+  // Target aspect ratio (e.g., 16:9 = 1.78)
+  targetAspectRatio: 16 / 9,
+  // Tolerance allows for slight variations in aspect ratio (±0.1)
+  aspectRatioTolerance: 0.1,
+};
+
 export default function ImageUploadPage(): JSX.Element {
   // Initial state with default image
   const [image, setImage] = useState<ImageState>({
@@ -24,11 +42,97 @@ export default function ImageUploadPage(): JSX.Element {
   // State to hold the selected file
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
+  // State to track image validation errors
+  const [validationError, setValidationError] = useState<string | null>(null);
+
+  // State to store dimensions of the selected image
+  const [imageDimensions, setImageDimensions] =
+    useState<ImageDimensions | null>(null);
+
   /**
-   * Handles the image selection process
+   * Validates image dimensions and aspect ratio
+   * @param width - Image width in pixels
+   * @param height - Image height in pixels
+   * @returns Object containing validation result and error message if any
+   */
+  const validateImageDimensions = (
+    width: number,
+    height: number,
+  ): { valid: boolean; error: string | null } => {
+    // Check minimum width
+    if (width < IMAGE_VALIDATION.minWidth) {
+      return {
+        valid: false,
+        error: `Image width must be at least ${IMAGE_VALIDATION.minWidth}px (current: ${width}px)`,
+      };
+    }
+
+    // Check minimum height
+    if (height < IMAGE_VALIDATION.minHeight) {
+      return {
+        valid: false,
+        error: `Image height must be at least ${IMAGE_VALIDATION.minHeight}px (current: ${height}px)`,
+      };
+    }
+
+    // Calculate and check aspect ratio
+    const aspectRatio = width / height;
+    const lowerBound =
+      IMAGE_VALIDATION.targetAspectRatio -
+      IMAGE_VALIDATION.aspectRatioTolerance;
+    const upperBound =
+      IMAGE_VALIDATION.targetAspectRatio +
+      IMAGE_VALIDATION.aspectRatioTolerance;
+
+    if (aspectRatio < lowerBound || aspectRatio > upperBound) {
+      const targetRatioFormatted =
+        IMAGE_VALIDATION.targetAspectRatio.toFixed(2);
+      const currentRatioFormatted = aspectRatio.toFixed(2);
+      return {
+        valid: false,
+        error: `Image aspect ratio must be approximately ${targetRatioFormatted} (current: ${currentRatioFormatted})`,
+      };
+    }
+
+    return { valid: true, error: null };
+  };
+
+  /**
+   * Gets image dimensions from a file
+   * @param file - The image file to check
+   * @returns Promise resolving to image dimensions
+   */
+  const getImageDimensions = (file: File): Promise<ImageDimensions> => {
+    return new Promise((resolve, reject) => {
+      // Create image element the correct way
+      const img = document.createElement("img");
+      img.onload = () => {
+        const width = img.width;
+        const height = img.height;
+        const aspectRatio = width / height;
+
+        URL.revokeObjectURL(img.src); // Clean up
+        resolve({ width, height, aspectRatio });
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(img.src); // Clean up
+        reject(new Error("Failed to load image"));
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  /**
+   * Handles the image selection process with validation
    * @param event - The change event from the file input
    */
-  const handleImageSelect = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleImageSelect = async (
+    event: ChangeEvent<HTMLInputElement>,
+  ): Promise<void> => {
+    // Reset validation states
+    setValidationError(null);
+    setImageDimensions(null);
+
     const files = event.target.files;
 
     if (!files || files.length === 0) {
@@ -39,19 +143,43 @@ export default function ImageUploadPage(): JSX.Element {
 
     // Validate file is an image
     if (!file.type.startsWith("image/")) {
-      alert("Please select an image file");
+      setValidationError("Please select an image file");
       return;
     }
 
-    // Store the selected file
-    setSelectedFile(file);
+    try {
+      // Get and validate image dimensions
+      const dimensions = await getImageDimensions(file);
+      setImageDimensions(dimensions);
 
-    // Show a preview of the selected image
-    const objectUrl = URL.createObjectURL(file);
-    setImage({
-      src: objectUrl,
-      alt: file.name || "Selected image",
-    });
+      const { valid, error } = validateImageDimensions(
+        dimensions.width,
+        dimensions.height,
+      );
+
+      if (!valid) {
+        setValidationError(error);
+        // Still show preview even if validation fails
+        const objectUrl = URL.createObjectURL(file);
+        setImage({
+          src: objectUrl,
+          alt: file.name || "Selected image (invalid dimensions)",
+        });
+        setSelectedFile(null); // Clear selected file since it's invalid
+        return;
+      }
+
+      // All validations passed
+      const objectUrl = URL.createObjectURL(file);
+      setImage({
+        src: objectUrl,
+        alt: file.name || "Selected image",
+      });
+      setSelectedFile(file);
+    } catch (error) {
+      console.error("Error processing image:", error);
+      setValidationError("Failed to process image. Please try another file.");
+    }
   };
 
   /**
@@ -64,7 +192,7 @@ export default function ImageUploadPage(): JSX.Element {
     event.preventDefault();
 
     if (!selectedFile) {
-      alert("Please select an image first");
+      setValidationError("Please select a valid image first");
       return;
     }
 
@@ -96,9 +224,10 @@ export default function ImageUploadPage(): JSX.Element {
 
       setIsUploaded(true);
       setSelectedFile(null);
+      setValidationError(null);
     } catch (error) {
       console.error("Upload error:", error);
-      alert("Failed to upload image. Please try again.");
+      setValidationError("Failed to upload image. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -126,6 +255,26 @@ export default function ImageUploadPage(): JSX.Element {
             <p className="mb-4 text-center text-sm text-green-600">
               Image successfully uploaded to server!
             </p>
+          )}
+
+          {/* Display validation error */}
+          {validationError && (
+            <p className="mb-4 text-center text-sm text-red-600">
+              {validationError}
+            </p>
+          )}
+
+          {/* Display image dimensions if available */}
+          {imageDimensions && (
+            <div className="mb-4 text-center text-sm text-gray-700">
+              <p>
+                Dimensions: {imageDimensions.width}×{imageDimensions.height}px
+              </p>
+              <p>
+                Aspect ratio: {imageDimensions.aspectRatio.toFixed(2)}
+                (Target: {IMAGE_VALIDATION.targetAspectRatio.toFixed(2)})
+              </p>
+            </div>
           )}
 
           {/* Form for file upload */}
@@ -173,21 +322,36 @@ export default function ImageUploadPage(): JSX.Element {
  * FUNCTION SUMMARY:
  *
  * 1. ImageUploadPage
- *    - Description: The main component that renders the image upload page
+ *    - Description: The main component that renders the image upload page with validation
  *    - Parameters: None
  *    - Returns: JSX.Element - The rendered component
  *
- * 2. handleImageSelect
- *    - Description: Handles the file input change event for image selection
+ * 2. validateImageDimensions
+ *    - Description: Validates an image's dimensions and aspect ratio against predefined constraints
+ *    - Parameters:
+ *      - width: number - The image width in pixels
+ *      - height: number - The image height in pixels
+ *    - Returns: { valid: boolean; error: string | null } - Validation result with error message if invalid
+ *    - Process: Checks if dimensions meet minimum requirements and if aspect ratio is within tolerance of target ratio
+ *
+ * 3. getImageDimensions
+ *    - Description: Extracts width, height, and aspect ratio from an image file
+ *    - Parameters:
+ *      - file: File - The image file to analyze
+ *    - Returns: Promise<ImageDimensions> - Promise resolving to an object with width, height, and aspectRatio
+ *    - Process: Creates an HTMLImageElement, loads the file data, and reads dimensions
+ *
+ * 4. handleImageSelect
+ *    - Description: Handles the file input change event for image selection with validation
  *    - Parameters:
  *      - event: ChangeEvent<HTMLInputElement> - The file input change event
- *    - Returns: void
- *    - Process: Validates the file is an image, creates a preview URL, updates the state
+ *    - Returns: Promise<void>
+ *    - Process: Validates file type, extracts and validates dimensions, creates preview URL, updates state
  *
- * 3. handleFormSubmit
+ * 5. handleFormSubmit
  *    - Description: Handles the form submission to upload the selected image to the server
  *    - Parameters:
  *      - event: FormEvent<HTMLFormElement> - The form submission event
  *    - Returns: Promise<void>
- *    - Process: Sends the file to the server API endpoint, updates the image state with the server path
+ *    - Process: Validates selected file exists, sends to server API endpoint, updates image state with server path
  */
