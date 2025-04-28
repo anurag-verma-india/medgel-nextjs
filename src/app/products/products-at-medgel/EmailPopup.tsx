@@ -93,7 +93,7 @@ const EmailPopup = () => {
           allowVerificationAfter: allowVerificationAfter,
           canResend: false,
           message: "Verification email sent!",
-          submessage: "Please check your inbox (refresh this page afterwards)",
+          submessage: "Please check your inbox (refresh this page after verification)",
           errorMessage: "",
         });
         console.log("State after sending email:", popupState);

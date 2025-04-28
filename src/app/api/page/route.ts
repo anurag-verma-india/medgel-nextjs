@@ -97,10 +97,18 @@ export async function PUT(request: NextRequest) {
     }
 
     // edit page with current details
-    await Pages.findOneAndUpdate(
-      { title: title },
-      { $set: { content: body.content } },
-    );
+    if (body.content) {
+      await Pages.findOneAndUpdate(
+        { title: title },
+        { $set: { content: body.content } },
+      );
+    }
+    if (body.images) {
+      await Pages.findOneAndUpdate(
+        { title: title },
+        { $set: { images: body.images } },
+      );
+    }
     const pageAfterUpdate = await Pages.findOne({ title });
     console.log("Edited page from database: ", pageAfterUpdate);
     revalidateTag(title);
