@@ -12,11 +12,19 @@ export interface BasePageContent {
     | Record<string, unknown>
     | Array<unknown>;
 }
+export type ImageObj = {
+  url: string;
+  width: number;
+  height: number;
+  aspectratio: number;
+  size: number;
+};
 
 export interface PageObject<T extends BasePageContent = BasePageContent> {
   _id: string;
   title: string;
   content: T;
+  images: [ImageObj];
   lastUpdated: Date;
   __v: number;
 }

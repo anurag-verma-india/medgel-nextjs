@@ -1,0 +1,21 @@
+{
+  "title": "about-us/life-at-medgel",
+  "content": {
+    "page_title": "Life At Medgel",
+    "title_1": "Life At Medgel",
+    "title1_des_1": "Life at Medgel means an opportunity for ample learning, growth and fun at work. We recognize that our business depends on the creativity, dedication and performance of our employees. We encourage them to focus on achievement through collaboration and innovation.",
+    "title1_des_2": "We value the diversity that exists within our employees and leverage this to bring about synergy within the organization. This enables individuals and groups to contribute to their fullest potential.",
+    "title_2": "Training sessions at Medgel Pvt. Ltd.",
+    "title2_des_2": "At Medgel, employees are trained for all types of technical as well as organizational skills for excellence. Our Strategic Learning Partners support these development initiatives at Medgel.",
+    "img": "life-at-medgel.png"
+  },
+  "images": [
+    {
+      "url": "life-at-medgel.png",
+      "width": 497,
+      "height": 269,
+      "aspectratio": 1.85,
+      "size": 216.3
+    }
+  ]
+}

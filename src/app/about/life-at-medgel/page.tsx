@@ -14,7 +14,7 @@ const title = "about-us/life-at-medgel";
 
 interface LifeAtMedgelContent extends BasePageContent {
   page_title: string;
-  img: string;
+  // img: string;
   title_1: string;
   title1_des_1: string;
   title1_des_2: string;
@@ -30,6 +30,7 @@ const LifeAtMedgel = async () => {
   // const career = await fetchCareer();
   // const page = await fetchPage(title);
   const page = await fetchPage<LifeAtMedgelContent>(title);
+  console.log("page fetched:", page);
 
   return (
     <>
@@ -53,7 +54,8 @@ const LifeAtMedgel = async () => {
             <div className="relative overflow-hidden rounded-lg shadow-lg">
               <div className="relative aspect-[497/269] w-full">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_SITE_URL}/${page.content.img}`}
+                  // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${page.content.img}`}
+                  src={`${process.env.NEXT_PUBLIC_SITE_URL}/${page.images[0].url}`}
                   alt="Life at Medgel"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"

@@ -8,8 +8,8 @@ export default async function fetchPage<T extends BasePageContent = BasePageCont
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/page/?title=${title}`,
     {
-      cache: "force-cache",
-      // cache: "no-store",
+      // cache: "force-cache",
+      cache: "no-store",
       next: { tags: [title] },
     }
   );

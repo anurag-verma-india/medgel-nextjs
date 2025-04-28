@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { PageObject, BasePageContent } from "@/types";
 import Image from "next/image";
+import { ImageObj } from "@/types";
 
 // Improved type definitions
 type EditModalProps = {
@@ -143,15 +144,15 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
   /**
    * Checks if a value is an image path
    */
-  const isImagePath = (value: string): boolean => {
-    const lowerValue = value.toLowerCase();
-    return (
-      lowerValue.endsWith(".jpg") ||
-      lowerValue.endsWith(".jpeg") ||
-      lowerValue.endsWith(".png") ||
-      lowerValue.endsWith(".svg")
-    );
-  };
+  // const isImagePath = (value: string): boolean => {
+  //   const lowerValue = value.toLowerCase();
+  //   return (
+  //     lowerValue.endsWith(".jpg") ||
+  //     lowerValue.endsWith(".jpeg") ||
+  //     lowerValue.endsWith(".png") ||
+  //     lowerValue.endsWith(".svg")
+  //   );
+  // };
 
   /**
    * Renders a form field based on its value type
@@ -160,22 +161,22 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
     const textValue = getStringValue(value);
 
     // Render image field if value appears to be an image path
-    if (typeof value === "string" && isImagePath(value)) {
-      return (
-        <div key={key} className="mb-6 w-72">
-          <label className="mb-2 block text-sm font-medium text-gray-700">
-            {key.replace(/_/g, " ").toUpperCase()}
-          </label>
-          <Image src={`/${value}`} alt={value} width={1000} height={1000} />
-          <button
-            className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
-            onClick={() => downloadImage(`/${value}`, value)}
-          >
-            Download
-          </button>
-        </div>
-      );
-    }
+    // if (typeof value === "string" && isImagePath(value)) {
+    //   return (
+    //     <div key={key} className="mb-6 w-72">
+    //       <label className="mb-2 block text-sm font-medium text-gray-700">
+    //         {key.replace(/_/g, " ").toUpperCase()}
+    //       </label>
+    //       <Image src={`/${value}`} alt={value} width={1000} height={1000} />
+    //       <button
+    //         className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
+    //         onClick={() => downloadImage(`/${value}`, value)}
+    //       >
+    //         Download
+    //       </button>
+    //     </div>
+    //   );
+    // }
 
     // Render standard text field for non-image values
     return (
@@ -195,6 +196,48 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
           onChange={(e) => updateFormField(key, e.target.value)}
         />
       </div>
+    );
+  };
+
+  const renderImages = (key: string, img: ImageObj) => {
+    const imageURL = `${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`;
+    return (
+      <>
+        {/* <div className="mb-6" key={key}>
+          <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <Image
+              width={img.width}
+              height={img.height}
+              src={imageURL}
+              // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
+              // src={`${process.env.}/${img.url}`}
+              alt={img.url}
+            />
+            <button onClick={() => downloadImage(imageURL, img.url)}>
+              Download
+            </button>
+          </div>
+        </div> */}
+
+        <div key={key} className="mb-6 w-72">
+          <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <Image
+              width={img.width}
+              height={img.height}
+              src={imageURL}
+              // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
+              // src={`${process.env.}/${img.url}`}
+              alt={img.url}
+            />
+            <button
+              onClick={() => downloadImage(imageURL, img.url)}
+              className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
+            >
+              Download
+            </button>
+          </div>
+        </div>
+      </>
     );
   };
 
@@ -223,7 +266,14 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
               ×
             </button>
           </div>
-
+          <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <div className="mb-2 block text-lg font-medium text-gray-700">
+              IMAGES
+            </div>
+            {Object.entries(children.images).map(([key, value]) =>
+              renderImages(key, value),
+            )}
+          </div>
           {/* Dynamic form fields */}
           {Object.entries(formData).map(([key, value]) =>
             renderFormField(key, value),

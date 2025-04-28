@@ -12,6 +12,15 @@
       "title2_des_2": "At Medgel, employees are trained for all types of technical as well as organizational skills for excellence. Our Strategic Learning Partners support these development initiatives at Medgel.",
       "img": "life-at-medgel.png"
     },
+    "images": [
+      {
+        "url": "life-at-medgel.png",
+        "width": 497,
+        "height": 269,
+        "aspectratio": 1.85,
+        "size": 216.3
+      }
+    ],
     "lastUpdated": { "$date": { "$numberLong": "1737437492645" } },
     "__v": { "$numberInt": "0" }
   }
