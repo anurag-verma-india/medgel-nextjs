@@ -24,7 +24,9 @@ export interface PageObject<T extends BasePageContent = BasePageContent> {
   _id: string;
   title: string;
   content: T;
-  images: [ImageObj];
+  // images: [ImageObj];
+  // // This is incorrect syntax for defining array of objects it defines a tuple with single element
+  images: ImageObj[];
   lastUpdated: Date;
   __v: number;
 }
@@ -44,4 +46,23 @@ export interface decodedToken extends JwtPayload {
   id: string;
   iat: number;
   exp: number;
+}
+
+export interface ProductCategoryItem {
+  name: string;
+  listEntries: {
+    name: string;
+    products: number;
+    id: string;
+  }[];
+}
+export interface ProductsStateType {
+  activeList: number;
+  loading: boolean;
+  categories: ProductCategoryItem[];
+}
+
+export interface ProductContextProps {
+  productsState: ProductsStateType;
+  setProductsState: (objct: ProductsStateType) => void;
 }

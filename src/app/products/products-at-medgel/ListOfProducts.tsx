@@ -1,8 +1,11 @@
 // pages/products/products-at-medgel/ListOfProducts.tsx
 "use client";
 import PopupContextProvider from "@/contexts/PopupContextProvider";
-import ListItem from "./ListItem";
 import PopupContainer from "./PopupContainer";
+import ProductsContext from "@/contexts/ProductsContext";
+import ListItem from "./ListItem";
+import { useContext } from "react";
+import { ProductContextProps } from "@/types";
 
 type ListOfProductsParams = {
   tokenValid: boolean;
@@ -15,6 +18,13 @@ export default function ListOfProducts({
   allowVerificationAfter,
   emailSent,
 }: ListOfProductsParams) {
+  // const { productsState, setProductsState } =
+  const { productsState } = useContext<ProductContextProps>(ProductsContext);
+  // const categories = productsState.categories;
+  const activeCategory = productsState.categories[productsState.activeList];
+  // const list = ["Row 1", "Row 2", "Row 3"];
+  // const list = productsState.items.list;
+
   return (
     <>
       <PopupContextProvider>
@@ -24,7 +34,27 @@ export default function ListOfProducts({
           emailSent={emailSent}
         />
         {/* Have to pass tokenValid because context can't be changed from outside wrapper*/}
-        <ListItem ListTitle={"Row 1"} NumberOfProducts={4} ListId="1234" />
+        {/* {Object.entries(list).map(([key, value]) => {
+          return (
+            <ListItem
+              key={key}
+              ListTitle={value}
+              NumberOfProducts={4}
+              ListId={value}
+            />
+          );
+        })} */}
+        {Object.entries(activeCategory.listEntries).map(([key, value]) => {
+          return (
+            <ListItem
+              key={key}
+              ListTitle={value.name}
+              NumberOfProducts={value.products}
+              ListId={value.id}
+            />
+          );
+        })}
+        {/* <ListItem ListTitle={"Row 1"} NumberOfProducts={4} ListId="1234" /> */}
         {/* You can add more ListItems here or filter them based on active category */}
       </PopupContextProvider>
     </>

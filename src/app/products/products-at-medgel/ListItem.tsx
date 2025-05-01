@@ -30,11 +30,9 @@ const ListItem = ({ ListTitle, NumberOfProducts, ListId }: ListItemType) => {
   const HandleListClick = (listId: string) => {
     if (popupState.tokenValid) {
       // TODO: This Page's API call must also check user's JWT token from cookies
-      // redirect(`/pages/product-list/${listId}`, RedirectType.push);
       redirect(`/products/product-list/${listId}`, RedirectType.push);
     } else {
       setPopupState({ ...popupState, popupOpen: !popupState.popupOpen });
-      console.log("Popup state: ", popupState);
     }
   };
 
