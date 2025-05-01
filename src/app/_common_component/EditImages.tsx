@@ -7,7 +7,7 @@ import Image from "next/image";
 import React from "react";
 
 type EditImagesParams = {
-  images: [ImageObj];
+  images: ImageObj[];
 };
 
 const EditImages = ({ images }: EditImagesParams) => {
