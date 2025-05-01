@@ -1,5 +1,4 @@
-// "use client";
-// TODO: Get the data from server and also initialize the state
+"use client";
 
 import { useEffect, useState } from "react";
 import ProductsContext from "./ProductsContext";
@@ -22,64 +21,35 @@ export default function PopupContextProvider({
 }: PopupContextProviderType) {
   const [productsState, setProductsState] = useState<ProductsStateType>({
     activeList: 0,
-    loading: false,
+    loading: true, // Start with loading true
     categories: [],
-    // [
-    //   {
-    //     name: "OTC Products",
-    //     listEntries: [
-    //       { name: "List 1", products: 1, id: "sampleid" },
-    //       { name: "List 2", products: 1, id: "sampleid" },
-    //       { name: "List 3", products: 1, id: "sampleid" },
-    //     ],
-    //   },
-    //   {
-    //     name: "Natraceuticals Products",
-    //     listEntries: [
-    //       { name: "List 4", products: 2, id: "sampleid" },
-    //       { name: "List 5", products: 2, id: "sampleid" },
-    //       { name: "List 6", products: 2, id: "sampleid" },
-    //     ],
-    //   },
-    //   {
-    //     name: "Food Supplements",
-    //     listEntries: [
-    //       { name: "List 7", products: 3, id: "sampleid" },
-    //       { name: "List 8", products: 3, id: "sampleid" },
-    //     ],
-    //   },
-    //   {
-    //     name: "Products Under Development",
-    //     listEntries: [
-    //       { name: "List 9", products: 4, id: "sampleid" },
-    //       { name: "List 10", products: 4, id: "sampleid" },
-    //     ],
-    //   },
-    // ],
   });
 
   useEffect(() => {
-    // let ProductsContextToSet: ProductsStateType = {
-    setProductsState({ ...productsState, loading: true });
-    const ProductsContextToSet: ProductsStateType = {
-      ...productsState,
-      loading: false,
-      categories: [],
-    };
     async function fetchData() {
       try {
+        // Set loading state
+        setProductsState((prev) => ({ ...prev, loading: true }));
+
+        // Fetch all categories first
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/product_category`,
         );
-        const categories: ProductCategoryItemDB[] = response.data.categories;
-        console.log("Response categories:", response.data.categories);
+        const categoriesData: ProductCategoryItemDB[] =
+          response.data.categories;
+        console.log("Response categories:", categoriesData);
 
-        Object.entries(categories).map(async ([catKey, category]) => {
+        // Prepare an array to collect all processed categories
+        const processedCategories: ProductCategoryItem[] = [];
+
+        // Process each category sequentially
+        for (const category of categoriesData) {
           const categoryToSet: ProductCategoryItem = {
             name: category.product_category_name,
             listEntries: [],
           };
-          console.log(`${catKey}: ${category.product_category_name}`);
+
+          // Fetch lists for this category
           const lists = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/get_list_name`,
             { product_id_array: category.productLists },
@@ -87,7 +57,8 @@ export default function PopupContextProvider({
 
           const product_lists: ProductListEntryDB[] = lists.data.product_lists;
 
-          Object.entries(product_lists).map(([listKey, list]) => {
+          // Process each list
+          product_lists.forEach((list) => {
             const listEntryToSet: ProductListEntry = {
               id: list._id,
               name: list.product_list_name,
@@ -95,16 +66,27 @@ export default function PopupContextProvider({
             };
             categoryToSet.listEntries.push(listEntryToSet);
           });
-          ProductsContextToSet.categories.push(categoryToSet);
-          setProductsState(ProductsContextToSet);
+
+          // Add this category to our collection
+          processedCategories.push(categoryToSet);
+        }
+
+        // Update state once with all categories
+        setProductsState({
+          activeList: 0,
+          loading: false,
+          categories: processedCategories,
         });
       } catch (error) {
         handleError(
           error,
           "Error occurred while getting product lists from categories",
         );
+        // Even on error the loading state is set to false
+        setProductsState((prev) => ({ ...prev, loading: false }));
       }
     }
+
     fetchData();
   }, []);
 
