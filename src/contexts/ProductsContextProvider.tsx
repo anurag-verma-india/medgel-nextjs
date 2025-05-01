@@ -51,41 +51,41 @@ export default function PopupContextProvider({
     ],
   });
 
-  // useEffect(() => {
-  // // let ProductsContextToSet: ProductsStateType = {
-  // const ProductsContextToSet: ProductsStateType = {
-  //   activeList: 0,
-  //   loading: false,
-  //   categories: [
-  //     // {
-  //     //   name: "",
-  //     //   listEntries: [{ name: "", products: 0, id: "" }],
-  //     // },
-  //   ],
-  // };
-  // setProductsState(ProductsContextToSet);
-  //-----------
-  // Object.entries(productsState.categories).map(async ([key, value]) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_API_URL}/product_category?product_category_name=${value.name}`,
-  //     );
-  //     // console.log(response);
-  //     console.log(`${key}: ${value.name}1\n`);
-  //     Object.entries(response.data.category.productLists).map(
-  //       ([key1, value1]) => {
-  //         console.log(`    ${key1} -> ${value1}`);
-  //       },
-  //     );
-  //     console.log("");
-  //   } catch (error) {
-  //     handleError(
-  //       error,
-  //       "Error occurred while getting product lists from categories",
-  //     );
-  //   }
-  // });
-  // }, []);
+  useEffect(() => {
+    // let ProductsContextToSet: ProductsStateType = {
+    const ProductsContextToSet: ProductsStateType = {
+      activeList: 0,
+      loading: false,
+      categories: [
+        // {
+        //   name: "",
+        //   listEntries: [{ name: "", products: 0, id: "" }],
+        // },
+      ],
+    };
+    setProductsState(ProductsContextToSet);
+    // -----------
+    // Object.entries(productsState.categories).map(async ([key, value]) => {
+    //   try {
+    //     const response = await axios.get(
+    //       `${process.env.NEXT_PUBLIC_API_URL}/product_category?product_category_name=${value.name}`,
+    //     );
+    //     // console.log(response);
+    //     console.log(`${key}: ${value.name}1\n`);
+    //     Object.entries(response.data.category.productLists).map(
+    //       ([key1, value1]) => {
+    //         console.log(`    ${key1} -> ${value1}`);
+    //       },
+    //     );
+    //     console.log("");
+    //   } catch (error) {
+    //     handleError(
+    //       error,
+    //       "Error occurred while getting product lists from categories",
+    //     );
+    //   }
+    // });
+  }, []);
 
   return (
     <ProductsContext.Provider value={{ productsState, setProductsState }}>

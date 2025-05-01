@@ -44,59 +44,84 @@ DELETE
 Delete a list
  */
 
-export async function GET(request: NextRequest) {
-  // No authentication to get categories
+export async function GET() {
   try {
-    // throw new Error("This is a custom error");
-    // throw new MongooseError("This is a custom mongoose error");
     await dbConnect();
-    const { searchParams } = new URL(request.url);
-    const product_category_name = searchParams.get("product_category_name");
-    const product_category_id = searchParams.get("product_category_id");
+    const categories = await ProductCategory.find({});
 
-    // const body = await request.json();
-    // const { product_category_name, product_category_id } = body;
-
-    console.log(
-      "product_category_name: ",
-      product_category_name,
-      "product_category_id: ",
-      product_category_id,
-    );
-
-    // const category = new ProductCategory({
-    //   product_category_name: product_category_name,
-    //   productLists: product_category_id_list,
-    // });
-
-    // const savedCategory = await category.save();
-    let category;
-    if (product_category_id) {
-      category = await ProductCategory.findById(product_category_id);
-    } else if (product_category_name) {
-      category = await ProductCategory.findOne({
-        product_category_name,
-      });
-    }
-    console.log("Category found: ", category);
-    if (category) {
+    if (categories) {
       return NextResponse.json({
         success: true,
-        category,
+        categories,
       });
     }
+
     return NextResponse.json(
       {
         success: false,
-        message: "Provided id or name does not exit in the categories list",
+        message: "Product categories were not found in the database",
       },
       { status: 404 },
     );
   } catch (error) {
-    console.error("Error in getting lists from category: ", error); // Log the complete error object
+    console.error("Error in getting categories: ", error); // Log the complete error object
     return handleError(error, "Failed to get lists from category");
   }
 }
+// export async function GET(request: NextRequest) {
+//   // No authentication to get categories
+//   try {
+//     // throw new Error("This is a custom error");
+//     // throw new MongooseError("This is a custom mongoose error");
+//     await dbConnect();
+//     const { searchParams } = new URL(request.url);
+//     const product_category_name = searchParams.get("product_category_name");
+//     const product_category_id = searchParams.get("product_category_id");
+
+//     // const body = await request.json();
+//     // const { product_category_name, product_category_id } = body;
+
+//     console.log(
+//       "product_category_name: ",
+//       product_category_name,
+//       "product_category_id: ",
+//       product_category_id,
+//     );
+
+//     // const category = new ProductCategory({
+//     //   product_category_name: product_category_name,
+//     //   productLists: product_category_id_list,
+//     // });
+
+//     // const savedCategory = await category.save();
+//     let category;
+//     if (product_category_id) {
+//       category = await ProductCategory.findById(product_category_id);
+//     } else if (product_category_name) {
+//       category = await ProductCategory.findOne({
+//         product_category_name,
+//       });
+//     }
+//     console.log("Category found: ", category);
+//     if (category) {
+//       return NextResponse.json({
+//         success: true,
+//         category,
+//       });
+//     }
+//     return NextResponse.json(
+//       {
+//         success: false,
+//         message: "Provided id or name does not exit in the categories list",
+//       },
+//       { status: 404 },
+//     );
+//   } catch (error) {
+//     console.error("Error in getting lists from category: ", error); // Log the complete error object
+//     return handleError(error, "Failed to get lists from category");
+//   }
+// }
+
 export async function PUT(request: NextRequest) {
   // TODO: Make sure the user is admin
   /*
