@@ -48,14 +48,17 @@ export interface decodedToken extends JwtPayload {
   exp: number;
 }
 
+export interface ProductListEntry {
+  name: string;
+  products: number;
+  id: string;
+}
+
 export interface ProductCategoryItem {
   name: string;
-  listEntries: {
-    name: string;
-    products: number;
-    id: string;
-  }[];
+  listEntries: ProductListEntry[];
 }
+
 export interface ProductsStateType {
   activeList: number;
   loading: boolean;
@@ -65,4 +68,16 @@ export interface ProductsStateType {
 export interface ProductContextProps {
   productsState: ProductsStateType;
   setProductsState: (objct: ProductsStateType) => void;
+}
+
+export interface ProductCategoryItemDB {
+  _id: string;
+  product_category_name: string;
+  productLists: string[];
+}
+
+export interface ProductListEntryDB {
+  _id: string;
+  product_list_name: string;
+  product_ids: string[];
 }

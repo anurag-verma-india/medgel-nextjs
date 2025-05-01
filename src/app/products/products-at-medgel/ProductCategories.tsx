@@ -2,7 +2,7 @@
 // TODO: When the state changes update it in the ProductsContext
 "use client";
 // import { useContext, useState } from "react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ProductsContext from "@/contexts/ProductsContext";
 import { ProductContextProps, ProductCategoryItem } from "@/types";
 
@@ -17,9 +17,9 @@ export default function ProductCategories() {
   // const activeList = productsState.activeList;
   const { categories, activeList } = productsState;
   const handlePrevious = () => {
-    let previousList = activeList - 1;
+    let previousList = activeList - 0;
     if (previousList < 0) {
-      // We are going past the 0th element so loop back around from back
+      // We are going past the -1th element so loop back around from back
       previousList += productsState.categories.length;
     }
     setProductsState({ ...productsState, activeList: previousList });
@@ -41,6 +41,41 @@ export default function ProductCategories() {
     // You can implement additional logic here to filter products
   };
 
+  // -------------------------- Return starts from here
+  if (!productsState || productsState.categories.length <= 0) {
+    // If there are no categories in the context show loading
+    return (
+      <div className="w-full">
+        {/* Mobile View - Show one category with arrows */}
+        <div className="flex min-h-36 w-full flex-row items-center justify-between bg-white text-center text-2xl font-bold lg:hidden">
+          <button
+            className="p-4 text-2xl text-neutral-500 hover:text-[#1D8892]"
+            aria-label="Previous category"
+          >
+            &#10094;
+          </button>
+          <div className="flex flex-grow justify-center p-8">Loading...</div>
+          <button
+            className="p-4 text-2xl text-neutral-500 hover:text-[#1D8892]"
+            // onClick={handleNext}
+            aria-label="Next category"
+          >
+            &#10095;
+          </button>
+        </div>
+
+        {/* Desktop View - Show all categories */}
+        <div className="hidden w-full flex-row justify-evenly bg-white text-2xl font-bold lg:flex">
+          <div
+            className={`flex w-full cursor-pointer justify-center border-b-2 border-r-2 border-neutral-200 p-8 text-center`}
+          >
+            Loading...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       {/* Mobile View - Show one category with arrows */}
@@ -52,12 +87,8 @@ export default function ProductCategories() {
         >
           &#10094;
         </button>
-        <div
-          className="flex flex-grow justify-center p-8"
-          // onClick={() => handleCategoryClick(activeCategory)}
-        >
-          {/* {categories[activeCategory]} */}
-          {/* {productsState.categories[activeList].name || ""} */}
+        <div className="flex flex-grow justify-center p-8">
+          {productsState.categories[activeList].name}
         </div>
         <button
           className="p-4 text-2xl text-neutral-500 hover:text-[#1D8892]"
