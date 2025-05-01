@@ -1,0 +1,47 @@
+
+{
+  "a": 
+{
+    "product": 
+{
+      "innovator": "Night Time",
+      "product": "Acetaminophen + Dextromethorphan + Doxylamine Succinate Soft Gels ",
+      "code": "AS",
+      "composition": "Acetaminophen (325 mg) + Dextromethorphan HBr (15 mg) + Doxylamine Succinate (6.25 mg)",
+      "color": ""
+    }
+  },
+  "b": 
+{
+    "product": 
+{
+      "innovator": "Sinus Day Time",
+      "product": "Acetaminophen + Phenylephrine Soft Gels",
+      "code": "SD",
+      "composition": "Acetaminophen (325 mg) + Phenylephrine HCl (5 mg)",
+      "color": "Light Orange Transparent"
+    }
+  },
+  "c": 
+{
+    "product": 
+{
+      "innovator": "Sinus Night Time",
+      "product": "Acetaminophen + Doxylamine Succinate + Phenylephrine Soft Gels",
+      "code": "SN",
+      "composition": "Acetaminophen (325 mg) + Doxylamine Succinate 6.25 mg) + Phenylephrine HCl (5 mg)",
+      "color": "Light Blue Transparent"
+    }
+  },
+  "d": 
+{
+    "product": 
+{
+      "innovator": "Alka Seltzer Plus Cough & Cold Liquid gels",
+      "product": "Acetaminophen + Dextromethorphan + Gauifenesin + Phenylephrine Soft Gels",
+      "code": "AT",
+      "composition": "Acetaminophen (325 mg) + Chlorpheniramine Maleate (2 mg) + Dextromethorphan HBr (10 mg) + Phenylephrine HCl (5 mg)",
+      "color": "Purple Transparent"
+    }
+  }
+}
