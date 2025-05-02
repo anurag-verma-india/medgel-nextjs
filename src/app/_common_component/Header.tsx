@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 // Define types for menu items
 interface SubMenuItem {
@@ -75,11 +76,17 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
-          <Link href="/">
-            <div className="text-2xl font-bold">
+          <Link href="/home">
+            {/* <div className="text-2xl font-bold">
               <span className="text-orange-500">MED</span>
               <span className="text-blue-700">GEL</span>
-            </div>
+            </div> */}
+            <Image
+              src={"/medgel-logo.svg"}
+              alt={"MedGel"}
+              width={167}
+              height={34}
+            />
           </Link>
 
           {/* Desktop Navigation */}
