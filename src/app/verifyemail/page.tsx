@@ -44,7 +44,7 @@ const VerifyEmail = () => {
     <>
       <div className="m-10 flex h-20 justify-center">
         {!tokenValid && (
-          <div>
+          <div className="flex text-center">
             An error occurred.
             <br />
             Please try clicking the link from the email again.
