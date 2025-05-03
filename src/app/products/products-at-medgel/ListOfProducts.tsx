@@ -6,7 +6,7 @@ import ProductsContext from "@/contexts/ProductsContext";
 import ListItem from "./ListItem";
 import { useContext } from "react";
 import { ProductContextProps } from "@/types";
-import VerifyAndShowEditButton from "@/app/_common_component/VerifyAndShowEditButton";
+import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
 
 type ListOfProductsParams = {
   tokenValid: boolean;

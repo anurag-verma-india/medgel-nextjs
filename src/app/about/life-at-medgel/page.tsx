@@ -7,7 +7,7 @@ import Image from "next/image";
 // import EditModalContainer from "../../_common_component/EditModalContainer.jsx";
 // import EditModalContainer from "../../_common_component/EditModalContainer";
 import fetchPage from "@/helpers/getPage";
-import VerifyAndShowEditButton from "@/app/_common_component/VerifyAndShowEditButton";
+import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
 import { BasePageContent } from "@/types";
 import EditModalContainer from "@/app/_common_component/EditModalContainer";
 
@@ -41,9 +41,9 @@ const LifeAtMedgel = async () => {
         <main className="mx-auto max-w-7xl px-4 py-12">
           {/* <EditModalContainer title={title} page={page} /> */}
           {/* <VerifyAndShowEditButton title={title} /> */}
-          <VerifyAndShowEditButton>
+          <IfAdminShowThis>
             {<EditModalContainer title={title} />}
-          </VerifyAndShowEditButton>
+          </IfAdminShowThis>
           {/* Header */}
           <div className="mb-12 text-center">
             <h1 className="relative inline-block text-5xl font-bold text-teal-500">
