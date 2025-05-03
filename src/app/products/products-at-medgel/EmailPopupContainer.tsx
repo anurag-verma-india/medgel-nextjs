@@ -11,7 +11,7 @@ type PopupContainerParams = {
   emailSent: boolean;
 };
 
-const PopupContainer = ({
+const EmailPopupContainer = ({
   tokenValid,
   allowVerificationAfter,
   emailSent,
@@ -37,4 +37,4 @@ const PopupContainer = ({
   return <>{popupState.popupOpen && <EmailPopup />}</>;
 };
 
-export default PopupContainer;
+export default EmailPopupContainer;

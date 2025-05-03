@@ -1,11 +1,12 @@
 // pages/products/products-at-medgel/ListOfProducts.tsx
 "use client";
 import PopupContextProvider from "@/contexts/PopupContextProvider";
-import PopupContainer from "./PopupContainer";
+import EmailPopupContainer from "./EmailPopupContainer";
 import ProductsContext from "@/contexts/ProductsContext";
 import ListItem from "./ListItem";
 import { useContext } from "react";
 import { ProductContextProps } from "@/types";
+import VerifyAndShowEditButton from "@/app/_common_component/VerifyAndShowEditButton";
 
 type ListOfProductsParams = {
   tokenValid: boolean;
@@ -28,7 +29,7 @@ export default function ListOfProducts({
   return (
     <>
       <PopupContextProvider>
-        <PopupContainer
+        <EmailPopupContainer
           tokenValid={tokenValid}
           allowVerificationAfter={allowVerificationAfter}
           emailSent={emailSent}
