@@ -45,6 +45,7 @@ Delete a list
  */
 
 export async function GET(request: NextRequest) {
+  // Used in product-list page
   // TODO: Check user's token and send error if not verified
   try {
     await dbConnect();

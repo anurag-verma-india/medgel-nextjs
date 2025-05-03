@@ -47,6 +47,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  // Used in ProductsContextProvider
   // Get Multiple list names from an array
   try {
     await dbConnect();

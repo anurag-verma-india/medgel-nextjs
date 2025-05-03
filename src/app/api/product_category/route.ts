@@ -45,6 +45,7 @@ Delete a list
  */
 
 export async function GET() {
+  // Used in ProductsContextProvider
   try {
     await dbConnect();
     const categories = await ProductCategory.find({});

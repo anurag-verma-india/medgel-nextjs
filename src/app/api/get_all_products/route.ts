@@ -6,6 +6,7 @@ import handleError from "@/helpers/handleError";
 import { MongooseError } from "mongoose";
 
 export async function POST(request: NextRequest) {
+  // Used in product-list page
   // Get multiple products by id from database
   try {
     await dbConnect();
