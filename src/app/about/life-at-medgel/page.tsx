@@ -9,6 +9,7 @@ import Image from "next/image";
 import fetchPage from "@/helpers/getPage";
 import VerifyAndShowEditButton from "@/app/_common_component/VerifyAndShowEditButton";
 import { BasePageContent } from "@/types";
+import EditModalContainer from "@/app/_common_component/EditModalContainer";
 
 const title = "about-us/life-at-medgel";
 
@@ -30,7 +31,7 @@ const LifeAtMedgel = async () => {
   // const career = await fetchCareer();
   // const page = await fetchPage(title);
   const page = await fetchPage<LifeAtMedgelContent>(title);
-  console.log("page fetched:", page);
+  // console.log("page fetched:", page);
 
   return (
     <>
@@ -38,8 +39,11 @@ const LifeAtMedgel = async () => {
         {/* <Header /> */}
         {/* Main Content */}
         <main className="mx-auto max-w-7xl px-4 py-12">
-          <VerifyAndShowEditButton title={title} />
           {/* <EditModalContainer title={title} page={page} /> */}
+          {/* <VerifyAndShowEditButton title={title} /> */}
+          <VerifyAndShowEditButton>
+            {<EditModalContainer title={title} />}
+          </VerifyAndShowEditButton>
           {/* Header */}
           <div className="mb-12 text-center">
             <h1 className="relative inline-block text-5xl font-bold text-teal-500">

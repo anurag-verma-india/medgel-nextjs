@@ -46,54 +46,59 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
   /**
    * Attempts to parse the string input back to its original data type
    */
-  const parseValueToOriginalType = (
-    key: string,
-    newValue: string,
-  ): PageContentValue => {
-    const originalValue = children.content[key];
+  // const parseValueToOriginalType = (
+  //   key: string,
+  //   newValue: string,
+  // ): PageContentValue => {
+  //   const originalValue = children.content[key];
 
-    // Handle simple types first
-    if (typeof originalValue === "number") {
-      const num = Number(newValue);
-      return isNaN(num) ? newValue : num;
-    }
+  //   // Handle simple types first
+  //   if (typeof originalValue === "number") {
+  //     const num = Number(newValue);
+  //     return isNaN(num) ? newValue : num;
+  //   }
 
-    if (typeof originalValue === "boolean") {
-      const lowerValue = newValue.toLowerCase();
-      if (lowerValue === "true") return true;
-      if (lowerValue === "false") return false;
-      return newValue;
-    }
+  //   if (typeof originalValue === "boolean") {
+  //     const lowerValue = newValue.toLowerCase();
+  //     if (lowerValue === "true") return true;
+  //     if (lowerValue === "false") return false;
+  //     return newValue;
+  //   }
 
-    // Handle object types (including arrays)
-    if (typeof originalValue === "object" && originalValue !== null) {
-      try {
-        const parsed = JSON.parse(newValue);
-        // Ensure we maintain array type if original was array
-        if (Array.isArray(originalValue)) {
-          return Array.isArray(parsed) ? parsed : [parsed];
-        }
-        // Otherwise return object
-        return typeof parsed === "object" && parsed !== null ? parsed : {};
-      } catch {
-        // If parsing fails, keep as string
-        return newValue;
-      }
-    }
+  //   // Handle object types (including arrays)
+  //   if (typeof originalValue === "object" && originalValue !== null) {
+  //     try {
+  //       const parsed = JSON.parse(newValue);
+  //       // Ensure we maintain array type if original was array
+  //       if (Array.isArray(originalValue)) {
+  //         return Array.isArray(parsed) ? parsed : [parsed];
+  //       }
+  //       // Otherwise return object
+  //       return typeof parsed === "object" && parsed !== null ? parsed : {};
+  //     } catch {
+  //       // If parsing fails, keep as string
+  //       return newValue;
+  //     }
+  //   }
 
-    // Default to string if none of the above
-    return newValue;
-  };
+  //   // Default to string if none of the above
+  //   return newValue;
+  // };
 
   /**
    * Updates a specific field in the form data
    */
   const updateFormField = (key: string, newValue: string): void => {
-    const parsedValue = parseValueToOriginalType(key, newValue);
+    // const parsedValue = parseValueToOriginalType(key, newValue);
+
+    // setFormData({
+    //   ...formData,
+    //   [key]: parsedValue,
+    // });
 
     setFormData({
       ...formData,
-      [key]: parsedValue,
+      [key]: newValue,
     });
   };
 
@@ -164,48 +169,6 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
       </div>
     );
   };
-
-  // const renderImages = (key: string, img: ImageObj) => {
-  //   const imageURL = `${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`;
-  //   return (
-  //     <>
-  //       {/* <div className="mb-6" key={key}>
-  //         <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-  //           <Image
-  //             width={img.width}
-  //             height={img.height}
-  //             src={imageURL}
-  //             // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
-  //             // src={`${process.env.}/${img.url}`}
-  //             alt={img.url}
-  //           />
-  //           <button onClick={() => downloadImage(imageURL, img.url)}>
-  //             Download
-  //           </button>
-  //         </div>
-  //       </div> */}
-
-  //       <div key={key} className="mb-6 w-72">
-  //         <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-  //           <Image
-  //             width={img.width}
-  //             height={img.height}
-  //             src={imageURL}
-  //             // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
-  //             // src={`${process.env.}/${img.url}`}
-  //             alt={img.url}
-  //           />
-  //           <button
-  //             onClick={() => downloadImage(imageURL, img.url)}
-  //             className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
-  //           >
-  //             Download
-  //           </button>
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
 
   return (
     <>

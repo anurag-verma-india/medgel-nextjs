@@ -1,18 +1,22 @@
 // file_path: "@/src/app/_common_component/VerifyAndShowEditButton.tsx"
 
-import React from "react";
-import EditModalContainer from "@/app/_common_component/EditModalContainer";
+import React, { ReactElement } from "react";
+// import EditModalContainer from "@/app/_common_component/EditModalContainer";
 import { cookies } from "next/headers";
-import fetchPage from "@/helpers/getPage";
+// import fetchPage from "@/helpers/getPage";
 import verifyJwtToken from "@/helpers/jwtHelper";
 import checkIfUserIsAdmin from "@/helpers/checkAdminFromId";
 import { TokenData } from "@/types";
 
 type VerifyComponentParams = {
-  title: string;
+  // title: string;
+  children: ReactElement;
 };
 
-const VerifyAndShowEditButton = async ({ title }: VerifyComponentParams) => {
+const VerifyAndShowEditButton = async ({
+  // title,
+  children,
+}: VerifyComponentParams) => {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("token");
@@ -23,14 +27,17 @@ const VerifyAndShowEditButton = async ({ title }: VerifyComponentParams) => {
         userIsAdmin = (await checkIfUserIsAdmin(verifiedTokenData.id)) || false;
       }
     }
-    let page;
-    if (userIsAdmin) page = await fetchPage(title);
+    // let page;
+    // if (userIsAdmin) page = await fetchPage(title);
 
     return (
       <>
-        {userIsAdmin && page && (
+        {userIsAdmin && { children }}
+        {/* {userIsAdmin && <EditModalContainer title={title} />} */}
+        {/* {userIsAdmin && <EditModalContainer title={title} />} */}
+        {/* {userIsAdmin && page && (
           <EditModalContainer title={title} page={page} />
-        )}
+        )} */}
         {/* {!userIsAdmin && <div>User is not admin</div>} */}
       </>
     );
