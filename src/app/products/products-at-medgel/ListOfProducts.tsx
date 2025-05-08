@@ -1,4 +1,4 @@
-// pages/products/products-at-medgel/ListOfProducts.tsx
+// src/app/products/products-at-medgel/ListOfProducts.tsx
 "use client";
 import PopupContextProvider from "@/contexts/PopupContextProvider";
 import EmailPopupContainer from "./EmailPopupContainer";
@@ -6,7 +6,6 @@ import ProductsContext from "@/contexts/ProductsContext";
 import ListItem from "./ListItem";
 import { useContext } from "react";
 import { ProductContextProps } from "@/types";
-import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
 
 type ListOfProductsParams = {
   tokenValid: boolean;

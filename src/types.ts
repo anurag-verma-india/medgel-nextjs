@@ -1,4 +1,4 @@
-// file_path: "@/types.ts"
+// src/types.ts
 
 import { JwtPayload } from "jsonwebtoken";
 
@@ -61,8 +61,8 @@ export interface ProductCategoryItem {
 
 export interface ProductsStateType {
   activeList: number;
-  loading: boolean;
   categories: ProductCategoryItem[];
+  loading: boolean;
 }
 
 export interface ProductContextProps {

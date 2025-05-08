@@ -8,11 +8,49 @@ import FormWithModal from "./EditModal";
 import { BasePageContent, PageObject, ImageObj } from "@/types";
 import axios from "axios";
 
-type ModalContainer = {
+type ModalContainerParams = {
   title: string;
 };
 
-export default function EditModalContainer({ title }: ModalContainer) {
+type LoadingModalPrams = {
+  setModalOpen: (modalOpen: boolean) => void;
+};
+
+function LoadingModal({ setModalOpen }: LoadingModalPrams) {
+  return (
+    <>
+      <div className="fixed inset-0 z-10 bg-black bg-opacity-50" />
+
+      {/* Modal content */}
+      <div className="fixed inset-0 z-50 flex h-5/6 flex-col items-center justify-center pt-20">
+        <div
+          className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 mx-auto flex w-5/6 flex-col overflow-y-auto rounded-xl bg-white p-6 shadow-lg"
+          style={{
+            scrollbarWidth: "auto",
+            scrollbarColor: "#A0AEC0 #EDF2F7",
+          }}
+        >
+          {/* Close button */}
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => setModalOpen(false)}
+              className="cursor-pointer border-none bg-transparent text-2xl"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+          <div className="mb-2 block w-full text-center text-3xl font-medium text-gray-700">
+            Loading...
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function EditModalContainer({ title }: ModalContainerParams) {
   const [modalOpen, setModalOpen] = useState(false);
   // const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,6 +100,10 @@ export default function EditModalContainer({ title }: ModalContainer) {
         <FormWithModal setModalOpen={setModalOpen} title={title}>
           {modalContainerState}
         </FormWithModal>
+      )}
+      {modalOpen && isLoading && (
+        // <div>Loading...</div>
+        <LoadingModal setModalOpen={setModalOpen} />
       )}
       <div className="relative">
         <button

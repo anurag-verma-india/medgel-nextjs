@@ -1,4 +1,4 @@
-// pages/products/products-at-medgel/ProductCategories.tsx
+// src/app/products/products-at-medgel/ProductCategories.tsx
 // TODO: When the state changes update it in the ProductsContext
 
 "use client";
@@ -26,6 +26,7 @@ export default function ProductCategories() {
 
   const handleCategoryClick = (index: number) => {
     setProductsState({ ...productsState, activeList: index });
+    console.log("Changing active products state: ", index);
   };
 
   // Show loading state

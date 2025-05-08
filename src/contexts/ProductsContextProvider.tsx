@@ -73,7 +73,7 @@ export default function PopupContextProvider({
 
         // Update state once with all categories
         setProductsState({
-          activeList: 0,
+          ...productsState,
           loading: false,
           categories: processedCategories,
         });

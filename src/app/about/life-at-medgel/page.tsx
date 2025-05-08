@@ -7,9 +7,10 @@ import Image from "next/image";
 // import EditModalContainer from "../../_common_component/EditModalContainer.jsx";
 // import EditModalContainer from "../../_common_component/EditModalContainer";
 import fetchPage from "@/helpers/getPage";
-import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
+// import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
 import { BasePageContent } from "@/types";
 import EditModalContainer from "@/app/_common_component/EditModalContainer";
+import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 
 const title = "about-us/life-at-medgel";
 
@@ -32,6 +33,7 @@ const LifeAtMedgel = async () => {
   // const page = await fetchPage(title);
   const page = await fetchPage<LifeAtMedgelContent>(title);
   // console.log("page fetched:", page);
+  const isAdmin = await checkAdminFromCookie();
 
   return (
     <>
@@ -41,9 +43,9 @@ const LifeAtMedgel = async () => {
         <main className="mx-auto max-w-7xl px-4 py-12">
           {/* <EditModalContainer title={title} page={page} /> */}
           {/* <VerifyAndShowEditButton title={title} /> */}
-          <IfAdminShowThis>
-            {<EditModalContainer title={title} />}
-          </IfAdminShowThis>
+          {/* <IfAdminShowThis> */}
+          {isAdmin && <EditModalContainer title={title} />}
+          {/* </IfAdminShowThis> */}
           {/* Header */}
           <div className="mb-12 text-center">
             <h1 className="relative inline-block text-5xl font-bold text-teal-500">
