@@ -37,7 +37,7 @@ export default function PopupContextProvider({
         );
         const categoriesData: ProductCategoryItemDB[] =
           response.data.categories;
-        console.log("Response categories:", categoriesData);
+        // console.log("Response categories:", categoriesData);
 
         // Prepare an array to collect all processed categories
         const processedCategories: ProductCategoryItem[] = [];

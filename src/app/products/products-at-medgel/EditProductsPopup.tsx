@@ -3,9 +3,9 @@
 
 import ProductsContext from "@/contexts/ProductsContext";
 import { ProductContextProps, ProductsStateType } from "@/types";
-import { useContext, useEffect, useState } from "react";
-import ListItem from "./ListItem";
-import ProductsContextProvider from "@/contexts/ProductsContextProvider";
+import { useContext, useState } from "react";
+// import ListItem from "./ListItem";
+// import ProductsContextProvider from "@/contexts/ProductsContextProvider";
 
 type EditProductsPopupParams = {
   setModalOpen: (modalOpen: boolean) => void;
@@ -49,7 +49,7 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
             </button>
           </div>
           <div className="mb-2 block w-full text-center text-3xl font-medium text-gray-700">
-            Edit {productsState.categories[productsState.activeList].name}
+            {productsState.categories[productsState.activeList].name}
           </div>
           {/* {Object.entries(activeCategory.listEntries).map(([key, value]) => {
             return (
@@ -91,19 +91,19 @@ const EditProductsPopupContainer = () => {
 
   return (
     <>
-      <ProductsContextProvider>
-        {modalOpen && <EditProductsPopup setModalOpen={setModalOpen} />}
-        <div className="relative">
-          <button
-            onClick={() => {
-              setModalOpen(!modalOpen);
-            }}
-            className="absolute right-10 top-10 rounded bg-[#00a5a5] px-4 py-2 text-black opacity-40 shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
-          >
-            Edit
-          </button>
-        </div>
-      </ProductsContextProvider>
+      {/* <ProductsContextProvider> */}
+      {modalOpen && <EditProductsPopup setModalOpen={setModalOpen} />}
+      <div className="relative">
+        <button
+          onClick={() => {
+            setModalOpen(!modalOpen);
+          }}
+          className="absolute right-0 top-0 rounded bg-[#00a5a5] px-4 py-2 text-black opacity-40 shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
+        >
+          Edit
+        </button>
+      </div>
+      {/* </ProductsContextProvider> */}
     </>
   );
 };

@@ -5,6 +5,7 @@ import ProductContainer from "./ProductContainer";
 // import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
 import EditProductsPopupContainer from "./EditProductsPopup";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
+import ClientSideProducts from "./ClientSideProducts";
 
 export default async function ProductPage() {
   let tokenValid = false;
@@ -27,20 +28,27 @@ export default async function ProductPage() {
   return (
     <>
       {/* <IfAdminShowThis> */}
-      {isAdmin && <EditProductsPopupContainer />}
+      {/* {isAdmin && <EditProductsPopupContainer />} */}
       {/* </IfAdminShowThis> */}
       <div className="flex flex-col items-center">
         <h1 className="p-2 pb-10 pt-5 text-center text-4xl font-bold text-[#1D8892] underline decoration-[#F9BC65] underline-offset-[15px] md:text-6xl">
           Products at Medgel
         </h1>
-        {/* Product Categories */}
-        <div className="mb-10 w-11/12 overflow-hidden rounded-2xl border-2 bg-neutral-100 md:w-5/6">
-          <ProductContainer
-            tokenValid={tokenValid}
-            allowVerificationAfter={allowVerificationAfter}
-            emailSent={emailSent}
-          />
-        </div>
+        <ClientSideProducts>
+          {/* <div>This is a sample div</div>
+          {isAdmin && <div>I am admin</div>}
+          {!isAdmin && <div>I am not admin</div>} */}
+
+          {/* Product Categories */}
+          <div className="mb-10 w-11/12 overflow-hidden rounded-2xl border-2 bg-neutral-100 md:w-5/6">
+            {isAdmin && <EditProductsPopupContainer />}
+            <ProductContainer
+              tokenValid={tokenValid}
+              allowVerificationAfter={allowVerificationAfter}
+              emailSent={emailSent}
+            />
+          </div>
+        </ClientSideProducts>
       </div>
     </>
   );

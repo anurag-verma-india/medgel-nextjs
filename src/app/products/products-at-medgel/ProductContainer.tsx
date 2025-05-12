@@ -4,7 +4,7 @@
 import React from "react";
 import ProductCategories from "./ProductCategories";
 import ListOfProducts from "./ListOfProducts";
-import ProductsContextProvider from "@/contexts/ProductsContextProvider";
+// import ProductsContextProvider from "@/contexts/ProductsContextProvider";
 
 type ProductContainerParams = {
   tokenValid: boolean;
@@ -38,7 +38,7 @@ const ProductContainer = ({
   // });
   return (
     <>
-      <ProductsContextProvider>
+      {/* <ProductsContextProvider> */}
         {/* <ProductCategories categories={categories} /> */}
         <ProductCategories  />
         <ListOfProducts
@@ -46,7 +46,7 @@ const ProductContainer = ({
           allowVerificationAfter={allowVerificationAfter}
           emailSent={emailSent}
         />
-      </ProductsContextProvider>
+      {/* </ProductsContextProvider> */}
     </>
   );
 };
