@@ -74,7 +74,8 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
                 name={""}
                 className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 rows={4}
-                value={"Sample value"}
+                // value={"Sample value"}
+                value={localProductsState.activeList}
                 // onChange={(e) => updateFormField(key, e.target.value)}
                 onChange={(e) => {}}
               />
