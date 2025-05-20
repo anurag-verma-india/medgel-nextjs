@@ -3,7 +3,7 @@
 
 import ProductsContext from "@/contexts/ProductsContext";
 import { ProductContextProps, ProductsStateType } from "@/types";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // import ListItem from "./ListItem";
 // import ProductsContextProvider from "@/contexts/ProductsContextProvider";
 
@@ -12,17 +12,113 @@ type EditProductsPopupParams = {
 };
 
 const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
-  const { productsState } = useContext<ProductContextProps>(ProductsContext);
-  console.log("Products state: \n");
-  console.log(productsState);
-  const [localProductsState, setLocalProductsState] =
-    useState<ProductsStateType>(productsState);
+  const { productsState, setProductsState } =
+    useContext<ProductContextProps>(ProductsContext);
 
-  console.log("Categories: ");
-  for (const category of productsState.categories[productsState.activeList]
-    .listEntries) {
-    console.log(category.name);
-  }
+  // Create a deep copy of productsState for local edits
+  const [localProductsState, setLocalProductsState] =
+    useState<ProductsStateType>(
+      JSON.parse(JSON.stringify(productsState)), // Deep copy to prevent reference issues
+    );
+
+  // Re-initialize localProductsState if productsState changes
+  useEffect(() => {
+    setLocalProductsState(JSON.parse(JSON.stringify(productsState)));
+  }, [productsState]);
+  const activeCategory =
+    localProductsState.categories[localProductsState.activeList];
+
+  // const [activeCategory, setActiveCategory] = useState(
+  //   localProductsState.categories[localProductsState.activeList],
+  // );
+
+  // const { productsState, setProductsState } =
+  //   useContext<ProductContextProps>(ProductsContext);
+  // // console.log("Products state: \n");
+  // // console.log(productsState);
+  // const [localProductsState, setLocalProductsState] =
+  //   useState<ProductsStateType>(productsState);
+
+  // // Get the active category based on activeList index
+  // // const activeCategory =
+  // //   localProductsState.categories[localProductsState.activeList];
+  // const [activeCategory, setActiveCategory] = useState(
+  //   localProductsState.categories[localProductsState.activeList],
+  // );
+
+  // --------------
+
+  // console.log("Categories: ");
+  // for (const category of productsState.categories[productsState.activeList]
+  //   .listEntries) {
+  //   console.log(category.name);
+  // }
+
+  const updateListEntry = (
+    entryIndex: number,
+    field: "name" | "products",
+    value: string | number,
+  ) => {
+    const updatedState = { ...localProductsState };
+    const updatedEntries = [
+      ...updatedState.categories[updatedState.activeList].listEntries,
+    ];
+
+    updatedEntries[entryIndex] = {
+      ...updatedEntries[entryIndex],
+      [field]: value,
+    };
+
+    updatedState.categories[updatedState.activeList].listEntries =
+      updatedEntries;
+
+    setLocalProductsState(updatedState);
+
+    // setProductsState(updatedState);
+
+    // onUpdate(updatedState);
+  };
+
+  const handleClosePopup = () => {
+    const confirmation = confirm(
+      "Are you sure?\nClosing this section will lose all the changes you have currently made",
+    );
+    if (!confirmation) return;
+    setModalOpen(false);
+  };
+
+  const handleReset = (): void => {
+    const confirmation = confirm(
+      "Are you sure?\nResetting will lose all the changes you have currently made",
+    );
+    if (!confirmation) return;
+    setLocalProductsState(productsState);
+  };
+
+  const handleSave = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): Promise<void> => {
+    e.preventDefault();
+
+    const shouldSave = confirm(
+      "Are you sure you want to save these changes?\nYou won't be able to reset after save.",
+    );
+    if (!shouldSave) return;
+
+    // try {
+    //   await axios.put("/api/page", {
+    //     title,
+    //     content: formData,
+    //   });
+
+    //   // Close modal and refresh page to show updates
+    //   setModalOpen(false);
+    //   location.reload();
+    // } catch (error) {
+    //   console.error("Failed to save page content:", error);
+    //   alert("Failed to save changes. Please try again.");
+    // }
+  };
 
   return (
     <>
@@ -41,7 +137,8 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
           <div className="flex justify-end">
             <button
               type="button"
-              onClick={() => setModalOpen(false)}
+              // onClick={() => setModalOpen(false)}
+              onClick={handleClosePopup}
               className="cursor-pointer border-none bg-transparent text-2xl"
               aria-label="Close"
             >
@@ -51,36 +148,76 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
           <div className="mb-2 block w-full text-center text-3xl font-medium text-gray-700">
             {productsState.categories[productsState.activeList].name}
           </div>
-          {/* {Object.entries(activeCategory.listEntries).map(([key, value]) => {
-            return (
-              <ListItem
-                key={key}
-                ListTitle={value.name}
-                NumberOfProducts={value.products}
-                ListId={value.id}
-              />
-            );
-          })} */}
-          {
-            <div key={""} className="mb-6">
-              <label
-                htmlFor={""}
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                {/* {key.replace(/_/g, " ").toUpperCase()} */}
-              </label>
-              <textarea
-                id={""}
-                name={""}
-                className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                rows={4}
-                // value={"Sample value"}
-                value={localProductsState.activeList}
-                // onChange={(e) => updateFormField(key, e.target.value)}
-                onChange={(e) => {}}
-              />
+          {activeCategory.listEntries.map((entry, index) => (
+            <div key={entry.id} className="space-y-4 rounded-lg border p-4">
+              <div className="mb-4">
+                <label
+                  htmlFor={`entry-name-${entry.id}`}
+                  className="mb-2 block text-sm font-medium text-gray-700"
+                >
+                  Product Name {index + 1}
+                </label>
+                <input
+                  id={`entry-name-${entry.id}`}
+                  name={`entry-name-${entry.id}`}
+                  className="w-full rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  value={entry.name}
+                  onChange={(e) =>
+                    updateListEntry(index, "name", e.target.value)
+                  }
+                />
+              </div>
+              {/* Number of Products (Unimplemented) */}
+              {/* <div>
+                <label
+                  htmlFor={`entry-products-${entry.id}`}
+                  className="mb-2 block text-sm font-medium text-gray-700"
+                >
+                  Number of Products
+                </label>
+                <input
+                  id={`entry-products-${entry.id}`}
+                  name={`entry-products-${entry.id}`}
+                  type="number"
+                  className="w-full rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  value={entry.products}
+                  onChange={(e) =>
+                    updateListEntry(
+                      index,
+                      "products",
+                      parseInt(e.target.value, 10) || 0,
+                    )
+                  }
+                />
+              </div> */}
             </div>
-          }
+          ))}
+        </div>
+
+        {/* Action buttons */}
+        <div className="fixed bottom-0 left-0 z-50 flex w-screen flex-row items-center justify-center space-x-4 space-y-0 bg-gray-800 p-4">
+          <button
+            type="button"
+            onClick={handleClosePopup}
+            // onClick={() => setModalOpen(false)}
+            className="w-full rounded-lg bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 sm:w-auto"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="w-full rounded-lg bg-yellow-500 px-6 py-3 font-semibold text-white hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300 sm:w-auto"
+          >
+            Reset
+          </button>
+          <button
+            type="submit"
+            onClick={handleSave}
+            className="w-full rounded-lg bg-blue-500 px-6 py-3 font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 sm:w-auto"
+          >
+            Save
+          </button>
         </div>
       </div>
     </>
@@ -92,7 +229,6 @@ const EditProductsPopupContainer = () => {
 
   return (
     <>
-      {/* <ProductsContextProvider> */}
       {modalOpen && <EditProductsPopup setModalOpen={setModalOpen} />}
       <div className="relative">
         <button
@@ -104,7 +240,6 @@ const EditProductsPopupContainer = () => {
           Edit
         </button>
       </div>
-      {/* </ProductsContextProvider> */}
     </>
   );
 };

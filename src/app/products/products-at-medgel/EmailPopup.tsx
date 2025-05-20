@@ -92,8 +92,8 @@ const EmailPopup = () => {
           loading: false,
           allowVerificationAfter: allowVerificationAfter,
           canResend: false,
-          message: "Verification email sent!",
-          submessage: "Please check your inbox (refresh this page after verification)",
+          message: "Verification email sent! (Please check your inbox and spam folder)",
+          submessage: "refresh this page after verification",
           errorMessage: "",
         });
         console.log("State after sending email:", popupState);
