@@ -43,7 +43,7 @@ const ListItem = ({ ListTitle, NumberOfProducts, ListId }: ListItemType) => {
 
   const [isHovering, setIsHovering] = useState(false);
   const [centerPosition, setCenterPosition] = useState({ x: 0, y: 0 });
-  const listItemRef = useRef(null);
+  const listItemRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = () => {
     if (listItemRef.current) {
@@ -61,7 +61,7 @@ const ListItem = ({ ListTitle, NumberOfProducts, ListId }: ListItemType) => {
   };
 
   return (
-    <div className="bg-gray-100 m-3 hover:text-white text-orange-400">
+    <div className="m-3 bg-gray-100 text-orange-400 hover:text-white">
       <div
         ref={listItemRef}
         className="relative m-3 flex cursor-pointer flex-row overflow-hidden rounded-xl bg-white px-2 py-2 text-lg md:m-6 md:py-3 md:text-2xl"

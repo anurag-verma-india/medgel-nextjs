@@ -20,16 +20,16 @@ interface MenuItem {
 
 // Define the menu structure
 const menuItems: MenuItem[] = [
-  { label: "Home", href: "/home" },
+  { label: "Home", href: "/" },
   {
     label: "About Us",
     href: "#",
     subItems: [
       { label: "About Medgel", href: "/about/about-medgel" },
-      { label: "Life At Medgel", href: "/about/life-at-medgel" },
-      { label: "Life At Medgel Old", href: "/about/life-at-medgel-old" },
+      // { label: "Life At Medgel", href: "/about/life-at-medgel" },
+      // { label: "Life At Medgel Old", href: "/about/life-at-medgel-old" },
       { label: "Awards & Accreditation", href: "/about/awards_" },
-      { label: "Awards & Accreditation All", href: "/about/awardsviewall" },
+      // { label: "Awards & Accreditation All", href: "/about/awardsviewall" },
     ],
   },
   {
@@ -38,12 +38,12 @@ const menuItems: MenuItem[] = [
     subItems: [
       { label: "Products At Medgel", href: "/products/products-at-medgel" },
       { label: "About Medgel", href: "/products/medgel-services" },
-      { label: "pl-clv2", href: "/products/pl-clv2/abcd" },
+      // { label: "pl-clv2", href: "/products/pl-clv2/abcd" },
     ],
   },
-  { label: "Quality & Compliance", href: "/quality" },
+  // { label: "Quality & Compliance", href: "/quality" },
   { label: "Facilities", href: "/facilities" },
-  { label: "Investor Relations", href: "/investors" },
+  // { label: "Investor Relations", href: "/investors" },
   { label: "Contact Us", href: "/contact" },
 ];
 
