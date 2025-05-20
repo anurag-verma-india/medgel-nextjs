@@ -12,8 +12,7 @@ type EditProductsPopupParams = {
 };
 
 const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
-  const { productsState, setProductsState } =
-    useContext<ProductContextProps>(ProductsContext);
+  const { productsState } = useContext<ProductContextProps>(ProductsContext);
 
   // Create a deep copy of productsState for local edits
   const [localProductsState, setLocalProductsState] =
