@@ -1,27 +1,28 @@
-"use client"
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import './ContactUs.css';
+"use client";
+import React, { useState } from "react";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import "./ContactUs.css";
+import Image from "next/image";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
   return (
@@ -32,7 +33,7 @@ const ContactUs = () => {
       <div className="content-grid">
         {/* Contact Form */}
         <div className="form-container">
-          <form onSubmit={handleSubmit} >
+          <form onSubmit={handleSubmit}>
             <div className="contact-form">
               <div className="form-field">
                 <input
@@ -45,9 +46,9 @@ const ContactUs = () => {
                 />
               </div>
               {/* <div className="form-row"> */}
-              <div className='flex h-10 w-11/12 pr-3'>
+              <div className="flex h-10 w-11/12 pr-3">
                 <input
-                  className='border-2 border-black w-10/12 rounded'
+                  className="w-10/12 rounded border-2 border-black"
                   type="email"
                   name="email"
                   placeholder="Your Email*"
@@ -55,9 +56,9 @@ const ContactUs = () => {
                   onChange={handleInputChange}
                   required
                 />
-                <div className='w-5' />
+                <div className="w-5" />
                 <input
-                  className='border-2 border-black w-10/12 rounded'
+                  className="w-10/12 rounded border-2 border-black"
                   type="text"
                   name="subject"
                   placeholder="Subject*"
@@ -84,11 +85,18 @@ const ContactUs = () => {
         </div>
 
         {/* Map */}
-        <div className="map-container">
-          <div className="map-placeholder">
-            Map goes here
+        <a href="https://maps.app.goo.gl/aBVz8BVadZwFfH1f6" target="_blank">
+          <div className="flex h-[100%] items-center justify-items-center">
+            <div className="map-container">
+              <Image
+                src={"/google-maps-medgel.png"}
+                alt="Medgel Facility Google Maps Photo"
+                width={815}
+                height={468}
+              />
+            </div>
           </div>
-        </div>
+        </a>
       </div>
 
       {/* Contact Information */}
@@ -110,20 +118,27 @@ const ContactUs = () => {
           <p className="info-text">+91-07292-256206</p>
         </div>
 
-        <div className="info-card">
-          <div className="icon-container">
-            <MapPin className="icon" />
+        <a href="https://maps.app.goo.gl/aBVz8BVadZwFfH1f6" target="_blank">
+          <div className="info-card">
+            <div className="icon-container">
+              <MapPin className="icon" />
+            </div>
+            <h3 className="info-title">OFFICE</h3>
+            <p className="info-text">
+              Special Economic Zone,
+              <br />
+              Plot No.-19-20, Pharma Zone
+              <br />
+              Phase-II, Sector-III,
+              <br />
+              Pithampur, Dist- Dhar (M.P.)
+              <br />
+              INDIA
+              <br />
+              Pincode 454775
+            </p>
           </div>
-          <h3 className="info-title">OFFICE</h3>
-          <p className="info-text">
-            Special Economic Zone,<br />
-            Plot No.-19-20, Pharma Zone<br />
-            Phase-II, Sector-III,<br />
-            Pithampur, Dist- Dhar (M.P.)<br />INDIA
-            <br />Pincode 454775
-
-          </p>
-        </div>
+        </a>
 
         <div className="info-card">
           <div className="icon-container">
@@ -131,7 +146,8 @@ const ContactUs = () => {
           </div>
           <h3 className="info-title">BUSINESS HOURS</h3>
           <p className="info-text">
-            Mon-Fir<br />
+            Mon-Fir
+            <br />
             10:00 AM - 6:00 PM IST
           </p>
         </div>
@@ -139,6 +155,5 @@ const ContactUs = () => {
     </div>
   );
 };
-
 
 export default ContactUs;

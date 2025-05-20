@@ -140,8 +140,7 @@
 }
 
 .map-container {
-    height: 400px;
-    background-color: #f3f4f6;
+    /* background-color: #f3f4f6; */
     border-radius: 8px;
     overflow: hidden;
 }
