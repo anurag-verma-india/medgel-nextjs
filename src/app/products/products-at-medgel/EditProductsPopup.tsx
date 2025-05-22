@@ -3,6 +3,8 @@
 
 import ProductsContext from "@/contexts/ProductsContext";
 import { ProductContextProps, ProductsStateType } from "@/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Clipboard } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 // import ListItem from "./ListItem";
 // import ProductsContextProvider from "@/contexts/ProductsContextProvider";
@@ -152,9 +154,31 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
               <div className="mb-4">
                 <label
                   htmlFor={`entry-name-${entry.id}`}
-                  className="mb-2 block text-sm font-medium text-gray-700"
+                  className="mb-2 flex w-1/2 items-center text-sm font-medium text-gray-700 hover:cursor-pointer"
+                  onClick={() => {
+                    try {
+                      navigator.clipboard.writeText(entry.id);
+                      alert(`Copied to clipboard \nid: ${entry.id}`);
+                    } catch (error) {
+                      console.log("Error while id to clipboard");
+                      console.log(error);
+                    }
+                  }}
                 >
-                  Product Name {index + 1}
+                  {index + 1}. Product List ID:{" "}
+                  {/* List Id (with clipboard icon) */}
+                  <div className="group flex items-center rounded-sm bg-gray-400 p-1 text-black">
+                    <span className="group-hover:hidden">{entry.id}</span>
+                    <span className="hidden group-hover:inline">
+                      Click to copy this ID to clipboard
+                    </span>
+                    <Clipboard className="h-5" />
+                  </div>
+                  {/* 
+                  <div className="flex items-center rounded-sm bg-gray-400 p-1 text-black">
+                    {entry.id}
+                    <Clipboard className="h-5" />
+                  </div> */}
                 </label>
                 <input
                   id={`entry-name-${entry.id}`}
