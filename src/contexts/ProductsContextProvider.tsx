@@ -35,6 +35,8 @@ export default function PopupContextProvider({
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/product_category`,
         );
+        // console.log("Response from get product_category")
+        // console.log(response)
         const categoriesData: ProductCategoryItemDB[] =
           response.data.categories;
         // console.log("Response categories:", categoriesData);
