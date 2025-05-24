@@ -17,6 +17,8 @@ import dbConnect from "@/lib/dbConnect";
 import ProductCategory from "@/models/productCategory";
 // import { MongooseError } from "mongoose";
 import handleError from "@/helpers/handleError";
+import ProductList from "@/models/productList";
+import { AnyBulkWriteOperation } from "mongoose";
 
 /*
 ----- Authentication levels ----- No authentication
@@ -43,6 +45,8 @@ Edit a category (add or remove listIDs from it)
 DELETE
 Delete a list
  */
+
+type received_list_edit_object = { _id: string; product_list_name: string };
 
 export async function GET() {
   // Used in ProductsContextProvider
@@ -128,103 +132,149 @@ export async function PUT(request: NextRequest) {
   /*
   Add products to existing category (identify by id or name)
   */
-  // No authentication to get categories
   try {
     await dbConnect();
-    // const { searchParams } = new URL(request.url);
-    // const product_category_name = searchParams.get("product_category_name");
-    // const product_category_id = searchParams.get("product_category_id");
 
     const body = await request.json();
+    let res;
     const {
-      product_category_name,
-      product_category_id,
-      product_lists_to_add,
-      product_lists_to_delete,
+      product_category_id, // Category Identifier
+      lists_to_edit, // List
+      list_names_to_add, // List & Category
+      lists_to_delete, // List & Category
+      product_category_name, // Category
+      lists_to_move, // Category
     } = body;
 
-    console.log(
-      "product_category_name: ",
-      product_category_name,
-      "product_category_id: ",
-      product_category_id,
-      "product_lists_to_add: ",
-      product_lists_to_add,
-      "product_lists_to_delete: ",
-      product_lists_to_delete,
-    );
+    console.log("product_category_id");
+    console.log(product_category_id);
+    console.log("product_category_name");
+    console.log(product_category_name);
+    console.log("lists_to_move");
+    console.log(lists_to_move);
+    console.log("lists_to_edit");
+    console.log(lists_to_edit);
+    console.log("list_names_to_add");
+    console.log(list_names_to_add);
+    console.log("lists_to_delete");
+    console.log(lists_to_delete);
 
-    let addition_details;
-    if (product_lists_to_add) {
-      if (product_category_id) {
-        addition_details = await ProductCategory.updateOne(
-          { _id: product_category_id },
-          { $push: { productLists: product_lists_to_add } },
-        );
-      } else {
-        addition_details = await ProductCategory.updateOne(
-          { product_category_name },
-          { $push: { productLists: product_lists_to_add } },
-        );
-      }
+    // Handling invalid requests first
+    if (!product_category_id) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please provide the id of product categories",
+        },
+        { status: 404 },
+      );
     }
-    let deleteion_details;
-    if (product_lists_to_delete) {
-      if (product_category_id) {
-        deleteion_details = await ProductCategory.updateOne(
-          { _id: product_category_id },
-          { $pullAll: { productLists: product_lists_to_delete } },
-        );
-      } else {
-        deleteion_details = await ProductCategory.updateOne(
-          { product_category_name },
-          { $pullAll: { productLists: product_lists_to_delete } },
-        );
-      }
+    const product_category = ProductCategory.findById(product_category_id);
+    if (!product_category) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Provided category does not exist",
+        },
+        { status: 404 },
+      );
     }
 
-    if (addition_details || deleteion_details) {
-      return NextResponse.json({
-        addition_details,
-        deleteion_details,
+    // Performing Operations on DB
+
+    // TODO: Check if the ids are valid or not whenever they are used (reduce or prevent errors)
+    // https://stackoverflow.com/questions/14940660/whats-mongoose-error-cast-to-objectid-failed-for-value-xxx-at-path-id
+    /*
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      // Yes, it's a valid ObjectId, proceed with `findById` call.
+    }
+    */
+
+    // -> Operations on ProductList
+    // Prepare Operations to perform
+    const productList_operations: AnyBulkWriteOperation[] = [];
+    if (lists_to_edit && lists_to_edit.length > 0) {
+      lists_to_edit.forEach((list_obj: received_list_edit_object) => {
+        productList_operations.push({
+          updateOne: {
+            filter: { _id: list_obj._id },
+            update: {
+              $set: {
+                product_list_name: list_obj.product_list_name,
+              },
+            },
+          },
+        });
+      });
+    }
+    if (list_names_to_add && list_names_to_add.length > 0) {
+      list_names_to_add.forEach((name: string) => {
+        productList_operations.push({
+          insertOne: {
+            document: {
+              product_list_name: name,
+              product_ids: [],
+            },
+          },
+        });
       });
     }
 
-    // TODO: use findByIdAndUpdate instead of getting and posting
-    // let category;
-    // if (product_category_id) {
-    //   category = await ProductCategory.findById(product_category_id);
-    // } else if (product_category_name) {
-    //   category = await ProductCategory.findOne({
-    //     product_category_name,
-    //   });
+    if (lists_to_delete && lists_to_delete.length > 0) {
+      lists_to_delete.forEach((_id: string) => {
+        productList_operations.push({
+          deleteOne: { filter: { _id } },
+        });
+      });
+    }
+
+    // // -> Operations on ProductCategory
+
+    // if(product_category_name) {
     // }
-    // console.log("Category found: ", category);
-    // if (category) {
-    //   category.productLists = category.productLists.concat(productLists);
-    //   const savedCategory = await category.save();
-    //   return NextResponse.json({
-    //     savedCategory,
-    //   });
+    //  productCategory_op_details
+    // res = {...res, productCategory_op_details}
+
+    // Perform Operations
+    // let productList_op_details;
+    // try {
+    const productList_op_details = await ProductList.bulkWrite(
+      productList_operations,
+    );
+    // } catch (error) {
+    //   if (error instanceof Casterror)
     // }
+
+    res = {
+      productList_op_details,
+    };
+
     return NextResponse.json(
       {
-        success: false,
-        message:
-          "Provided id or name does not exit in the categories list, send a post request to create a new category",
+        success: true,
+        message: "Successfully completed all operations",
+        details: res,
       },
-      { status: 404 },
+      { status: 200 },
     );
-  } catch (error) {
-    console.error("Error in getting lists from category: ", error); // Log the complete error object
-    return handleError(error, "Failed to get lists from category");
-    // return new Response(
-    //   JSON.stringify({
-    //     message: ,
-    //     error,
-    //   }),
-    //   { status: 500 },
+
+    // Notes (Gemini)
+    // Using push with $each (recommended)
+    // await Model.updateOne(
+    //   { _id: someId },
+    //   { $push: { arrayField: { $each: [value1, value2, value3] } } }
     // );
+
+    // // Using push to add a single value
+    // await Model.updateOne(
+    //   { _id: someId },
+    //   { $push: { arrayField: newValue } }
+    // );
+  } catch (error) {
+    return handleError(
+      error,
+      "Failed to edit product details in ProductCategory or ProductList",
+    );
   }
 }
 
