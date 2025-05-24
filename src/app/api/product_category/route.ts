@@ -17,6 +17,8 @@ import dbConnect from "@/lib/dbConnect";
 import ProductCategory from "@/models/productCategory";
 // import { MongooseError } from "mongoose";
 import handleError from "@/helpers/handleError";
+import ProductList from "@/models/productList";
+import { AnyBulkWriteOperation } from "mongoose";
 
 /*
 ----- Authentication levels ----- No authentication
@@ -123,108 +125,207 @@ export async function GET() {
 //   }
 // }
 
+// Helper function to generate unique name by appending dashes
+
+const generateUniqueName = async (
+  baseName: string,
+  excludeId?: string,
+): Promise<string> => {
+  let uniqueName = baseName;
+  let counter = 0;
+
+  while (true) {
+    // Build query to check if name exists
+    const query: { product_list_name: string; _id?: { $ne: string } } = {
+      product_list_name: uniqueName,
+    };
+
+    // If we're editing, exclude the current document from the check
+    if (excludeId) {
+      query._id = { $ne: excludeId };
+    }
+
+    const existingList = await ProductList.findOne(query);
+
+    if (!existingList) {
+      return uniqueName;
+    }
+
+    // If name exists, append a dash and try again
+    counter++;
+    uniqueName = baseName + "-".repeat(counter);
+  }
+};
+
+// type received_list_edit_object =
+type put_request_type = {
+  product_category_id: string;
+  lists_to_edit: { _id: string; product_list_name: string }[];
+  list_names_to_add: string[];
+  lists_to_delete: string[];
+  product_category_name: string[];
+  lists_to_move: { _id: string; category_id: string };
+};
+
 export async function PUT(request: NextRequest) {
   // TODO: Make sure the user is admin
   /*
   Add products to existing category (identify by id or name)
   */
-  // No authentication to get categories
   try {
     await dbConnect();
-    // const { searchParams } = new URL(request.url);
-    // const product_category_name = searchParams.get("product_category_name");
-    // const product_category_id = searchParams.get("product_category_id");
 
     const body = await request.json();
+    let res;
     const {
-      product_category_name,
-      product_category_id,
-      product_lists_to_add,
-      product_lists_to_delete,
-    } = body;
+      product_category_id, // Category Identifier
+      lists_to_edit, // List
+      list_names_to_add, // List & Category
+      lists_to_delete, // List & Category
+      product_category_name, // Category
+      lists_to_move, // Category
+    }: put_request_type = body;
 
-    console.log(
-      "product_category_name: ",
-      product_category_name,
-      "product_category_id: ",
-      product_category_id,
-      "product_lists_to_add: ",
-      product_lists_to_add,
-      "product_lists_to_delete: ",
-      product_lists_to_delete,
-    );
+    console.log("product_category_id");
+    console.log(product_category_id);
+    console.log("product_category_name");
+    console.log(product_category_name);
+    console.log("lists_to_move");
+    console.log(lists_to_move);
+    console.log("lists_to_edit");
+    console.log(lists_to_edit);
+    console.log("list_names_to_add");
+    console.log(list_names_to_add);
+    console.log("lists_to_delete");
+    console.log(lists_to_delete);
 
-    let addition_details;
-    if (product_lists_to_add) {
-      if (product_category_id) {
-        addition_details = await ProductCategory.updateOne(
-          { _id: product_category_id },
-          { $push: { productLists: product_lists_to_add } },
-        );
-      } else {
-        addition_details = await ProductCategory.updateOne(
-          { product_category_name },
-          { $push: { productLists: product_lists_to_add } },
-        );
-      }
+    // Handling invalid requests first
+    if (!product_category_id) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please provide the id of product categories",
+        },
+        { status: 404 },
+      );
     }
-    let deleteion_details;
-    if (product_lists_to_delete) {
-      if (product_category_id) {
-        deleteion_details = await ProductCategory.updateOne(
-          { _id: product_category_id },
-          { $pullAll: { productLists: product_lists_to_delete } },
-        );
-      } else {
-        deleteion_details = await ProductCategory.updateOne(
-          { product_category_name },
-          { $pullAll: { productLists: product_lists_to_delete } },
-        );
-      }
+    const product_category = ProductCategory.findById(product_category_id);
+    if (!product_category) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Provided category does not exist",
+        },
+        { status: 404 },
+      );
     }
 
-    if (addition_details || deleteion_details) {
-      return NextResponse.json({
-        addition_details,
-        deleteion_details,
+    // Performing Operations on DB
+
+    // -> Operations on ProductList
+    // Prepare Operations to perform
+    const productList_operations: AnyBulkWriteOperation[] = [];
+
+    if (lists_to_edit && lists_to_edit.length > 0) {
+      for (const list_obj of lists_to_edit) {
+        // Only adding the editing operation for valid ids
+        if (list_obj._id && list_obj._id.match(/^[0-9a-fA-F]{24}$/)) {
+          // Generate unique name, excluding the current document
+          const uniqueName = await generateUniqueName(
+            list_obj.product_list_name,
+            list_obj._id,
+          );
+
+          productList_operations.push({
+            updateOne: {
+              filter: { _id: list_obj._id },
+              update: {
+                $set: {
+                  product_list_name: uniqueName,
+                },
+              },
+            },
+          });
+        }
+      }
+    }
+
+    if (list_names_to_add && list_names_to_add.length > 0) {
+      for (const name of list_names_to_add) {
+        // Generate unique name for new list
+        const uniqueName = await generateUniqueName(name);
+
+        productList_operations.push({
+          insertOne: {
+            document: {
+              product_list_name: uniqueName,
+              product_ids: [],
+            },
+          },
+        });
+      }
+    }
+
+    if (lists_to_delete && lists_to_delete.length > 0) {
+      lists_to_delete.forEach((_id: string) => {
+        productList_operations.push({
+          deleteOne: { filter: { _id } },
+        });
       });
     }
 
-    // TODO: use findByIdAndUpdate instead of getting and posting
-    // let category;
-    // if (product_category_id) {
-    //   category = await ProductCategory.findById(product_category_id);
-    // } else if (product_category_name) {
-    //   category = await ProductCategory.findOne({
-    //     product_category_name,
-    //   });
+    // // -> Operations on ProductCategory
+
+    // const {
+    //   product_category_id, // Category Identifier
+    //   product_category_name, // Category
+    //   lists_to_edit, // List
+    //   list_names_to_add, // List & Category
+    //   lists_to_delete, // List & Category
+    //   lists_to_move, // Category
+    // }: put_request_type = body;
+
+    // if(product_category_name) {
     // }
-    // console.log("Category found: ", category);
-    // if (category) {
-    //   category.productLists = category.productLists.concat(productLists);
-    //   const savedCategory = await category.save();
-    //   return NextResponse.json({
-    //     savedCategory,
-    //   });
-    // }
+    //  productCategory_op_details
+    // res = {...res, productCategory_op_details}
+
+    // Perform Operations
+    // let productList_op_details;
+    const productList_op_details = await ProductList.bulkWrite(
+      productList_operations,
+    );
+
+    res = {
+      productList_op_details,
+    };
+
     return NextResponse.json(
       {
-        success: false,
-        message:
-          "Provided id or name does not exit in the categories list, send a post request to create a new category",
+        success: true,
+        message: "Successfully completed all operations",
+        details: res,
       },
-      { status: 404 },
+      { status: 200 },
     );
-  } catch (error) {
-    console.error("Error in getting lists from category: ", error); // Log the complete error object
-    return handleError(error, "Failed to get lists from category");
-    // return new Response(
-    //   JSON.stringify({
-    //     message: ,
-    //     error,
-    //   }),
-    //   { status: 500 },
+
+    // Notes (Gemini)
+    // Using push with $each (recommended)
+    // await Model.updateOne(
+    //   { _id: someId },
+    //   { $push: { arrayField: { $each: [value1, value2, value3] } } }
     // );
+
+    // // Using push to add a single value
+    // await Model.updateOne(
+    //   { _id: someId },
+    //   { $push: { arrayField: newValue } }
+    // );
+  } catch (error) {
+    return handleError(
+      error,
+      "Failed to edit product details in ProductCategory or ProductList",
+    );
   }
 }
 
