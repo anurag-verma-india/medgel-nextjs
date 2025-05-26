@@ -3,7 +3,7 @@
 
 import ProductsContext from "@/contexts/ProductsContext";
 import { ProductContextProps, ProductsStateType } from "@/types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Clipboard } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 // import ListItem from "./ListItem";

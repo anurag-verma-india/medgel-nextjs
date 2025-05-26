@@ -11,6 +11,7 @@ import fetchPage from "@/helpers/getPage";
 import { BasePageContent } from "@/types";
 import EditModalContainer from "@/app/_common_component/EditModalContainer";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
+// import { MongooseError } from "mongoose";
 
 const title = "about-us/life-at-medgel";
 
@@ -105,7 +106,9 @@ const LifeAtMedgel = async () => {
       </>
     );
   } catch (error) {
-    return <div>{error.toString()}</div>;
+    // return <div>{error.toString()}</div>;
+    console.log("Error in loading about/life-at-medgel page");
+    console.log(error);
   }
 };
 

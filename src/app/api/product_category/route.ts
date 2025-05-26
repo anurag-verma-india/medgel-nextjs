@@ -136,7 +136,7 @@ export async function PUT(request: NextRequest) {
     await dbConnect();
 
     const body = await request.json();
-    let res;
+    // let res;
     const {
       product_category_id, // Category Identifier
       lists_to_edit, // List
@@ -245,7 +245,7 @@ export async function PUT(request: NextRequest) {
     //   if (error instanceof Casterror)
     // }
 
-    res = {
+    const res = {
       productList_op_details,
     };
 
