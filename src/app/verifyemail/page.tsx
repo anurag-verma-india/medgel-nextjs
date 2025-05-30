@@ -68,6 +68,7 @@ const VerifyEmail = () => {
           </>
         )}
       </div>
+      <div className="h-screen w-full" />
     </>
   );
 };
@@ -84,7 +85,7 @@ const VerifyEmailContainer = () => {
   return (
     <>
       <Suspense>
-      <VerifyEmail />
+        <VerifyEmail />
       </Suspense>
     </>
   );

@@ -6,9 +6,9 @@ const certificates = [
   "/images/achievements1.png",
   "/images/achievements2.png",
   "/images/achievements3.png",
-  "/images/achievements1.png",
-  "/images/achievements2.png",
-  "/images/achievements3.png",
+  // "/images/achievements1.png",
+  // "/images/achievements2.png",
+  // "/images/achievements3.png",
   "/images/achievements1.png",
   "/images/achievements2.png",
   "/images/achievements3.png"
@@ -31,9 +31,9 @@ export default function Achievements() {
         Awards & Accreditations
       </h2>
       <div className="flex justify-end mb-4">
-        <button className="bg-teal-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">
+        {/* <button className="bg-teal-600 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">
           View All
-        </button>
+        </button> */}
       </div>
       <div className="relative flex justify-center items-center">
         <button 
