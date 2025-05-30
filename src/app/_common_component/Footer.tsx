@@ -6,14 +6,11 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-column">
+        {/* <div className="footer-column">
           <Link href={"/"}>
             <h4>Home</h4>
-          </Link>
-          <ul>
-            <li></li>
-          </ul>
-        </div>
+          </Link>JS, CSS and
+ JS, CSS anudiv> */}
         <div className="footer-column">
           <h4>About Us</h4>
           <ul>

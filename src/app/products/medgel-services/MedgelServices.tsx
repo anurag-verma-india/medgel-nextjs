@@ -48,7 +48,7 @@ const MedgelServices = () => {
                         </div>
                     </div>
                 </div>
-                <div className="medgelservices-footer">
+                {/* <div className="medgelservices-footer">
                     <div className="medgelservices-brochure-text">
                         Services Brochure
                     </div>
@@ -68,7 +68,7 @@ const MedgelServices = () => {
                             />
                         </svg>
                     </button>
-                </div>
+                </div> */}
             </div>
         </div>
     );
