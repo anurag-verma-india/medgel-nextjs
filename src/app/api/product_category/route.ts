@@ -19,6 +19,7 @@ import ProductCategory from "@/models/productCategory";
 import handleError from "@/helpers/handleError";
 import ProductList from "@/models/productList";
 import { AnyBulkWriteOperation } from "mongoose";
+// import { Key } from "lucide-react";
 
 /*
 ----- Authentication levels ----- No authentication
@@ -45,8 +46,6 @@ Edit a category (add or remove listIDs from it)
 DELETE
 Delete a list
  */
-
-type received_list_edit_object = { _id: string; product_list_name: string };
 
 export async function GET() {
   // Used in ProductsContextProvider
@@ -132,17 +131,36 @@ export async function PUT(request: NextRequest) {
   /*
   Add products to existing category (identify by id or name)
   */
+
+  type received_list_edit_object = {
+    _id: string;
+    product_list_name: string;
+  };
+
+  type received_list_move_object = {
+    move_to_category_id: string;
+    product_list_id: string;
+  };
+
+  type put_request_body = {
+    product_category_id: string;
+    lists_to_edit: received_list_edit_object[];
+    product_category_name: string;
+    list_names_to_add: string[];
+    lists_to_delete: string[];
+    lists_to_move: received_list_move_object[];
+  };
   try {
     await dbConnect();
 
-    const body = await request.json();
+    const body: put_request_body = await request.json();
     // let res;
     const {
       product_category_id, // Category Identifier
       lists_to_edit, // List
+      product_category_name, // Category
       list_names_to_add, // List & Category
       lists_to_delete, // List & Category
-      product_category_name, // Category
       lists_to_move, // Category
     } = body;
 
@@ -191,63 +209,209 @@ export async function PUT(request: NextRequest) {
     */
 
     // -> Operations on ProductList
+    const problems: string[] = [];
     // Prepare Operations to perform
     const productList_operations: AnyBulkWriteOperation[] = [];
     if (lists_to_edit && lists_to_edit.length > 0) {
-      lists_to_edit.forEach((list_obj: received_list_edit_object) => {
-        productList_operations.push({
+      for (const list_obj of lists_to_edit) {
+        // lists_to_edit.forEach(async (list_obj: received_list_edit_object) => {
+        // Validating Mongodb id
+
+        const found_list_name = await ProductList.findOne({
+          product_list_name: list_obj.product_list_name,
+          // _id: {$ne: list_obj._id}
+        });
+        console.log("Found list name: ");
+        console.log(found_list_name);
+
+        if (list_obj._id.match(/^[0-9a-fA-F]{24}$/)) {
+          if (!found_list_name) {
+            productList_operations.push({
+              updateOne: {
+                filter: { _id: list_obj._id },
+                update: {
+                  $set: {
+                    product_list_name: list_obj.product_list_name,
+                  },
+                },
+              },
+            });
+          } else {
+            productList_operations.push({
+              updateOne: {
+                filter: { _id: list_obj._id },
+                update: {
+                  $set: {
+                    product_list_name: list_obj.product_list_name + "-",
+                  },
+                },
+              },
+            });
+            problems.push(
+              `Name provided to be edited to, already exists ${list_obj.product_list_name}. So, added - to it`,
+            );
+          }
+        } else {
+          problems.push(
+            `Given ID in lists_to_edit is not valid: ${list_obj._id}`,
+          );
+        }
+      }
+    }
+
+    if (list_names_to_add && list_names_to_add.length > 0) {
+      for (const name of list_names_to_add) {
+        const found_list_name = await ProductList.findOne({
+          product_list_name: name,
+        });
+        if (!found_list_name) {
+          productList_operations.push({
+            insertOne: {
+              document: {
+                product_list_name: name,
+                product_ids: [],
+              },
+            },
+          });
+        } else {
+          productList_operations.push({
+            insertOne: {
+              document: {
+                product_list_name: name + "-",
+                product_ids: [],
+              },
+            },
+          });
+          problems.push(
+            `Given list name (${name}) already existed in the list of products document. So, added - to it`,
+          );
+        }
+      }
+    }
+
+    if (lists_to_delete && lists_to_delete.length > 0) {
+      for (const _id of lists_to_delete) {
+        if (_id.match(/^[0-9a-fA-F]{24}$/)) {
+          productList_operations.push({
+            deleteOne: { filter: { _id } },
+          });
+        } else {
+          problems.push(
+            `Given List id to delete from product list is invalid: ${lists_to_delete}`,
+          );
+        }
+      }
+    }
+
+    const productList_op_details = await ProductList.bulkWrite(
+      productList_operations,
+    );
+
+    // -> Operations on ProductCategory
+    const productCategory_operations: AnyBulkWriteOperation[] = [];
+    if (product_category_name && product_category_name.length > 0) {
+      productCategory_operations.push({
+        updateOne: {
+          filter: {
+            _id: product_category_id,
+          },
+          update: {
+            $set: {
+              product_category_name,
+            },
+          },
+        },
+      });
+    }
+
+    if (list_names_to_add && list_names_to_add.length > 0) {
+      if (productList_op_details && productList_op_details.insertedIds) {
+        const insertedListIds: string[] = [];
+        // Converting received MongoDB array in this format {"0": ObjectId(example)} to this format ["example"]
+        Object.values(productList_op_details.insertedIds).forEach(
+          (value: string) => {
+            // Validating mongoDB ID
+            if (value.toString().match(/^[0-9a-fA-F]{24}$/)) {
+              insertedListIds.push(value);
+            }
+          },
+        );
+
+        productCategory_operations.push({
           updateOne: {
-            filter: { _id: list_obj._id },
+            filter: { _id: product_category_id },
             update: {
-              $set: {
-                product_list_name: list_obj.product_list_name,
+              $push: {
+                productLists: { $each: insertedListIds },
+              },
+            },
+          },
+        });
+      }
+    }
+
+    if (lists_to_delete && lists_to_delete.length > 0) {
+      productCategory_operations.push({
+        updateOne: {
+          filter: { _id: product_category_id },
+          update: {
+            $pullAll: {
+              productLists: lists_to_delete,
+            },
+          },
+        },
+      });
+    }
+
+    if (lists_to_move && lists_to_move.length > 0) {
+      // Delete  from current and add to other category
+
+      // Delete from current category
+      // pull just the list ids from lists_to_move array
+      const move_ids: string[] = [];
+      lists_to_move.forEach((move_obj) => {
+        move_ids.push(move_obj.product_list_id);
+      });
+
+      productCategory_operations.push({
+        updateOne: {
+          filter: { _id: product_category_id },
+          update: {
+            $pullAll: {
+              productLists: move_ids,
+            },
+          },
+        },
+      });
+
+      // Add to each specified category
+      lists_to_move.forEach((move_obj) => {
+        productCategory_operations.push({
+          updateOne: {
+            filter: { _id: move_obj.move_to_category_id },
+            update: {
+              $push: {
+                productLists: move_obj.product_list_id,
               },
             },
           },
         });
       });
     }
-    if (list_names_to_add && list_names_to_add.length > 0) {
-      list_names_to_add.forEach((name: string) => {
-        productList_operations.push({
-          insertOne: {
-            document: {
-              product_list_name: name,
-              product_ids: [],
-            },
-          },
-        });
-      });
-    }
 
-    if (lists_to_delete && lists_to_delete.length > 0) {
-      lists_to_delete.forEach((_id: string) => {
-        productList_operations.push({
-          deleteOne: { filter: { _id } },
-        });
-      });
-    }
-
-    // // -> Operations on ProductCategory
-
-    // if(product_category_name) {
-    // }
-    //  productCategory_op_details
-    // res = {...res, productCategory_op_details}
-
-    // Perform Operations
-    // let productList_op_details;
-    // try {
-    const productList_op_details = await ProductList.bulkWrite(
-      productList_operations,
+    const productCategory_op_details = await ProductCategory.bulkWrite(
+      productCategory_operations,
     );
-    // } catch (error) {
-    //   if (error instanceof Casterror)
-    // }
 
-    const res = {
+    let res;
+    res = {
       productList_op_details,
+      productCategory_op_details,
     };
+
+    if (problems && problems.length > 0) {
+      res = { ...res, problems };
+    }
 
     return NextResponse.json(
       {
