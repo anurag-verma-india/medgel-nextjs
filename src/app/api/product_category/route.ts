@@ -19,6 +19,7 @@ import ProductCategory from "@/models/productCategory";
 import handleError from "@/helpers/handleError";
 import ProductList from "@/models/productList";
 import { AnyBulkWriteOperation } from "mongoose";
+// import { Key } from "lucide-react";
 
 /*
 ----- Authentication levels ----- No authentication
@@ -125,66 +126,43 @@ export async function GET() {
 //   }
 // }
 
-// Helper function to generate unique name by appending dashes
-
-const generateUniqueName = async (
-  baseName: string,
-  excludeId?: string,
-): Promise<string> => {
-  let uniqueName = baseName;
-  let counter = 0;
-
-  while (true) {
-    // Build query to check if name exists
-    const query: { product_list_name: string; _id?: { $ne: string } } = {
-      product_list_name: uniqueName,
-    };
-
-    // If we're editing, exclude the current document from the check
-    if (excludeId) {
-      query._id = { $ne: excludeId };
-    }
-
-    const existingList = await ProductList.findOne(query);
-
-    if (!existingList) {
-      return uniqueName;
-    }
-
-    // If name exists, append a dash and try again
-    counter++;
-    uniqueName = baseName + "-".repeat(counter);
-  }
-};
-
-// type received_list_edit_object =
-type put_request_type = {
-  product_category_id: string;
-  lists_to_edit: { _id: string; product_list_name: string }[];
-  list_names_to_add: string[];
-  lists_to_delete: string[];
-  product_category_name: string[];
-  lists_to_move: { _id: string; category_id: string };
-};
-
 export async function PUT(request: NextRequest) {
   // TODO: Make sure the user is admin
   /*
   Add products to existing category (identify by id or name)
   */
+
+  type received_list_edit_object = {
+    _id: string;
+    product_list_name: string;
+  };
+
+  type received_list_move_object = {
+    move_to_category_id: string;
+    product_list_id: string;
+  };
+
+  type put_request_body = {
+    product_category_id: string;
+    lists_to_edit: received_list_edit_object[];
+    product_category_name: string;
+    list_names_to_add: string[];
+    lists_to_delete: string[];
+    lists_to_move: received_list_move_object[];
+  };
   try {
     await dbConnect();
 
-    const body = await request.json();
-    let res;
+    const body: put_request_body = await request.json();
+    // let res;
     const {
       product_category_id, // Category Identifier
+      product_category_name, // Category
       lists_to_edit, // List
       list_names_to_add, // List & Category
       lists_to_delete, // List & Category
-      product_category_name, // Category
       lists_to_move, // Category
-    }: put_request_type = body;
+    } = body;
 
     console.log("product_category_id");
     console.log(product_category_id);
@@ -222,44 +200,150 @@ export async function PUT(request: NextRequest) {
 
     // Performing Operations on DB
 
+    // Check if the ids are valid or not whenever they are used (reduce or prevent errors)
+    // https://stackoverflow.com/questions/14940660/whats-mongoose-error-cast-to-objectid-failed-for-value-xxx-at-path-id
+    /*
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      // Yes, it's a valid ObjectId, proceed with `findById` call.
+    }
+    */
+
     // -> Operations on ProductList
+    const problems: string[] = [];
     // Prepare Operations to perform
     const productList_operations: AnyBulkWriteOperation[] = [];
-
     if (lists_to_edit && lists_to_edit.length > 0) {
       for (const list_obj of lists_to_edit) {
-        // Only adding the editing operation for valid ids
-        if (list_obj._id && list_obj._id.match(/^[0-9a-fA-F]{24}$/)) {
-          // Generate unique name, excluding the current document
-          const uniqueName = await generateUniqueName(
-            list_obj.product_list_name,
-            list_obj._id,
-          );
+        // lists_to_edit.forEach(async (list_obj: received_list_edit_object) => {
+        // Validating Mongodb id
 
-          productList_operations.push({
-            updateOne: {
-              filter: { _id: list_obj._id },
-              update: {
-                $set: {
-                  product_list_name: uniqueName,
+        const found_list_name = await ProductList.findOne({
+          product_list_name: list_obj.product_list_name,
+          _id: {$ne: list_obj._id}
+        });
+        // console.log("Found list name: ");
+        // console.log(found_list_name);
+
+        if (list_obj._id.match(/^[0-9a-fA-F]{24}$/)) {
+          if (!found_list_name) {
+            productList_operations.push({
+              updateOne: {
+                filter: { _id: list_obj._id },
+                update: {
+                  $set: {
+                    product_list_name: list_obj.product_list_name,
+                  },
                 },
               },
-            },
-          });
+            });
+          } else {
+            // productList_operations.push({
+            //   updateOne: {
+            //     filter: { _id: list_obj._id },
+            //     update: {
+            //       $set: {
+            //         product_list_name: list_obj.product_list_name + "-",
+            //       },
+            //     },
+            //   },
+            // });
+            problems.push(
+              `Name provided to be edited to, already exists: ${list_obj.product_list_name}`,
+            );
+          }
+        } else {
+          problems.push(
+            `Given ID in lists_to_edit is not valid: ${list_obj._id}`,
+          );
         }
       }
     }
 
     if (list_names_to_add && list_names_to_add.length > 0) {
       for (const name of list_names_to_add) {
-        // Generate unique name for new list
-        const uniqueName = await generateUniqueName(name);
+        const found_list_name = await ProductList.findOne({
+          product_list_name: name,
+        });
+        if (!found_list_name) {
+          productList_operations.push({
+            insertOne: {
+              document: {
+                product_list_name: name,
+                product_ids: [],
+              },
+            },
+          });
+        } else {
+          // productList_operations.push({
+          //   insertOne: {
+          //     document: {
+          //       product_list_name: name + "-",
+          //       product_ids: [],
+          //     },
+          //   },
+          // });
+          problems.push(
+            `Given list name (${name}) already existed in the list of products document`,
+          );
+        }
+      }
+    }
 
-        productList_operations.push({
-          insertOne: {
-            document: {
-              product_list_name: uniqueName,
-              product_ids: [],
+    if (lists_to_delete && lists_to_delete.length > 0) {
+      for (const _id of lists_to_delete) {
+        if (_id.match(/^[0-9a-fA-F]{24}$/)) {
+          productList_operations.push({
+            deleteOne: { filter: { _id } },
+          });
+        } else {
+          problems.push(
+            `Given List id to delete from product list is invalid: ${lists_to_delete}`,
+          );
+        }
+      }
+    }
+
+    const productList_op_details = await ProductList.bulkWrite(
+      productList_operations,
+    );
+
+    // -> Operations on ProductCategory
+    const productCategory_operations: AnyBulkWriteOperation[] = [];
+    if (product_category_name && product_category_name.length > 0) {
+      productCategory_operations.push({
+        updateOne: {
+          filter: {
+            _id: product_category_id,
+          },
+          update: {
+            $set: {
+              product_category_name,
+            },
+          },
+        },
+      });
+    }
+
+    if (list_names_to_add && list_names_to_add.length > 0) {
+      if (productList_op_details && productList_op_details.insertedIds) {
+        const insertedListIds: string[] = [];
+        // Converting received MongoDB array in this format {"0": ObjectId(example)} to this format ["example"]
+        Object.values(productList_op_details.insertedIds).forEach(
+          (value: string) => {
+            // Validating mongoDB ID
+            if (value.toString().match(/^[0-9a-fA-F]{24}$/)) {
+              insertedListIds.push(value);
+            }
+          },
+        );
+
+        productCategory_operations.push({
+          updateOne: {
+            filter: { _id: product_category_id },
+            update: {
+              $push: {
+                productLists: { $each: insertedListIds },
+              },
             },
           },
         });
@@ -267,43 +351,76 @@ export async function PUT(request: NextRequest) {
     }
 
     if (lists_to_delete && lists_to_delete.length > 0) {
-      lists_to_delete.forEach((_id: string) => {
-        productList_operations.push({
-          deleteOne: { filter: { _id } },
+      productCategory_operations.push({
+        updateOne: {
+          filter: { _id: product_category_id },
+          update: {
+            $pullAll: {
+              productLists: lists_to_delete,
+            },
+          },
+        },
+      });
+    }
+
+    if (lists_to_move && lists_to_move.length > 0) {
+      // Delete  from current and add to other category
+
+      // Delete from current category
+      // pull just the list ids from lists_to_move array
+      const move_ids: string[] = [];
+      lists_to_move.forEach((move_obj) => {
+        move_ids.push(move_obj.product_list_id);
+      });
+
+      productCategory_operations.push({
+        updateOne: {
+          filter: { _id: product_category_id },
+          update: {
+            $pullAll: {
+              productLists: move_ids,
+            },
+          },
+        },
+      });
+
+      // Add to each specified category
+      lists_to_move.forEach((move_obj) => {
+        productCategory_operations.push({
+          updateOne: {
+            filter: { _id: move_obj.move_to_category_id },
+            update: {
+              $push: {
+                productLists: move_obj.product_list_id,
+              },
+            },
+          },
         });
       });
     }
 
-    // // -> Operations on ProductCategory
-
-    // const {
-    //   product_category_id, // Category Identifier
-    //   product_category_name, // Category
-    //   lists_to_edit, // List
-    //   list_names_to_add, // List & Category
-    //   lists_to_delete, // List & Category
-    //   lists_to_move, // Category
-    // }: put_request_type = body;
-
-    // if(product_category_name) {
-    // }
-    //  productCategory_op_details
-    // res = {...res, productCategory_op_details}
-
-    // Perform Operations
-    // let productList_op_details;
-    const productList_op_details = await ProductList.bulkWrite(
-      productList_operations,
+    const productCategory_op_details = await ProductCategory.bulkWrite(
+      productCategory_operations,
     );
 
+    let res;
     res = {
       productList_op_details,
+      productCategory_op_details,
     };
+
+    // If problems then add to response
+    if (problems && problems.length > 0) {
+      res = { ...res, problems };
+    }
 
     return NextResponse.json(
       {
         success: true,
-        message: "Successfully completed all operations",
+        message:
+          problems && problems.length > 0
+            ? "Some failures happened"
+            : "Successfully completed all operations",
         details: res,
       },
       { status: 200 },
