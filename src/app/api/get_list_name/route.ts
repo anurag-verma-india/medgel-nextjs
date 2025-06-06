@@ -62,14 +62,22 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           message: "Please provide an array of product list ids",
+          product_lists: [
+            // {
+            //   _id: "",
+            //   product_list_name: "This category is empty",
+            //   product_ids: [],
+            // },
+          ],
         },
-        { status: 400 },
+        { status: 200 },
       );
     }
 
     const product_lists = await ProductList.find({
       _id: { $in: product_id_array },
     });
+
     return NextResponse.json(
       {
         success: true,

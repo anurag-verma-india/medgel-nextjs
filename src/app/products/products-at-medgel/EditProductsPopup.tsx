@@ -3,9 +3,10 @@
 
 import ProductsContext from "@/contexts/ProductsContext";
 import { ProductContextProps, ProductsStateType } from "@/types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Clipboard } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { Clipboard } from "lucide-react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 // import ListItem from "./ListItem";
 // import ProductsContextProvider from "@/contexts/ProductsContextProvider";
 
@@ -14,8 +15,8 @@ type EditProductsPopupParams = {
 };
 
 const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
-  const { productsState, setProductsState } =
-    useContext<ProductContextProps>(ProductsContext);
+  // const { productsState, setProductsState } =
+  const { productsState } = useContext<ProductContextProps>(ProductsContext);
 
   // Create a deep copy of productsState for local edits
   const [localProductsState, setLocalProductsState] =
@@ -30,31 +31,21 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
   const activeCategory =
     localProductsState.categories[localProductsState.activeList];
 
-  // const [activeCategory, setActiveCategory] = useState(
-  //   localProductsState.categories[localProductsState.activeList],
-  // );
+  const updateActiveListName = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const updatedState = { ...localProductsState };
 
-  // const { productsState, setProductsState } =
-  //   useContext<ProductContextProps>(ProductsContext);
-  // // console.log("Products state: \n");
-  // // console.log(productsState);
-  // const [localProductsState, setLocalProductsState] =
-  //   useState<ProductsStateType>(productsState);
+    const updatedCategories = [...updatedState.categories];
 
-  // // Get the active category based on activeList index
-  // // const activeCategory =
-  // //   localProductsState.categories[localProductsState.activeList];
-  // const [activeCategory, setActiveCategory] = useState(
-  //   localProductsState.categories[localProductsState.activeList],
-  // );
+    updatedCategories[updatedState.activeList] = {
+      ...updatedCategories[updatedState.activeList],
+      name: e.target.value,
+    };
 
-  // --------------
+    updatedState.categories = updatedCategories;
 
-  // console.log("Categories: ");
-  // for (const category of productsState.categories[productsState.activeList]
-  //   .listEntries) {
-  //   console.log(category.name);
-  // }
+    setLocalProductsState(updatedState);
+  };
 
   const updateListEntry = (
     entryIndex: number,
@@ -75,9 +66,7 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
       updatedEntries;
 
     setLocalProductsState(updatedState);
-
     // setProductsState(updatedState);
-
     // onUpdate(updatedState);
   };
 
@@ -97,6 +86,86 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
     setLocalProductsState(productsState);
   };
 
+  const [lists_to_delete, set_lists_to_delete] = useState<string[]>([]);
+
+  const handleListDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // console.log(e.target.id);
+    // console.log("List id:", e.currentTarget.id);
+    const list_id_to_be_deleted = e.currentTarget.id;
+    set_lists_to_delete([...lists_to_delete, list_id_to_be_deleted]);
+
+    const activeListEntries = activeCategory.listEntries;
+    const updatedActiveListEntries = activeListEntries.filter(
+      (list) => list.id !== list_id_to_be_deleted,
+    );
+
+    const updatedProductsState = localProductsState;
+
+    updatedProductsState.categories[updatedProductsState.activeList] = {
+      ...activeCategory,
+      listEntries: updatedActiveListEntries,
+    };
+
+    setLocalProductsState(updatedProductsState);
+    // setProductsState(updatedProductsState);
+  };
+
+  const [list_names_to_add, set_list_names_to_add] = useState<string[]>([]);
+
+  const handleListAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // console.log(e.currentTarget.classList);
+    set_list_names_to_add([...list_names_to_add, ""]);
+  };
+
+  const [lists_to_move, set_lists_to_move] = useState<
+    {
+      move_to_category_id: string;
+      product_list_id: string;
+    }[]
+  >([]);
+  // "lists_to_move": [
+  //     {
+  //         "move_to_category_id": "682f466c01ad7b9fb616bc96",
+  //         "product_list_id": "683d667254f80909062e4d59"
+  //     }
+  // ]
+  const handleListMove = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    list_id: string,
+  ) => {
+    e.preventDefault();
+    // console.log(localProductsState);
+    // console.log("List: ", list_id);
+    // console.log("category: ", e.target.value);
+
+    // };
+
+    // const handleListMove = (e) => {
+    const selectedCategoryId = e.target.value;
+
+    // Update the lists_to_move state
+    set_lists_to_move((prev) => {
+      // Remove existing entry for this product list if it exists
+      const filtered = prev.filter(
+        (item) => item.product_list_id !== activeCategory._id,
+      );
+      // Add new entry (only if different from original category)
+      if (selectedCategoryId !== activeCategory._id) {
+        return [
+          ...filtered,
+          {
+            move_to_category_id: selectedCategoryId,
+            product_list_id: list_id,
+            // product_list_id: activeCategory._id,
+          },
+        ];
+      }
+      return filtered;
+    });
+  };
+
   const handleSave = async (
     e: React.MouseEvent<HTMLButtonElement>,
   ): Promise<void> => {
@@ -107,19 +176,73 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
     );
     if (!shouldSave) return;
 
-    // try {
-    //   await axios.put("/api/page", {
-    //     title,
-    //     content: formData,
-    //   });
+    // const activeCategoryElements = activeCategory.listEntries
 
-    //   // Close modal and refresh page to show updates
-    //   setModalOpen(false);
-    //   location.reload();
-    // } catch (error) {
-    //   console.error("Failed to save page content:", error);
-    //   alert("Failed to save changes. Please try again.");
-    // }
+    // console.log(
+    //   "Local Products state active category listEntries: ",
+    //   activeCategory.listEntries,
+    // );
+
+    // console.log("Local Products state: ");
+    // console.log(localProductsState);
+
+    console.log("Active category");
+    console.log(activeCategory.listEntries);
+
+    const lists_to_edit = [];
+    for (const list of activeCategory.listEntries) {
+      lists_to_edit.push({
+        _id: list.id,
+        product_list_name: list.name,
+      });
+    }
+
+    try {
+      const response = await axios.put("/api/product_category", {
+        product_category_id: activeCategory._id, // Test Category
+        // product_category_id: "682f466c01ad7b9fb616bc96", // Test Category
+        // product_category_id: "683c3a253294ff27a99a3ce1", // Test Category 2
+        product_category_name: activeCategory.name,
+        lists_to_edit,
+        // [
+        // {
+        //   _id: "683d653f54f80909062e4d44", // List Aquaman
+        //   product_list_name: "",
+        // },
+        // ],
+        lists_to_delete,
+        // lists_to_delete: ["683f1d57cbb958c497a7a2ac"],
+        list_names_to_add,
+        // list_names_to_add: [
+        //   // 683d653f54f80909062e4d44
+        //   // "List Batman"
+        //   // , //
+        //   "List Superman",
+        // ],
+        lists_to_move,
+        // lists_to_move: [
+        //   {
+        //     move_to_category_id: "682f466c01ad7b9fb616bc96",
+        //     product_list_id: "683d667254f80909062e4d59",
+        //   },
+        // ],
+      });
+
+      console.log("Saved category axios response: ", response);
+
+      // Close modal and refresh page to show updates
+      setModalOpen(false);
+      location.reload();
+
+      // Instead of reloading updating the context product state with local one (from popup)
+      // Not worth the hassle while adding a new list name
+      // if (response.data.success) {
+      //   setProductsState(localProductsState);
+      // }
+    } catch (error) {
+      console.error("Failed to save products content:", error);
+      alert("Failed to save product changes. Please try again.");
+    }
   };
 
   return (
@@ -147,13 +270,36 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
               ×
             </button>
           </div>
-          <div className="mb-2 block w-full text-center text-3xl font-medium text-gray-700">
-            {productsState.categories[productsState.activeList].name}
+          {/* Category Name */}
+          <h1 className="flex justify-center text-xl font-bold">
+            Category Name
+          </h1>
+          <div className="flex justify-center">
+            <input
+              // id={`entry-name-${entry.id}`}
+              // name={`entry-name-${entry.id}`}
+              className="mb-3 w-full rounded-lg border border-gray-300 p-3 text-3xl font-bold shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              value={
+                localProductsState.categories[localProductsState.activeList]
+                  .name
+              }
+              onChange={(e) => {
+                updateActiveListName(e);
+              }}
+            />
           </div>
+
+          <h1 className="flex justify-center text-xl font-bold">Lists</h1>
           {activeCategory.listEntries.map((entry, index) => (
-            <div key={entry.id} className="space-y-4 rounded-lg border p-4">
-              <div className="mb-4">
-                <label
+            <div
+              key={entry.id}
+              className="mb-5 space-y-4 rounded-lg border p-4"
+            >
+              <div>
+                <label htmlFor={`entry-name-${entry.id}`}>
+                  {index + 1}. List: {entry.id}
+                </label>
+                {/* <label
                   htmlFor={`entry-name-${entry.id}`}
                   className="mb-2 flex w-1/2 items-center text-sm font-medium text-gray-700 hover:cursor-pointer"
                   onClick={() => {
@@ -166,21 +312,21 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
                     }
                   }}
                 >
-                  {index + 1}. Product List ID:{" "}
-                  {/* List Id (with clipboard icon) */}
-                  <div className="group flex items-center rounded-sm bg-gray-400 p-1 text-black">
+                  {index + 1}. Product List ID:{" "} */}
+                {/* List Id (with clipboard icon) */}
+                {/* <div className="group flex items-center rounded-sm bg-gray-400 p-1 text-black">
                     <span className="group-hover:hidden">{entry.id}</span>
                     <span className="hidden group-hover:inline">
                       Click to copy this ID to clipboard
                     </span>
                     <Clipboard className="h-5" />
-                  </div>
-                  {/* 
+                  </div> */}
+                {/* 
                   <div className="flex items-center rounded-sm bg-gray-400 p-1 text-black">
                     {entry.id}
                     <Clipboard className="h-5" />
                   </div> */}
-                </label>
+                {/* </label> */}
                 <input
                   id={`entry-name-${entry.id}`}
                   name={`entry-name-${entry.id}`}
@@ -191,31 +337,79 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
                   }
                 />
               </div>
-              {/* Number of Products (Unimplemented) */}
-              {/* <div>
-                <label
-                  htmlFor={`entry-products-${entry.id}`}
-                  className="mb-2 block text-sm font-medium text-gray-700"
+
+              <div className="flex w-full">
+                <div className="mr-3">
+                  <div className="flex w-full justify-center text-blue-400">
+                    Move List
+                  </div>
+                  <select
+                    className="rounded-xl bg-slate-300 p-3"
+                    defaultValue={activeCategory._id}
+                    onChange={(e) => handleListMove(e, entry.id)}
+                  >
+                    {localProductsState.categories.map((value, idx) => {
+                      return (
+                        <option value={value._id} key={idx}>
+                          {value.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {/* <select className="rounded-xl bg-slate-300 p-3">
+                    <option value="">Option 1</option>
+                    <option value="">Option 2</option>
+                  </select> */}
+                </div>
+                <button
+                  className="rounded-xl bg-slate-300 p-3 text-red-400"
+                  id={entry.id}
+                  onClick={(e) => {
+                    handleListDelete(e);
+                  }}
                 >
-                  Number of Products
-                </label>
-                <input
-                  id={`entry-products-${entry.id}`}
-                  name={`entry-products-${entry.id}`}
-                  type="number"
-                  className="w-full rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  value={entry.products}
-                  onChange={(e) =>
-                    updateListEntry(
-                      index,
-                      "products",
-                      parseInt(e.target.value, 10) || 0,
-                    )
-                  }
-                />
-              </div> */}
+                  Delete List
+                </button>
+              </div>
             </div>
           ))}
+          {/*  */}
+          <div className="flex justify-center text-2xl font-bold">
+            Add new List
+          </div>
+          {list_names_to_add.map((entry, index) => (
+            // {activeCategory.listEntries.map((entry, index) => (
+            <div key={index} className="mb-5 space-y-4 rounded-lg border p-4">
+              <div>
+                <label htmlFor={`list-to-add-${index}`}>{index + 1}</label>
+                <input
+                  // name={`list-to-add-${index}`}
+                  id={`list-to-add-${index}`}
+                  className="w-full rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  value={entry}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    set_list_names_to_add(
+                      list_names_to_add.map(
+                        (item, idx) => (idx === index ? e.target.value : item),
+                        // If list index is equal to the index of the input field => then return target value, otherwise just return the item
+                      ),
+                    );
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+          {/*  */}
+
+          <div className="flex justify-center">
+            <button
+              className="w-1/3 rounded-lg bg-slate-300 text-3xl text-black"
+              onClick={(e) => handleListAdd(e)}
+            >
+              +
+            </button>
+          </div>
         </div>
 
         {/* Action buttons */}
