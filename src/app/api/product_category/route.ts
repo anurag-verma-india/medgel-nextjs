@@ -157,8 +157,8 @@ export async function PUT(request: NextRequest) {
     // let res;
     const {
       product_category_id, // Category Identifier
-      lists_to_edit, // List
       product_category_name, // Category
+      lists_to_edit, // List
       list_names_to_add, // List & Category
       lists_to_delete, // List & Category
       lists_to_move, // Category
@@ -200,7 +200,7 @@ export async function PUT(request: NextRequest) {
 
     // Performing Operations on DB
 
-    // TODO: Check if the ids are valid or not whenever they are used (reduce or prevent errors)
+    // Check if the ids are valid or not whenever they are used (reduce or prevent errors)
     // https://stackoverflow.com/questions/14940660/whats-mongoose-error-cast-to-objectid-failed-for-value-xxx-at-path-id
     /*
     if (id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -219,10 +219,10 @@ export async function PUT(request: NextRequest) {
 
         const found_list_name = await ProductList.findOne({
           product_list_name: list_obj.product_list_name,
-          // _id: {$ne: list_obj._id}
+          _id: {$ne: list_obj._id}
         });
-        console.log("Found list name: ");
-        console.log(found_list_name);
+        // console.log("Found list name: ");
+        // console.log(found_list_name);
 
         if (list_obj._id.match(/^[0-9a-fA-F]{24}$/)) {
           if (!found_list_name) {
@@ -237,18 +237,18 @@ export async function PUT(request: NextRequest) {
               },
             });
           } else {
-            productList_operations.push({
-              updateOne: {
-                filter: { _id: list_obj._id },
-                update: {
-                  $set: {
-                    product_list_name: list_obj.product_list_name + "-",
-                  },
-                },
-              },
-            });
+            // productList_operations.push({
+            //   updateOne: {
+            //     filter: { _id: list_obj._id },
+            //     update: {
+            //       $set: {
+            //         product_list_name: list_obj.product_list_name + "-",
+            //       },
+            //     },
+            //   },
+            // });
             problems.push(
-              `Name provided to be edited to, already exists ${list_obj.product_list_name}. So, added - to it`,
+              `Name provided to be edited to, already exists: ${list_obj.product_list_name}`,
             );
           }
         } else {
@@ -274,16 +274,16 @@ export async function PUT(request: NextRequest) {
             },
           });
         } else {
-          productList_operations.push({
-            insertOne: {
-              document: {
-                product_list_name: name + "-",
-                product_ids: [],
-              },
-            },
-          });
+          // productList_operations.push({
+          //   insertOne: {
+          //     document: {
+          //       product_list_name: name + "-",
+          //       product_ids: [],
+          //     },
+          //   },
+          // });
           problems.push(
-            `Given list name (${name}) already existed in the list of products document. So, added - to it`,
+            `Given list name (${name}) already existed in the list of products document`,
           );
         }
       }
@@ -409,6 +409,7 @@ export async function PUT(request: NextRequest) {
       productCategory_op_details,
     };
 
+    // If problems then add to response
     if (problems && problems.length > 0) {
       res = { ...res, problems };
     }
@@ -416,7 +417,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: "Successfully completed all operations",
+        message:
+          problems && problems.length > 0
+            ? "Some failures happened"
+            : "Successfully completed all operations",
         details: res,
       },
       { status: 200 },

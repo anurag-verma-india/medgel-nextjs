@@ -39,13 +39,13 @@ const ProductContainer = ({
   return (
     <>
       {/* <ProductsContextProvider> */}
-        {/* <ProductCategories categories={categories} /> */}
-        <ProductCategories  />
-        <ListOfProducts
-          tokenValid={tokenValid}
-          allowVerificationAfter={allowVerificationAfter}
-          emailSent={emailSent}
-        />
+      {/* <ProductCategories categories={categories} /> */}
+      <ProductCategories />
+      <ListOfProducts
+        tokenValid={tokenValid}
+        allowVerificationAfter={allowVerificationAfter}
+        emailSent={emailSent}
+      />
       {/* </ProductsContextProvider> */}
     </>
   );

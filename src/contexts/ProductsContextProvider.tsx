@@ -23,6 +23,7 @@ export default function PopupContextProvider({
     activeList: 0,
     loading: true, // Start with loading true
     categories: [],
+    error: "",
   });
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function PopupContextProvider({
         // Process each category sequentially
         for (const category of categoriesData) {
           const categoryToSet: ProductCategoryItem = {
+            _id: category._id,
             name: category.product_category_name,
             listEntries: [],
           };
