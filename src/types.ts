@@ -1,6 +1,7 @@
 // src/types.ts
 
 import { JwtPayload } from "jsonwebtoken";
+import { ReactNode } from "react";
 
 export interface BasePageContent {
   [key: string]:
@@ -55,7 +56,7 @@ export interface ProductListEntry {
 }
 
 export interface ProductCategoryItem {
-  _id: string,
+  _id: string;
   name: string;
   listEntries: ProductListEntry[];
 }
@@ -83,3 +84,8 @@ export interface ProductListEntryDB {
   product_list_name: string;
   product_ids: string[];
 }
+
+export type ProductListParams = {
+  params: Promise<{ listId: string }>;
+  children: ReactNode;
+};
