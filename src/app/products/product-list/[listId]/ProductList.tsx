@@ -239,7 +239,9 @@ export default function ProductList({ params, children }: ProductListParams) {
 
               {isEmpty && (
                 <>
-                  <div>List is empty</div>
+                  <div className="text-3xl">This list is empty</div>
+                  <div className="flex w-full justify-center">{children}</div>
+                  <div className="h-screen" />
                 </>
               )}
               {!isEmpty && (
