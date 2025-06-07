@@ -73,7 +73,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto px-4">
+      <div className="mx-auto max-w-7xl px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link href="/home">
@@ -95,7 +95,8 @@ export default function Header() {
               <div key={item.label} className="group relative">
                 <Link
                   href={item.href}
-                  className={`relative block px-1 py-2 ${
+                  // className={`relative block px-1 py-2 ${
+                  className={`relative block ${
                     isCurrentPage(item)
                       ? "font-medium text-blue-600"
                       : "text-gray-700 hover:text-blue-600"
@@ -103,7 +104,9 @@ export default function Header() {
                 >
                   {item.label}
                   {isCurrentPage(item) && (
-                    <span className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-600"></span>
+                    <>
+                      <span className="absolute bottom-0 left-0 h-0.5 w-full bg-blue-600"></span>
+                    </>
                   )}
                 </Link>
 
