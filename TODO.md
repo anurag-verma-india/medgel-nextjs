@@ -1,4 +1,21 @@
-# UI fixes
+# TODO
+
+- [ ] Product
+  - [ ] Product Category Edit before loading error
+  - [ ] Product List Edit (Taha)
+    - [ ] Local storage activeCategory id save (category page)
+    - [ ] Create context - fetch products details, fetch lists
+- [ ] Product Page (API) (Anurag)
+
+- [ ] Edit functionality in pages
+
+News section
+
+## UI fixes (Rajat)
+
+- [ ] UI
+
+  - [ ] Show Loading state on link click
 
 - [ ] Fix font in whole site
 - [ ] Quality & Compliance Page
