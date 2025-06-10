@@ -25,11 +25,11 @@ const menuItems: MenuItem[] = [
     label: "About Us",
     href: "#",
     subItems: [
-      // { label: "About Medgel", href: "/about/about-medgel" },
+      { label: "About Medgel", href: "/about/about-medgel" },
       { label: "Life At Medgel", href: "/about/life-at-medgel" },
-      // { label: "Life At Medgel Old", href: "/about/life-at-medgel-old" },
+      { label: "Life At Medgel Old", href: "/about/life-at-medgel-old" },
       { label: "Awards & Accreditation", href: "/about/awards_" },
-      // { label: "Awards & Accreditation All", href: "/about/awardsviewall" },
+      { label: "Awards & Accreditation All", href: "/about/awardsviewall" },
     ],
   },
   {
@@ -41,9 +41,9 @@ const menuItems: MenuItem[] = [
       // { label: "pl-clv2", href: "/products/pl-clv2/abcd" },
     ],
   },
-  // { label: "Quality & Compliance", href: "/quality" },
-  // { label: "Facilities", href: "/facilities" },
-  // { label: "Investor Relations", href: "/investors" },
+  { label: "Quality & Compliance", href: "/quality" },
+  { label: "Facilities", href: "/facilities" },
+  { label: "Investor Relations", href: "/investors" },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -76,7 +76,7 @@ export default function Header() {
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
-          <Link href="/home">
+          <Link href="/">
             {/* <div className="text-2xl font-bold">
               <span className="text-orange-500">MED</span>
               <span className="text-blue-700">GEL</span>

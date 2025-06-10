@@ -4,14 +4,13 @@ import { JwtPayload } from "jsonwebtoken";
 import { ReactNode } from "react";
 
 export interface BasePageContent {
-  [key: string]:
-    | string
-    | number
-    | boolean
-    | null
-    | undefined
-    | Record<string, unknown>
-    | Array<unknown>;
+  [key: string]: string;
+  // | number
+  // | boolean
+  // | null
+  // | undefined
+  // | Record<string, unknown>
+  // | Array<unknown>;
 }
 export type ImageObj = {
   url: string;

@@ -2,7 +2,7 @@
 "use client";
 import PopupContextProvider from "@/contexts/PopupContextProvider";
 import EmailPopupContainer from "./EmailPopupContainer";
-import ProductsContext from "@/contexts/ProductsContext";
+import ProductsContext from "@/contexts/ProductCategoriesContext";
 import ListItem from "./ListItem";
 import { useContext } from "react";
 import { ProductContextProps } from "@/types";

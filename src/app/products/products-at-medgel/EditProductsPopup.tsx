@@ -1,7 +1,7 @@
 // src/app/products/products-at-medgel/EditProductsPopup.tsx
 "use client";
 
-import ProductsContext from "@/contexts/ProductsContext";
+import ProductsContext from "@/contexts/ProductCategoriesContext";
 import { ProductContextProps, ProductsStateType } from "@/types";
 import axios from "axios";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

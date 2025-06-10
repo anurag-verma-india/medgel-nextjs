@@ -4,7 +4,7 @@
 "use client";
 
 import { useContext } from "react";
-import ProductsContext from "@/contexts/ProductsContext";
+import ProductsContext from "@/contexts/ProductCategoriesContext";
 import { ProductContextProps, ProductCategoryItem } from "@/types";
 
 export default function ProductCategories() {
