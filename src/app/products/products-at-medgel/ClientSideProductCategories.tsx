@@ -3,8 +3,8 @@
 import React, { ReactNode } from "react";
 import ProductsContextProvider from "@/contexts/ProductsContextProvider";
 
-const ClientSideProducts = ({ children }: { children: ReactNode }) => {
+const ClientSideProductCategories = ({ children }: { children: ReactNode }) => {
   return <ProductsContextProvider>{children}</ProductsContextProvider>;
 };
 
-export default ClientSideProducts;
+export default ClientSideProductCategories;
