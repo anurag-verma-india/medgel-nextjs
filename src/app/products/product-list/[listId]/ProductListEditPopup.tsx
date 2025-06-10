@@ -3,7 +3,7 @@
 
 const ProductListEditPopup = () => {
   return (
-    <div className="relative right-0 top-0">
+    <div className="relative right-0 top-0 mr-7 mt-7">
       <button
         onClick={() => {
           // setModalOpen(!modalOpen);

@@ -1,14 +1,9 @@
 "use client";
 
-import { ProductListParams } from "@/types";
 import React, { ReactNode } from "react";
+// import ProductsContextProvider from "@/contexts/ProductCategoriesContextProvider";
 
-const ClientSideProducts = ({
-  children,
-}: {
-  children: ReactNode;
-  params: ProductListParams;
-}) => {
+const ClientSideProducts = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
 };
 

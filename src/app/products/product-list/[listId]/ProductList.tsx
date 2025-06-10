@@ -3,7 +3,8 @@
 import axios from "axios";
 // import { RedirectType, useRouter } from "next/navigation";
 import { RedirectType, redirect } from "next/navigation";
-import { ReactNode, use, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+// import { ReactNode, use, useEffect, useState } from "react";
 import { ProductListParams } from "@/types";
 
 type ProductType = {
@@ -22,16 +23,16 @@ interface ProductPageState {
 
 const MobileProductList = ({
   productList,
-  children,
+  // children,
 }: {
   productList: ProductPageState;
-  children: ReactNode;
+  // children: ReactNode;
 }) => {
   return (
     <>
       {/* Mobile View - Vertical Layout */}
       <div className="mb-10 w-full md:hidden">
-        {children}
+        {/* {children} */}
         {productList.list.map((product, index) => (
           <div
             key={index}
@@ -98,16 +99,16 @@ const MobileProductList = ({
 
 const DesktopProductList = ({
   productList,
-  children,
+  // children,
 }: {
   productList: ProductPageState;
-  children: ReactNode;
+  // children: ReactNode;
 }) => {
   return (
     <>
       {/* Desktop View - Table */}
       <div className="mb-10 hidden w-full overflow-x-auto rounded-2xl border-2 bg-neutral-100 md:block md:w-5/6">
-        {children}
+        {/* {children} */}
         <table className="min-w-full">
           <thead>
             <tr className="bg-gray-200 text-left">
@@ -147,7 +148,8 @@ const DesktopProductList = ({
   );
 };
 
-export default function ProductList({ params, children }: ProductListParams) {
+// export default function ProductList({ params, children }: ProductListParams) {
+export default function ProductList({ params }: ProductListParams) {
   const { listId } = use(params);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -240,17 +242,17 @@ export default function ProductList({ params, children }: ProductListParams) {
               {isEmpty && (
                 <>
                   <div className="text-3xl">This list is empty</div>
-                  <div className="flex w-full justify-center">{children}</div>
+                  {/* <div className="flex w-full justify-center">{children}</div> */}
                   <div className="h-screen" />
                 </>
               )}
               {!isEmpty && (
                 <>
                   <MobileProductList productList={productList}>
-                    {children}
+                    {/* {children} */}
                   </MobileProductList>
                   <DesktopProductList productList={productList}>
-                    {children}
+                    {/* {children} */}
                   </DesktopProductList>
                 </>
               )}

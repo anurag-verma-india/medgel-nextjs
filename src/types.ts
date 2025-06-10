@@ -1,7 +1,7 @@
 // src/types.ts
 
 import { JwtPayload } from "jsonwebtoken";
-import { ReactNode } from "react";
+// import { ReactNode } from "react";
 
 export interface BasePageContent {
   [key: string]: string;
@@ -67,7 +67,12 @@ export interface ProductsCategoriesStateType {
   error: string;
 }
 
-// export interface ProductsLis
+export interface ProductDataStateType {
+  activeCategoryId: string;
+  products: product[];
+  loading: boolean;
+  error: string;
+}
 
 export interface ProductContextProps {
   productsState: ProductsCategoriesStateType;
@@ -97,8 +102,4 @@ export type product = {
   composition: string;
   color: string;
   lastUpdated: number;
-  //  {
-  //   type: Date;
-  //   default: Date.now;
-  // };
 };
