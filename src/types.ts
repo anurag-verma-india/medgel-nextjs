@@ -60,16 +60,18 @@ export interface ProductCategoryItem {
   listEntries: ProductListEntry[];
 }
 
-export interface ProductsStateType {
+export interface ProductsCategoriesStateType {
   activeList: number;
   categories: ProductCategoryItem[];
   loading: boolean;
   error: string;
 }
 
+// export interface ProductsLis
+
 export interface ProductContextProps {
-  productsState: ProductsStateType;
-  setProductsState: (objct: ProductsStateType) => void;
+  productsState: ProductsCategoriesStateType;
+  setProductsState: (object: ProductsCategoriesStateType) => void;
 }
 
 export interface ProductCategoryItemDB {
@@ -86,5 +88,17 @@ export interface ProductListEntryDB {
 
 export type ProductListParams = {
   params: Promise<{ listId: string }>;
-  children: ReactNode;
+};
+
+export type product = {
+  innovator: string;
+  product: string;
+  code: string;
+  composition: string;
+  color: string;
+  lastUpdated: number;
+  //  {
+  //   type: Date;
+  //   default: Date.now;
+  // };
 };
