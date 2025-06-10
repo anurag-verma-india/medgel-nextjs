@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProductsContext from "./ProductsContext";
+import ProductsContext from "./ProductCategoriesContext";
 import {
   ProductsStateType,
   ProductCategoryItem,
@@ -64,7 +64,7 @@ export default function PopupContextProvider({
 
         // console.log("Product lists found (context)");
         // console.log(product_lists);
-
+        
           // Process each list
           product_lists.forEach((list) => {
             const listEntryToSet: ProductListEntry = {

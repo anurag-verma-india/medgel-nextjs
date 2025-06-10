@@ -2,7 +2,7 @@
 "use client";
 import PopupContextProvider from "@/contexts/PopupContextProvider";
 import EmailPopupContainer from "./EmailPopupContainer";
-import ProductsContext from "@/contexts/ProductsContext";
+import ProductsContext from "@/contexts/ProductCategoriesContext";
 import ListItem from "./ListItem";
 import { useContext } from "react";
 import { ProductContextProps } from "@/types";
@@ -55,13 +55,14 @@ export default function ListOfProducts({
                 ListTitle={value.name}
                 NumberOfProducts={value.products}
                 ListId={value.id}
+                CategoryId={activeCategory._id}
               />
             );
           })}
 
         {/* If There are no products in the state */}
         {(!productsState || productsState.categories.length <= 0) && (
-          <ListItem ListTitle={"Loading..."} NumberOfProducts={0} ListId="" />
+          <ListItem ListTitle={"Loading..."} NumberOfProducts={0} ListId=""CategoryId="" />
         )}
         {/* <ListItem ListTitle={"Row 1"} NumberOfProducts={4} ListId="1234" /> */}
         {/* You can add more ListItems here or filter them based on active category */}

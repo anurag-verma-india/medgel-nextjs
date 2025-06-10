@@ -4,7 +4,7 @@
 "use client";
 
 import { useContext } from "react";
-import ProductsContext from "@/contexts/ProductsContext";
+import ProductsContext from "@/contexts/ProductCategoriesContext";
 import { ProductContextProps, ProductCategoryItem } from "@/types";
 
 export default function ProductCategories() {
@@ -24,9 +24,10 @@ export default function ProductCategories() {
     setProductsState({ ...productsState, activeList: nextList });
   };
 
-  const handleCategoryClick = (index: number) => {
+  const handleCategoryClick = (index: number,id:string) => {
     setProductsState({ ...productsState, activeList: index });
     console.log("Changing active products state: ", index);
+    console.log("Changing active products state id: ", id);
   };
 
   // Show loading state
@@ -93,7 +94,7 @@ export default function ProductCategories() {
             className={`flex w-full cursor-pointer justify-center border-b-2 border-r-2 border-neutral-200 p-8 text-center ${
               activeList === index ? "bg-neutral-100" : ""
             }`}
-            onClick={() => handleCategoryClick(index)}
+            onClick={() => handleCategoryClick(index,category._id)}
           >
             {category.name}
           </div>
