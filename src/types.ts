@@ -1,7 +1,7 @@
 // src/types.ts
 
 import { JwtPayload } from "jsonwebtoken";
-import { ReactNode } from "react";
+// import { ReactNode } from "react";
 
 export interface BasePageContent {
   [key: string]: string;
@@ -60,16 +60,23 @@ export interface ProductCategoryItem {
   listEntries: ProductListEntry[];
 }
 
-export interface ProductsStateType {
+export interface ProductsCategoriesStateType {
   activeList: number;
   categories: ProductCategoryItem[];
   loading: boolean;
   error: string;
 }
 
+export interface ProductDataStateType {
+  activeCategoryId: string;
+  products: product[];
+  loading: boolean;
+  error: string;
+}
+
 export interface ProductContextProps {
-  productsState: ProductsStateType;
-  setProductsState: (objct: ProductsStateType) => void;
+  productsState: ProductsCategoriesStateType;
+  setProductsState: (object: ProductsCategoriesStateType) => void;
 }
 
 export interface ProductCategoryItemDB {
@@ -86,5 +93,13 @@ export interface ProductListEntryDB {
 
 export type ProductListParams = {
   params: Promise<{ listId: string }>;
-  children: ReactNode;
+};
+
+export type product = {
+  innovator: string;
+  product: string;
+  code: string;
+  composition: string;
+  color: string;
+  lastUpdated: number;
 };
