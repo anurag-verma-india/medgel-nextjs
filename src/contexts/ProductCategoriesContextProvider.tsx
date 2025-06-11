@@ -62,9 +62,10 @@ export default function PopupContextProvider({
 
           const product_lists: ProductListEntryDB[] = lists.data.product_lists;
 
-          // console.log("Product lists found (context)");
-          // console.log(product_lists);
 
+        // console.log("Product lists found (context)");
+        // console.log(product_lists);
+        
           // Process each list
           product_lists.forEach((list) => {
             const listEntryToSet: ProductListEntry = {
