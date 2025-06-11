@@ -3,20 +3,23 @@
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
+    margin-bottom: 4rem;
   }
 
   .tech-title {
     color: #0D9488;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 35px;
+    text-align: justify;
     text-decoration: underline;
     text-decoration-color: #FB923C;
     text-underline-offset: 1rem;
   }
   .intro-text {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    text-align: justify;
+    font-size: 1.3rem;
+    line-height: 1.3;
     margin-bottom: 30px;
   }
 
@@ -24,13 +27,21 @@
     margin-bottom: 30px;
   }
 
+  .category-section p{
+    text-align: justify;
+    font-size: 1.3rem;
+  }
+
   .category-title {
     color: #FB923C;
-    font-size: 2rem;
+    font-size: 2.2rem;
+    font-weight: bold;
     margin-bottom: 0.5rem;
   }
 
   .product-list {
+    text-align: justify;
+    font-size: 1.3rem;
     list-style-type: decimal;
     margin-left: 20px;
     margin-top: 10px;
@@ -43,20 +54,36 @@
   .equipment-grid {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 80px;
   }
 
-  .equipment-item {
+  .equipment-item{
     display: flex;
-    gap: 20px;
-    align-items: center;
+    gap: 40px;
+    text-align: justify;
+    align-items: last baseline;
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
   }
+
+  .equipment-details h3{
+    color: #FB923C;
+    font-weight: bold;
+    font-size: 2.2rem;
+  }
+
+  .equipment-item p{
+     line-height: 1.2;
+    font-size: 1.3rem;
+  }
+    
 
   .equipment-item:nth-child(even) {
+    text-align: right;
     flex-direction: row-reverse;
+  }
+
+  .boldClass{
+    font-weight: bold;
   }
 
   .equipment-image {
@@ -65,28 +92,18 @@
     object-fit: cover;
     border-radius: 4px;
   }
+  
 
   .equipment-details {
     flex: 1;
   }
 
-  .equipment-details h3 {
-    color: #FB923C;
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-  }
-
-  .equipment-details p {
-    margin-bottom: 8px;
-  }
-
+ 
   .equipment-details ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .equipment-details li {
-    margin-bottom: 8px;
+    line-height: 1.2;
+    font-size: 1.3rem;
+    list-style: disc;
+    padding-left: 20px;
   }
 
   @media (max-width: 768px) {
@@ -115,14 +132,41 @@
     }
 
     .tech-title {
-      font-size: 1.75rem;
+      font-size: 2.8rem;
     }
 
     .intro-text {
-      font-size: 1rem;
+      line-height: 1.2;
+      font-size: 1.2rem;
     }
 
     .equipment-details h3 {
+      line-height: 1.2;
       font-size: 1.2rem;
     }
+
+    .equipment-details p{
+      line-height: 1.2;
+      font-size: 1.2rem;
+    }
+
+    .equipment-details ul{
+      line-height: 1.2;
+      font-size: 1.2rem;
+    }
+
+    .equipment-item:nth-child(even) {
+      text-align: justify;
+    }
+
+    .category-title{
+      font-size: 1.4rem;
+    }
+
+    .category-section p, ul{
+      line-height: 1.2;
+      font-size: 1.2rem;
+    }
+
+    
   }

@@ -6,44 +6,52 @@
 
 .whitebg {
   background-color: white;
-  width: 60;
-  position: relative;
-  color: white;
-  margin-bottom: 6vw;
+  width: 100vw;
+  height: 45vw;
+  margin-bottom: 1vw;
 }
+
 .manufacturing-title-box {
+  
+}
+
+
+
+.manufacturing-title-box{
   position: relative;
-}
-.manufacturing-title-box img {
-  width:100%;
-   margin-left: -0.5vw;
-  margin-top: -6vw; 
-  border-radius: 5vw;
-  transform: rotate(-6deg);
-  display: block;
-}
-.transparent-col {
-  position: absolute;
-  border-radius: 5vw;
-  margin-left: -0.5vw;
-  top: 0;
-  left: 0;
-  width: 100%;
+  width: 121%;
   height: 100%;
-  background-color: rgba(29, 136, 146, 0.5);
+  border-radius: 16vw;
+  margin-left: -0.5vw;
+  top: -6rem;
+  left: -6rem;
+  background-color: #FB923C;
   transform: rotate(-6deg);
-  z-index: 1;
+  background-image: url("/images/manufacturing.jpg");
+  background-position: -17.5rem;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+.transparent-col {
+  height: 100%;
+  width: 100%;
+  border-radius: 16vw;
+  background-color: rgba(29, 136, 146, 0.5);
+  background-size: cover;
+}
+
 .manufacturing-title  {
   position: absolute;
-  top: 50%;
-  left: 38%;
+  top: 32%;
+  left: 35%;
   color: black;
   z-index: 2;
 }
+
 .manufacturing-title h1{
   position: relative;
-  font-size: 4vw;
+  font-size: 4.5vw;
   color: white;
   font-style: bold;
   text-decoration: underline;
@@ -56,32 +64,50 @@
 }
 
 .content-section {
-  width: 90%;
-
+  width: 85%;
   margin: 2vw auto;
   /* padding: 40px 20px; */
 }
 
 .description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 24px;
+  letter-spacing: 1.2px;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: black;
+  font-weight: 500;
+  margin-bottom: 30px;
+  text-align: justify;
 }
 
 .stats-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2vw  ;
+  gap: 2vw;
   margin: 50px 0;
 }
 
 .stat-item {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   text-align: center;
+  letter-spacing: 0.12rem;
+
+}
+
+.vl{
+  position: relative;
+}
+
+.vl::before{
+  content: '';
+  position: absolute;
+  height: 3rem;
+  left: 0;
+  top: 1.5rem;
+  border-left: 1px solid #FB923C;
 }
 
 .stat-item h2 {
-  font-size: 2.0rem;
+  font-size: 2.5rem;
   color: #FB923C;
   margin: 0;
 }
@@ -132,5 +158,51 @@
 
   .content-section {
     padding: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .description{
+      font-size: 1.2rem;
+      letter-spacing: normal;
+    }
+
+    .vl::before{
+      display: none;
+    }
+
+    .whitebg{
+      height: 40vh;
+      width: 100vw;
+      background-color: black;
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .manufacturing-title-box{
+      position: absolute;
+      transform: unset;
+      height: 100%;
+      width: 100%;
+      top: 0px;
+      left: 0;
+      border-radius: unset;
+      scale: 1.1;
+    }
+
+    .transparent-col{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: unset;
+    }
+
+    .manufacturing-title{
+      position: relative;
+      top: 42%;
+      left: 15%;
+    }
+    .manufacturing-title h1{
+      text-underline-offset: 2vh;
+      font-size: 2.8rem;
+    }
   }
 }

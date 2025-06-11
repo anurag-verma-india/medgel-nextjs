@@ -12,7 +12,7 @@ function facilities() {
             <ManufacturingSection />
             {/* <AContractManufacturing/> */}
             <ContractManufacturing />
-            <ResearchDevelopment />
+
             <TechnologySection/>
         </div>
     )
