@@ -7,6 +7,7 @@ import { use, useEffect, useState } from "react";
 // import { ReactNode, use, useEffect, useState } from "react";
 import { ProductListParams } from "@/types";
 
+const CategoryId=window.localStorage.getItem("activeCategoryId")
 type ProductType = {
   id: string;
   innovator: string;
@@ -28,6 +29,9 @@ const MobileProductList = ({
   productList: ProductPageState;
   // children: ReactNode;
 }) => {
+  useEffect(()=>{
+    console.log(" CatgeoryId",CategoryId);
+  },[])
   return (
     <>
       {/* Mobile View - Vertical Layout */}
@@ -55,7 +59,6 @@ const MobileProductList = ({
                 {/* Product Field */}
                 <div className="border-b py-2">
                   <dt className="mb-1 text-sm font-medium text-gray-500">
-                    Product
                   </dt>
                   <dd className="text-sm">{product.product}</dd>
                 </div>

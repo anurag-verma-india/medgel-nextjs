@@ -3,6 +3,7 @@
 import About from "./_components/AboutUs";
 import MissionValues from "./_components/MissionValues";
 // import ManagementCircleClaude from "./_components/ManagementCircleClaude";
+import ManagementCircle from "./_components/ManagementCircle";
 import MediCapsGroup from "./_components/MediCapsGroup";
 import WorldWideOperation from "./_components/WorldWideOperation";
 import EHSSection from "./_components/EHS";
@@ -32,7 +33,7 @@ async function AboutUs() {
       <MissionValues title={MissionValuesTitle}>
         {isAdmin && <EditModalContainer title={MissionValuesTitle} />}
       </MissionValues>
-      {/*<ManagementCircleClaude />*/}
+      <ManagementCircle />
       <MediCapsGroup />
       <WorldWideOperation />
       <EHSSection />
