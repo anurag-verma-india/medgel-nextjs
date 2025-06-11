@@ -1,76 +1,81 @@
 .homepurpose {
-    color: white;
-    padding-left: 5rem;
-    padding-right: 5rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  color: white;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
-
 .homepurpose h1 {
-    font-size: 2.5rem;
+  font-size: 2.5rem;
 }
 
 .homepurpose p {
-    font-size: 1.5rem;
-    color: white;
-    padding-bottom: 1rem;
+  font-size: 1.5rem;
+  color: white;
+  padding-bottom: 1rem;
 }
 
 .homepurposeimage-container {
-    border-radius: 2rem;
-    padding-top: 5rem;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-bottom: 3rem;
-    background-image: url(/images/purpose.png);
-    background-position: center;
-    background-size: cover;
-    min-height: 50vh;
+  border-radius: 2rem;
+  padding-top: 5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-bottom: 3rem;
+  background-image: url(/images/purpose.png);
+  background-position: center;
+  background-size: cover;
+  min-height: 50vh;
 }
 .homepurposeread-more-btn {
-    background-color: #fff;
-    color: white;
-    padding: 1rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #fff;
+  color: white;
+  padding: 1rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 @media (max-width: 768px) {
-    .homepurpose {
-        color: white;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }
-    .homepurpose p {
-        font-size: 1rem;
-        color: white;
-        padding-bottom: 1rem;
-    }
-    .homepurposeimage-container {
-        border-radius: 2rem;
-        padding-top: 2rem;
-        padding-left: 3rem;
-        padding-right: 3rem;
-        padding-bottom: 2rem;
-        background-image: url(/images/purpose.png);
-        background-position: center;
-        background-size: cover;
-        min-height: 10vh;
-        /* min-height: 50vh; */
-    }
+  .homepurpose {
+    color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .homepurpose p {
+    font-size: 1rem;
+    color: white;
+    padding-bottom: 1rem;
+  }
+  .homepurposeimage-container {
+    border-radius: 2rem;
+    padding-top: 2rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 2rem;
+    background-image: url(/images/purpose.png);
+    background-position: center;
+    background-size: cover;
+    min-height: 10vh;
+    /* min-height: 50vh; */
+  }
 }
 
 .homepurposeread-more-btn {
-    background-color: #ff6f00;
-    color: white;
-    padding: 1rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #ff6f00;
+  color: white;
+  padding: 1rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+@media (max-width: 768px){
+    .homepurposeread-more-btn{
+        border-radius: 25px;
+    }
 }

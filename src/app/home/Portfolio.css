@@ -7,10 +7,29 @@
 .portfolio-title {
   font-size: 2rem;
   font-weight: bold;
-  color: #2E99A3;
-  margin-bottom: 10px;
+  color: #48bbc4;
+  margin-bottom: 4rem;
   position: relative;
 }
+
+.portfolio-title::after {
+  content: '';
+  display: block;
+  width: 20%;
+  height: 2px;
+  background-color: #feb47b;
+  margin: 1px auto 0;
+}
+
+.portfolio-grid {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px; /* Space between grid items */
+}
+
 /* Add blue transparency overlay */
 .portfolio-item::before {
   content: '';
@@ -19,27 +38,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(46, 153, 163, 0.5); /* Blue transparency for #2E99A3 */
-  
+  background-color: rgba(46, 153, 163, 0.5); 
   z-index: 1; /* Place the overlay above the image */
   pointer-events: none; /* Allow interactions with child elements */
-}
-.portfolio-title::after {
-  content: '';
-  display: block;
-  width: 100px;
-  height: 4px;
-  background-color: yellow;
-  margin: 10px auto 0;
-}
-
-.portfolio-grid {
-  width: 90%;
-  max-width: 800px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4-column grid */
-  gap: 10px; /* Space between grid items */
 }
 
 .portfolio-item {
@@ -48,10 +49,11 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  height: 150px; /* Default height for smaller rectangles */
-  background-color: rgba(0, 123, 206, 0.1); /* Light blue background */
+  text-align: justify;
+  height: 150px; 
+  background-color: rgba(0, 123, 206, 0.1); 
   transition: transform 0.3s, box-shadow 0.3s;
-  border: 1px solid #ddd; /* Border for defined edges */
+  border: 1px solid #ddd; 
 }
 
 .portfolio-item:hover {
@@ -61,8 +63,9 @@
 
 .portfolio-item h3 {
   position: relative; /* Position text above the overlay */
-  font-size: 1rem;
-  color: #2E99A3; /* White text */
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white; /* White text */
   z-index: 2; /* Ensure text is above the overlay */
   margin: 0;
 }
@@ -78,75 +81,132 @@
   z-index: 0; /* Ensure the image is below the overlay */
 }
 
+.text-rectangle::before{
+  background-color: unset;
+}
+
+
 .text-rectangle {
+  border: none;
   display: flex;
+  background-color: unset;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content:flex-start;
   text-align: left;
-  padding: 20px;
-  background-color: #ddd; /* Solid blue for text rectangle */
-  color: #0b0a0a; /* White text */
+  align-items: flex-start;
+  color: #0b0a0a; 
   height: auto;
-  border: 1px solid #ddd;
+}
+
+
+.text-rectangle:hover{
+  transform: unset;
+  box-shadow: unset;
 }
 
 .text-rectangle h3 {
-  font-size: 1.2rem;
+  color: #646464;
+  font-weight: 700;
+  font-size: 24px;
   margin-bottom: 10px;
 }
 
+.text-rectangle h3::after {
+  content: '';
+  display: block;
+  width: 60%;
+  height: 4px;
+  border-radius: 50px;
+  text-align: left;
+  background-color: #0D9488;
+  margin-bottom: 1px;
+  /* margin: 1px auto 0; */
+}
+
 .text-rectangle p {
-  font-size: 0.9rem;
+  color: #808080;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.5;
 }
 
+
+
 /* Specific grid item sizes with unique images */
-.text-grid {
-  grid-column: span 2; /* Top-left text rectangle spans 2 columns */
-  grid-row: span 2;
+.text-grid{
+  grid-column: span 1; 
+  grid-row: span 1;
 }
 
+
+
 .respiratory {
-  grid-column: span 2;
-  grid-row: span 2; /* Larger height */
-  /* background-image: url('../../Images/campus1.jpeg'); */
+  grid-column: span 1;
+  grid-row: span 2;
+  height: 400px; 
+  background-image: url('../../../public/images/homeRespiratory.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.api {
+  grid-column: span 1;
+  grid-row: span 1;
+  background-image: url('../../../public/images/homeApi.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .hiv {
   grid-column: span 1;
-  grid-row: span 1;
-  /* background-image: url('../../Images/campus1.jpeg'); */
+  grid-row: span 2;
+  height: 400px; 
+  background-color: aquamarine;
+  background-image: url('../../../public/images/homeHIV.png');
+  background-repeat: no-repeat;
+  background-position: -80px;
+  background-size:  cover;
 }
 
 .oncology {
-  grid-column: span 2; /* Wider rectangle */
-  grid-row: span 1;
-  /* background-image: url('../../Images/campus1.jpeg'); */
+  grid-column: span 1; /* Wider rectangle */
+  grid-row: span 2;
+  height: 400px;
+  background-image: url('../../../public/images/homeOncology.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .generics {
   grid-column: span 1;
   grid-row: span 1;
-  /* background-image: url('../../Images/campus1.jpeg'); */
+  background-image: url('../../../public/images/homeGenerics.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .otc {
-  grid-column: span 2;
+  grid-column: span 1;
   grid-row: span 1;
-  /* background-image: url('../../Images/campus1.jpeg'); */
+  background-image: url('../../../public/images/homeOTCHealth.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .diagnostics {
   grid-column: span 1;
-  grid-row: span 2; /* Taller rectangle */
-  /* background-image: url('../../Images/campus1.jpeg'); */
+  grid-row: span 1; /* Taller rectangle */
+  background-image: url('../../../public/images/homeDiagonistics.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .other-therapies {
   grid-column: span 1;
   grid-row: span 1;
-  /* background-image: url('../../Images/campus1.jpeg'); */
+  background-image: url('../../../public/images/homeOtherTherepies.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* Responsive adjustments */
@@ -162,6 +222,21 @@
   }
 
   .portfolio-item {
-    height: 120px; /* Reduce height for smaller screens */
+    height: 150px; /* Reduce height for smaller screens */
+  }
+
+  .portfolio-item{
+    background-size: cover;
+    height: 300px;
+  }
+
+  .text-grid{
+    background-color: white;
+    height: 120px;
+  }
+
+  .hiv{
+    background-position: 0px;
+    
   }
 }

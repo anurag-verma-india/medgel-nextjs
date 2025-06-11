@@ -90,3 +90,88 @@
   right: 10px;
   color: #c8c8c8;
 }
+
+@media (max-width: 480px) {
+
+  .homeslider-container {
+    width: 100%;
+    height: 70vh; /* Enlarged to full viewport height */
+    position: relative;
+  }
+
+  .homeslide {
+    position: relative;
+  }
+
+  .homeslide-image {
+    width: 100%;
+    height: 100vh; /* Fill entire container */
+    object-fit: cover;
+  }
+
+  .homeslide-content {
+    position: absolute;
+    top: 48%;
+    left: 15px;
+    right: 15px;
+    transform: translateY(-50%);
+    color: white;
+    z-index: 10;
+    padding: 0 10px;
+    text-align: left;
+  }
+
+  .homeslide-content h1 {
+    font-size: 7vw;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .homeslide-content p {
+    font-size: 4vw;
+    margin: 10px 0;
+    color: #07033C;
+  }
+
+  .homeslide-button {
+    margin-top: 12px;
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 8px 16px;
+    font-size: 3.5vw;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .homeslide-button:hover {
+    background: orange;
+    color: white;
+    border-color: orange;
+  }
+
+  .homeslider-nav-button {
+    font-size: 8vw;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+  }
+
+  .homeslider-nav-button.prev {
+    left: 10px;
+  }
+
+  .homeslider-nav-button.next {
+    right: 10px;
+  }
+
+  .slick-dots {
+    bottom: 20px;
+  }
+
+  .slick-dots li button:before {
+    font-size: 10px;
+  }
+}
+

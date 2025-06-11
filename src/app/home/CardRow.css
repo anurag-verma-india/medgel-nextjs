@@ -1,55 +1,47 @@
 .homecard-row {
+  margin-top: 20px;
   display: flex;
   flex-wrap: wrap; 
   justify-content: center;
-  gap: 5vw;
+  gap: 2vw;
   padding: 2em;
 }
 
 .homecard {
   background-color: #36bfbf;
-  border-radius: 10px;
+  border-radius: 15px;
   text-align: center;
   color: white;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  /* align-items: center; */
-  width: 10rem;
+  width: 185.25px;
+  height: 185.25px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  position: relative;
 }
 
-/* .homecardicon{
-  color: #333;
-   width: 8rem;
-    height: 5rem;
-} */
-@media (max-width: 600px) {
-  .homecard-row {
-    padding: 0.5rem;
-  }
+.homecardicon{
+  scale: 0.7;
 }
 
-/* @media (max-width: 400px) {
-  .homecard {
-    width: 9.5rem;
-    height: 9.5rem;
-  }
-} */
+.homecardvalue{
+  scale: 1.4;
+}
 
 .homecard:hover {
   transform: scale(1.05);
 }
 
-.homecardicon-style {
-  color: #333; 
+.homecardicon {
   font-size: 2rem;
 }
 
 .homecardvalue {
   font-size: 1.5rem;
-  color: orange;
+  color: black;
   font-weight: bold;
 }
 
@@ -57,38 +49,29 @@
   font-size: 0.9rem;
   margin-top: 5px;
   text-transform: uppercase;
+  color: white;
 }
 
-/* Responsive Adjustments */
 
-/* Tablet View (Max Width: 768px) */
-/* @media (max-width: 768px) {
-  .card {
-    width: 120px; 
-    height: 120px;
-  }
 
-  .icon-style {
-    font-size: 1.8rem;
-  }
 
-  .value {
-    font-size: 1.3rem;
+@media (max-width: 600px) {
+  .homecard-row {
+    padding: 0.5rem;
   }
+}
 
-  .description {
-    font-size: 0.8rem;
-  }
-} */
+
+
 
 /* Mobile View (Max Width: 480px) */
-/* @media (max-width: 480px) {
+ @media (max-width: 480px) {
   .card-row {
-    flex-direction: column; /* Stack cards vertically */
-    /* gap: 15px; /* Reduce spacing */
-/* 
-  .card {
+    flex-direction: column; 
+     gap: 15px; 
+  }
 
+  .card {
     width: 80%; 
     max-width: 9em;
     padding: 20px; 
@@ -106,4 +89,19 @@
   .description {
     font-size: 0.75rem;
   }
-} */
+
+  .homecard{
+    width: 155px;
+    height: 155px;
+  }
+  .homecarddescription{
+    scale: 0.8;
+  }
+
+  .homecardvalue{
+    scale: 0.8;
+  }
+
+  
+  
+}

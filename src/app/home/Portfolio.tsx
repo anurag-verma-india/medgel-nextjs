@@ -19,6 +19,9 @@ const Portfolio = () => {
         <div className="portfolio-item respiratory">
           <h3>RESPIRATORY</h3>
         </div>
+        <div className="portfolio-item api">
+          <h3>API</h3>
+        </div>
         <div className="portfolio-item hiv">
           <h3>HIV / AIDS</h3>
         </div>
@@ -27,7 +30,7 @@ const Portfolio = () => {
         </div>
         <div className="portfolio-item generics">
           <h3>GENERICS</h3>
-        </div>
+        </div>        
         <div className="portfolio-item otc">
           <h3>OTC - HEALTH</h3>
         </div>

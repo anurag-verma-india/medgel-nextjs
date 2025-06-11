@@ -15,9 +15,9 @@
 .purpose-title::after {
   content: "";
   display: block;
-  width: 100px;
+  width: 30%;
   height: 2px;
-  background: #ff6f00;
+  background: #feb47b;
   margin: 10px auto 0;
 }
 
@@ -37,9 +37,20 @@
   max-width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: white;
+  top: 1.5rem;
   margin-right: -7rem;
   margin-bottom: 3rem;
 }
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 1200px) {
   .faq-card {
@@ -121,5 +132,14 @@
 @media (max-width: 650px) {
   .purpose-imagec {
     max-width: 80vw;
+  }
+}
+
+@media (max-width: 480px){
+  .purpose-content{
+    flex-direction: column-reverse;
+  }
+  .faq-card{
+    margin-bottom: 0rem;
   }
 }

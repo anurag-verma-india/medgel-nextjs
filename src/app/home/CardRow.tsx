@@ -53,9 +53,7 @@
           <div key={card.id} className="homecard">
             <div className="homecardicon">{card.icon}</div>
             <div className="homecardvalue">{card.value}</div>
-            
             <div className="homecarddescription">{card.description}</div>
-            
           </div>
         ))}
       </div>
