@@ -1,5 +1,5 @@
 .rd-container {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     font-family: system-ui, -apple-system, sans-serif;
@@ -20,8 +20,9 @@
   }
 
   .rd-overlay {
-    display: flex;
     align-items: center;
+    text-align: justify;
+    display: flex;
     justify-content: center;
     position: absolute;
     top: 0;
@@ -30,16 +31,21 @@
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);
     
-    align-items: center;
-    
+  }
+  .underline{
+    text-decoration: underline;
+    text-decoration-color: rgba(249, 173, 66, 1);
+    text-underline-offset: 1rem;  
   }
 
   .rd-title {
+    font-weight: 900;
     display: flex;
     text-align: center;
     color: white;
-    font-size: 3rem;
+    font-size: 4rem;
     line-height: 1.2;
+    
   }
 
   .rd-content {
@@ -49,8 +55,8 @@
   }
 
   .rd-services-title {
-    font-size: 2rem;
-    margin: 0 0 30px 0;
+    font-size: 1.8rem;
+    margin: 0 0 10px 0;
   }
 
   .rd-services-list {
@@ -60,11 +66,12 @@
   }
 
   .rd-services-list li {
+    letter-spacing: 1.4;
     position: relative;
     padding-left: 35px;
     margin-bottom: 20px;
     font-size: 1.2rem;
-    line-height: 1.5;
+    line-height: 0.88;
   }
 
   .rd-services-list li::before {
@@ -116,10 +123,13 @@
 
     .rd-title {
       font-size: 2rem;
+      border-bottom: 4px solid #FB923C;
     }
 
     .rd-services-title {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
+      padding-bottom: 10px;
+
     }
 
     .rd-image-section {
@@ -132,6 +142,7 @@
 
     .rd-services-list li {
       font-size: 1rem;
+      line-height: 1;
       padding-left: 30px;
     }
   }

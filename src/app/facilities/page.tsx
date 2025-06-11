@@ -7,15 +7,15 @@ import TechnologySection from "./Tech";
 import AContractManufacturing from "./manufacturingchat";
 
 function facilities() {
-    return (
-        <div>
-            <ManufacturingSection />
-            {/* <AContractManufacturing/> */}
-            <ContractManufacturing />
-            <ResearchDevelopment />
-            <TechnologySection/>
-        </div>
-    )
+  return (
+    <div>
+      <ManufacturingSection />
+      {/* <AContractManufacturing/> */}
+      <ContractManufacturing />
+      <ResearchDevelopment />
+      <TechnologySection />
+    </div>
+  );
 }
 
 export default facilities;

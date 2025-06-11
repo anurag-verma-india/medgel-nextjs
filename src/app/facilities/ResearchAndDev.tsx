@@ -7,7 +7,8 @@ const ResearchDevelopment = () => {
         <div className="rd-image-section">
           <div className="rd-overlay">
             <h1 className="rd-title">
-              Research & <br />Development
+              Research & <br />
+              Development
             </h1>
           </div>
         </div>
