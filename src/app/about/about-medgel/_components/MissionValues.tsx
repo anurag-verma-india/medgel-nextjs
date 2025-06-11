@@ -1,9 +1,8 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import "./MissionValues.css";
 
 import fetchPage from "@/helpers/getPage";
 import { BasePageContent } from "@/types";
-
 
 interface missionContent extends BasePageContent {
   // page_title: string;
@@ -29,19 +28,24 @@ interface missionContent extends BasePageContent {
   usp6: string;
 }
 
-const MissionValues = async () => {
+const MissionValues = async ({
+  children,
+  title,
+}: {
+  children: ReactNode;
+  title: string;
+}) => {
   // Fetch the data synchronously
-   const title = "about-us/about-medgel$mission-values";
 
   // Handle the case where mission data is not available
   // if (!mission) {
   //   return <div>Error loading data. Please try again later.</div>;
   // }
 
-   const fetchedMission = await fetchPage<missionContent>(title);
-    console.log("overview fetched:", fetchedMission);
+  const fetchedMission = await fetchPage<missionContent>(title);
+  console.log("overview fetched:", fetchedMission);
 
-    const mission: missionContent = fetchedMission.content;
+  const mission: missionContent = fetchedMission.content;
 
   //   const corevalues = mission.coreValues?.split("@") || [];
   // const coreValuesArray = corevalues.map((value) => {
@@ -54,60 +58,56 @@ const MissionValues = async () => {
   // const usp = mission.usp?.split("@") || [];
   return (
     <>
-      
-        <div className="mission-values-container">
-          {/* Mission and Vision Section */}
-          <section className="mission-vision">
-            <div className="mission">
-              <h2>Our Mission</h2>
-              <p>{mission.mission}</p>
-            </div>
-            <div className="vision">
-              <h2>Our Vision</h2>
-              <p>{mission.vision}</p>
-            </div>
-          </section>
+      {children}
+      <div className="mission-values-container">
+        {/* Mission and Vision Section */}
+        <section className="mission-vision">
+          <div className="mission">
+            <h2>Our Mission</h2>
+            <p>{mission.mission}</p>
+          </div>
+          <div className="vision">
+            <h2>Our Vision</h2>
+            <p>{mission.vision}</p>
+          </div>
+        </section>
 
-          {/* Core Values Section */}
-          <div className="core-values">
-            <h2>Core Values</h2>
-            <div className="values-grid">
-              
-               <div className="value-box">
-                  <h3>{mission.valueHead1}</h3>
-                  <p>{mission.valuePoint1}</p>
-                </div>
-                <div className="value-box" >
-                  <h3>{mission.valueHead2}</h3>
-                  <p>{mission.valuePoint2}</p>
-                </div>
-                <div className="value-box" >
-                  <h3>{mission.valueHead3}</h3>
-                  <p>{mission.valuePoint3}</p>
-                </div>
-                <div className="value-box" >
-                  <h3>{mission.valueHead4}</h3>
-                  <p>{mission.valuePoint4}</p>
-                </div>
+        {/* Core Values Section */}
+        <div className="core-values">
+          <h2>Core Values</h2>
+          <div className="values-grid">
+            <div className="value-box">
+              <h3>{mission.valueHead1}</h3>
+              <p>{mission.valuePoint1}</p>
+            </div>
+            <div className="value-box">
+              <h3>{mission.valueHead2}</h3>
+              <p>{mission.valuePoint2}</p>
+            </div>
+            <div className="value-box">
+              <h3>{mission.valueHead3}</h3>
+              <p>{mission.valuePoint3}</p>
+            </div>
+            <div className="value-box">
+              <h3>{mission.valueHead4}</h3>
+              <p>{mission.valuePoint4}</p>
             </div>
           </div>
-
-          {/* USP Section */}
-          <section className="usp">
-            <h2>USP of Medgel</h2>
-            <ul>
-              
-                <li>{mission.usp1}</li>
-                <li>{mission.usp2}</li>
-                <li>{mission.usp3}</li>
-                <li>{mission.usp4}</li>
-                <li>{mission.usp5}</li>
-                <li>{mission.usp6}</li>
-             
-            </ul>
-          </section>
         </div>
-      
+
+        {/* USP Section */}
+        <section className="usp">
+          <h2>USP of Medgel</h2>
+          <ul>
+            <li>{mission.usp1}</li>
+            <li>{mission.usp2}</li>
+            <li>{mission.usp3}</li>
+            <li>{mission.usp4}</li>
+            <li>{mission.usp5}</li>
+            <li>{mission.usp6}</li>
+          </ul>
+        </section>
+      </div>
     </>
   );
 };

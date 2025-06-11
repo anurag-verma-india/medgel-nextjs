@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import "./ContactUs.css";
 import Image from "next/image";
@@ -12,7 +12,9 @@ const ContactUs = () => {
     message: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -20,7 +22,7 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
   };
@@ -72,7 +74,7 @@ const ContactUs = () => {
                   name="message"
                   placeholder="Your Message"
                   value={formData.message}
-                  onChange={handleInputChange}
+                  onChange={handleInputChange} // The error is in onChange
                   rows={4}
                   required
                 />
@@ -135,7 +137,7 @@ const ContactUs = () => {
               <br />
               INDIA
               <br />
-              Pincode 454775
+              Pincode 454775
             </p>
           </div>
         </a>
