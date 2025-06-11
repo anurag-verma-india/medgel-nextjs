@@ -11,6 +11,7 @@ interface OverviewContent extends BasePageContent {
   // overviewPara1: string;
   // overviewPara2: string;
   // image1: string;
+  
   quote: string;
   quote_by: string;
   para1: string;
