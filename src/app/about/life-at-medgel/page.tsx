@@ -28,7 +28,7 @@ interface LifeAtMedgelContent extends BasePageContent {
 
 export const dynamic = "force-dynamic";
 
-//! connecting to db
+// connecting to db
 const LifeAtMedgel = async () => {
   // cookies()
   // or headers()

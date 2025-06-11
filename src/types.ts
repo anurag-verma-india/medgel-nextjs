@@ -2,7 +2,6 @@
 
 import { JwtPayload } from "jsonwebtoken";
 // import { ReactNode } from "react";
-
 export interface BasePageContent {
   [key: string]: string;
   // | number

@@ -3,7 +3,7 @@
 import { PageObject, BasePageContent } from "@/types";
 
 export default async function fetchPage<T extends BasePageContent = BasePageContent>(
-  title: string
+  title: string,
 ): Promise<PageObject<T>> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/page/?title=${title}`,
@@ -11,7 +11,7 @@ export default async function fetchPage<T extends BasePageContent = BasePageCont
       // cache: "force-cache",
       cache: "no-store",
       next: { tags: [title] },
-    }
+    },
   );
   const page = await res.json();
   // console.log("Page: ", page);
