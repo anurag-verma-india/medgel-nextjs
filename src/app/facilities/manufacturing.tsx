@@ -9,7 +9,7 @@ const ManufacturingSection = () => {
     <div className="manufacturing-container">
       <div className="manufacturing-whitebg">
         <div className="manufacturing-title-box">
-          <div className="transparent-col"></div>
+          <div className="manufacturing-transparent-col"></div>
         </div>
 
         <div className="manufacturing-title">
@@ -47,17 +47,17 @@ const ManufacturingSection = () => {
             <p>Unique Jwellery Pieces</p>
             {/* <hr/> */}
           </div>
-          <div className="manufacturing-stat-item vl">
+          <div className="manufacturing-stat-item manufacturing-vl">
             <h2>47+</h2>
             <p>International Awards</p>
             {/* <hr /> */}
           </div>
-          <div className="manufacturing-stat-item vl">
+          <div className="manufacturing-stat-item manufacturing-vl">
             <h2>12+</h2>
             <p>Years On The Market</p>
             {/* <hr /> */}
           </div>
-          <div className="manufacturing-stat-item vl">
+          <div className="manufacturing-stat-item manufacturing-vl">
             <h2>550k</h2>
             <p>Customer&#39;s Feedback</p>
             {/* <hr /> */}

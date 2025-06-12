@@ -87,11 +87,11 @@
   letter-spacing: 0.12rem;
 }
 
-.vl {
+.manufacturing-vl {
   position: relative;
 }
 
-.vl::before {
+.manufacturing-vl::before {
   content: '';
   position: absolute;
   height: 3rem;
@@ -136,7 +136,7 @@
     font-size: 2rem;
   }
 
-  .vl::before {
+  .manufacturing-vl::before {
     display: none;
   }
 }
