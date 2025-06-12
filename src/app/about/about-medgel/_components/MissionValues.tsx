@@ -60,6 +60,7 @@ const MissionValues = async ({
     <>
       {children}
       <div className="mission-values-container">
+         
         {/* Mission and Vision Section */}
         <section className="mission-vision">
           <div className="mission">

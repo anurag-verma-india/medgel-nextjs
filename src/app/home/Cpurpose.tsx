@@ -35,6 +35,7 @@ const Cpurpose = () => {
                         </li>
                     </ul>
                 </div>
+
                 <div className="image-containerc">
                     <img
                         src="/images/Cpurpose.png"
@@ -42,6 +43,7 @@ const Cpurpose = () => {
                         className="purpose-imagec"
                     />
                 </div>
+                
             </div>
         </section>
     );
