@@ -48,7 +48,7 @@ const ContactUs = () => {
               {/* <div className="form-row"> */}
               <div className="flex h-10 w-11/12 pr-3">
                 <input
-                  className="w-10/12 px-2 rounded border-2 border-black"
+                  className="w-10/12 rounded border-2 border-black"
                   type="email"
                   name="email"
                   placeholder="Your Email*"
@@ -58,7 +58,7 @@ const ContactUs = () => {
                 />
                 <div className="w-5" />
                 <input
-                  className="w-10/12 px-2 rounded border-2 border-black"
+                  className="w-10/12 rounded border-2 border-black"
                   type="text"
                   name="subject"
                   placeholder="Subject*"
