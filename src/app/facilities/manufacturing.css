@@ -4,7 +4,7 @@
   font-family: sans-serif;
 }
 
-.whitebg {
+.manufacturing-whitebg {
   background-color: white;
   width: 100vw;
   height: 45vw;
@@ -29,7 +29,7 @@
   background-size: cover;
 }
 
-.transparent-col {
+.manufacturing-transparent-col {
   height: 100%;
   width: 100%;
   border-radius: 16vw;
@@ -55,16 +55,16 @@
   text-underline-offset: 1.5vw;
 }
 
-.hero-content h1 {
+.manufacturing-hero-content h1 {
   font-size: 3.5vw;
 }
 
-.content-section {
+.manufacturing-content-section {
   width: 85%;
   margin: 2vw auto;
 }
 
-.description {
+.manufacturing-description {
   letter-spacing: 1.2px;
   font-size: 1.3rem;
   line-height: 1.2;
@@ -74,14 +74,14 @@
   text-align: justify;
 }
 
-.stats-container {
+.manufacturing-stats-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2vw;
   margin: 50px 0;
 }
 
-.stat-item {
+.manufacturing-stat-item {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   text-align: center;
   letter-spacing: 0.12rem;
@@ -100,13 +100,13 @@
   border-left: 1px solid #FB923C;
 }
 
-.stat-item h2 {
+.manufacturing-stat-item h2 {
   font-size: 2.5rem;
   color: #FB923C;
   margin: 0;
 }
 
-.stat-item p {
+.manufacturing-stat-item p {
   font-size: 1.4rem;
   color: rgba(255, 146, 1, 1);
   margin-top: 8px;
@@ -114,25 +114,25 @@
 
 /* ---------- Media Queries ---------- */
 @media (max-width: 1024px) {
-  .hero-content h1 {
+  .manufacturing-hero-content h1 {
     font-size: 3rem;
   }
 
-  .stats-container {
+  .manufacturing-stats-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .hero-content h1 {
+  .manufacturing-hero-content h1 {
     font-size: 2.5rem;
   }
 
-  .description {
+  .manufacturing-description {
     font-size: 1rem;
   }
 
-  .stat-item h2 {
+  .manufacturing-stat-item h2 {
     font-size: 2rem;
   }
 
@@ -142,22 +142,22 @@
 }
 
 @media (max-width: 480px) {
-  .hero-content h1 {
+  .manufacturing-hero-content h1 {
     font-size: 2rem;
   }
 
-  .stats-container {
+  .manufacturing-stats-container {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  .content-section {
+  .manufacturing-content-section {
     padding: 20px;
   }
 }
 
  @media (max-width: 768px) {
-    .description{
+    .manufacturing-description{
       font-size: 1.2rem;
       letter-spacing: normal;
     }
@@ -166,7 +166,7 @@
       display: none;
     }
 
-    .whitebg{
+    .manufacturing-whitebg{
       height: 40vh;
       width: 100vw;
       background-color: black;
@@ -184,7 +184,7 @@
       scale: 1.1;
     }
 
-    .transparent-col{
+    .manufacturing-transparent-col{
       position: absolute;
       height: 100%;
       width: 100%;
