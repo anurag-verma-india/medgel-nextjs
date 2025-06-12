@@ -5,6 +5,7 @@ import React from "react";
 
 import fetchPage from "@/helpers/getPage";
 import { BasePageContent } from "@/types";
+import Image from "next/image";
 
 interface qualityContent extends BasePageContent {
   qualtiy_overview_para1: string;
