@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import "./ManagementCircle.css";
 
 const topManagement = [
@@ -27,38 +27,29 @@ const lowerManagement = [
   },
 ];
 
-const ManagementCircle = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) => {
+const ManagementCircle = () => {
   return (
-    <>
-      {children}
-      <div className="management-container">
-        <h1 className="title">Management Circle</h1>
-        <div className="management-row">
-          {topManagement.map((person, index) => (
-            <div key={index} className="management-card raised-card">
-              <img src={person.img} alt={person.name} />
-              <h2>{person.name}</h2>
-              <p>{person.title}</p>
-            </div>
-          ))}
-        </div>
-        <div className="lower-management">
-          {lowerManagement.map((person, index) => (
-            <div key={index} className="management-card">
-              <img src={person.img} alt={person.name} />
-              <h2>{person.name}</h2>
-              <p>{person.title}</p>
-            </div>
-          ))}
-        </div>
+    <div className="management-container">
+      <h1 className="title">Management Circle</h1>
+      <div className="management-row">
+        {topManagement.map((person, index) => (
+          <div key={index} className="management-card raised-card">
+            <img src={person.img} alt={person.name} />
+            <h2>{person.name}</h2>
+            <p>{person.title}</p>
+          </div>
+        ))}
       </div>
-    </>
+      <div className="lower-management">
+        {lowerManagement.map((person, index) => (
+          <div key={index} className="management-card">
+            <img src={person.img} alt={person.name} />
+            <h2>{person.name}</h2>
+            <p>{person.title}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
