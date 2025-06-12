@@ -31,6 +31,11 @@ export interface PageObject<T extends BasePageContent = BasePageContent> {
   __v: number;
 }
 
+export type NewsType = {
+  title: string;
+  description: string;
+};
+
 export enum EmailTypes {
   VERIFY = "VERIFY",
   RESET = "RESET",
