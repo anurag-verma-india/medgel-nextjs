@@ -10,7 +10,7 @@ const PurposeSection = () => {
                     purpose. Caring for life makes us a partner of choice for
                     global health bodies and stakeholders.
                 </p>
-                <button className="homepurposeread-more-btn">Read More</button>
+                {/* <button className="homepurposeread-more-btn">Read More</button> */}
             </div>
         </section>
     );

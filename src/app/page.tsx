@@ -11,7 +11,6 @@ import HomeNews from "./home/homenews";
 const HomePage = () => {
   return (
     <div>
-      {/* <Header /> */}
       <SliderComponent />
       <CardRow />
       <PurposeSection />
@@ -19,8 +18,6 @@ const HomePage = () => {
       <HomeNews />
       <Portfolio />
       <Cpurpose />
-
-      {/* <Footer />  */}
     </div>
   );
 };
