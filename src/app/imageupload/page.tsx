@@ -195,7 +195,6 @@ export default function ImageUploadPage(): JSX.Element {
       setValidationError("Please select a valid image first");
       return;
     }
-
     setIsLoading(true);
 
     try {
@@ -208,6 +207,9 @@ export default function ImageUploadPage(): JSX.Element {
         method: "POST",
         body: formData,
       });
+
+      console.log("Image upload response")
+      console.log(response)
 
       if (!response.ok) {
         throw new Error("Upload failed");

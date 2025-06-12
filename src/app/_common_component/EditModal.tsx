@@ -201,7 +201,6 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
             {Object.entries(children.images).map(([key, value]) =>
               renderImages(key, value),
             )} */}
-          <EditImages images={children.images} />
           {/* Dynamic form fields */}
           <div className="mb-2 block w-full text-center text-3xl font-medium text-gray-700">
             TEXT
@@ -209,6 +208,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
           {Object.entries(formData).map(([key, value]) =>
             renderTextField(key, value),
           )}
+          <EditImages images={children.images} />
         </div>
       </div>
 

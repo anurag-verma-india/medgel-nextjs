@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
+import Pages from "@/models/pages";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -35,10 +36,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const filePath = join(uploadsDir, filename);
     await writeFile(filePath, buffer);
 
+    // const image_path_update_result = await Pages.updateOne(
+    //   {
+    //     title: "about-us/life-at-medgel",
+    //   },
+    //   { $set: { "images.0": filePath } },
+    // );
+
     // Return the path to the uploaded file (relative to public)
     return NextResponse.json({
       message: "File uploaded successfully",
       filePath: `/uploads/${filename}`,
+      // image_path_update_result,
     });
   } catch (error) {
     console.error("Error uploading file:", error);

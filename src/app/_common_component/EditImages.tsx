@@ -4,6 +4,7 @@
 
 import { ImageObj } from "@/types";
 import Image from "next/image";
+import { redirect, RedirectType } from "next/navigation";
 import React from "react";
 
 type EditImagesParams = {
@@ -33,12 +34,22 @@ const EditImages = ({ images }: EditImagesParams) => {
                 alt={img.url}
               />
               {renderImageDetails(key, img)}
-              <button
-                onClick={() => downloadImage(imageURL, img.url)}
-                className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
-              >
-                Download
-              </button>
+              <div className="flex flex-row space-x-3">
+                <button
+                  onClick={() => downloadImage(imageURL, img.url)}
+                  className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
+                >
+                  Download
+                </button>
+                <button
+                  onClick={() => {
+                    redirect("/imageupload", RedirectType.push);
+                  }}
+                  className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
+                >
+                  Replace Image
+                </button>
+              </div>
             </div>
           </div>
         )}
