@@ -5,7 +5,7 @@ import './EHS.css';
 
 import fetchPage from "@/helpers/getPage";
 import { BasePageContent } from "@/types";
-
+import { ReactNode } from 'react';
 interface ehsContent extends BasePageContent {
   // page_title: string;
   // overviewQuote: string;
@@ -19,8 +19,7 @@ interface ehsContent extends BasePageContent {
   
 }
 
-const EHSSection = async () => {
-  const title = "about-us/about-medgel$ehs";
+const EHSSection = async ({title,children}:{title:string,children:ReactNode}) => {
   
 
 
@@ -29,7 +28,11 @@ const EHSSection = async () => {
   const ehs: ehsContent = fetchedehs.content;
   
   return (
+    <>
+    {children}
+    
     <div className="ehs-container">
+      
       <div className="ehs-content">
         <h1 className="ehs-title">
           Environment, Health & Safety
@@ -50,6 +53,7 @@ const EHSSection = async () => {
         </div>
       </div>
       </div>
+      </>
   );
 };
 

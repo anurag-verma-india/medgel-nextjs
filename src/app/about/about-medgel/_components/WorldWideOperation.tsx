@@ -4,6 +4,7 @@ import "./WorldWideOperation.css";//
 import fetchPage from "@/helpers/getPage";
 import { BasePageContent } from "@/types";
 import Image from "next/image";
+import { ReactNode } from "react";
 
 interface WorldWideContent extends BasePageContent {
     para1: string;
@@ -11,8 +12,8 @@ interface WorldWideContent extends BasePageContent {
     para3: string;
 }
 
-const WorldWideOperation = async () => {
-     const title = "about-us/about-medgel$world-wide-operations";
+const WorldWideOperation = async ({title,children}:{title:string,children:ReactNode}) => {
+  
 
      const fetchedWorldWide = await fetchPage<WorldWideContent>(title);
 
@@ -21,6 +22,7 @@ const WorldWideOperation = async () => {
    
     return (
         <div className="WorldWideOperation-container">
+            {children}
             <h1 className="WorldWideOperation-title">World Wide Operation</h1>
 
             <div className="WorldWideOperation-content">

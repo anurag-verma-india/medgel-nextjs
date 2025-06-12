@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import "./MediCapsGroup.css";
 //import Image from "next/image";
 
@@ -18,13 +18,14 @@ import "./MediCapsGroup.css";
 //   page_title: string;
 // }
 
-const MediCapsGroup = async() => {
+const MediCapsGroup = async({title,children}:{title:string,children:ReactNode}) => {
     // const title = "about-us/about-medgel$medicaps-group";
     // const fetchedGroup = await fetchPage<GroupContent>(title);
 
     //   const group : GroupContent = fetchedGroup.content;
     return (
         <div className="MediCapsGroup-container">
+            {children}
             <h1 className="MediCapsGroup-title">Medi-Caps Group</h1>
 
             <div className="MediCapsGroup-content-wrapper">

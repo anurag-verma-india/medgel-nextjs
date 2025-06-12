@@ -14,6 +14,9 @@ import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 export const dynamic = "force-dynamic";
 const AboutTitle = "about/about-medgel$overview";
 const MissionValuesTitle = "about-us/about-medgel$mission-values";
+const MedicapsGroupTitle = "about-us/about-medgel$medicaps-group";
+const WorldWideOperationTitle = "about-us/about-medgel$world-wide-operations";
+const EnvironmentSectionTitle = "about-us/about-medgel$ehs";
 
 async function AboutUs() {
   let isAdmin = false;
@@ -34,9 +37,18 @@ async function AboutUs() {
         {isAdmin && <EditModalContainer title={MissionValuesTitle} />}
       </MissionValues>
       <ManagementCircle />
-      <MediCapsGroup />
-      <WorldWideOperation />
-      <EHSSection />
+      <MediCapsGroup title={MedicapsGroupTitle}>
+        {isAdmin && <EditModalContainer title={MedicapsGroupTitle} />}
+
+      </MediCapsGroup >
+      <WorldWideOperation title={WorldWideOperationTitle}>
+        {isAdmin && <EditModalContainer title={WorldWideOperationTitle} />}
+
+      </WorldWideOperation>
+      <EHSSection title={EnvironmentSectionTitle}>
+        {isAdmin && <EditModalContainer title={EnvironmentSectionTitle} />}
+
+      </EHSSection>
     </>
   );
 }
