@@ -44,8 +44,7 @@ const menuItems: MenuItem[] = [
 
   { label: "Quality & Compliance", href: "/quality" },
   { label: "Facilities", href: "/facilities" },
-  { label: "Investor Relations", href: "/investors" },
-
+  { label: "Investor Relations", href: "/investor" },
   { label: "Contact Us", href: "/contact" },
 ];
 
