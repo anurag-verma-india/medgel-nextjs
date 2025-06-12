@@ -41,9 +41,11 @@ const menuItems: MenuItem[] = [
       // { label: "pl-clv2", href: "/products/pl-clv2/abcd" },
     ],
   },
+
   { label: "Quality & Compliance", href: "/quality" },
   { label: "Facilities", href: "/facilities" },
   { label: "Investor Relations", href: "/investors" },
+
   { label: "Contact Us", href: "/contact" },
 ];
 
