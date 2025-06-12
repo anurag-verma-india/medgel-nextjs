@@ -426,6 +426,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
+        success: true,
         message:
           problems && problems.length > 0
             ? "Some failures happened"
@@ -448,6 +449,10 @@ export async function PUT(request: NextRequest) {
     //   { $push: { arrayField: newValue } }
     // );
   } catch (error) {
+    return handleError(
+      error,
+      "Failed to edit product details in ProductCategory or ProductList",
+    );
     return handleError(
       error,
       "Failed to edit product details in ProductCategory or ProductList",

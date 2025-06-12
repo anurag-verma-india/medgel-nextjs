@@ -1,3 +1,5 @@
+// src/models/productList.js
+
 import mongoose from "mongoose";
 
 const product_list = new mongoose.Schema({

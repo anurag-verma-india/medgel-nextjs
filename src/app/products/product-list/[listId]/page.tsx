@@ -3,7 +3,6 @@ import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import ProductList from "./ProductList";
 import { ProductListParams } from "@/types";
 import ProductListEditPopup from "./ProductListEditPopup";
-import ClientSideProducts from "./ClientSideProducts";
 
 const page = async ({ params }: ProductListParams) => {
   const isAdmin = await checkAdminFromCookie();
@@ -12,10 +11,9 @@ const page = async ({ params }: ProductListParams) => {
     <>
       {/* Edit Button */}
       {/* {isAdmin && <ProductListEditPopup />} */}
-      <ClientSideProducts>
+      <ProductList params={params}>
         {isAdmin && <ProductListEditPopup />}
-        <ProductList params={params}></ProductList>
-      </ClientSideProducts>
+      </ProductList>
     </>
   );
 };
