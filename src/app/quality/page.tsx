@@ -1,6 +1,6 @@
 // import img1 from "/qualitImg/img1.png";
 // import img2 from "/qualitImg/img2.png";
-import Image from "next/image";
+// import Image from "next/image";
 import React from "react";
 
 import fetchPage from "@/helpers/getPage";
