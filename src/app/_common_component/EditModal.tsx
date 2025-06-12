@@ -117,7 +117,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
 
     try {
       await axios.put("/api/page", {
-        title,
+        title: title,
         content: formData,
       });
 

@@ -8,10 +8,6 @@ import FormWithModal from "./EditModal";
 import { BasePageContent, PageObject, ImageObj } from "@/types";
 import axios from "axios";
 
-type ModalContainerParams = {
-  title: string;
-};
-
 type LoadingModalPrams = {
   setModalOpen: (modalOpen: boolean) => void;
 };
@@ -50,7 +46,8 @@ function LoadingModal({ setModalOpen }: LoadingModalPrams) {
   );
 }
 
-export default function EditModalContainer({ title }: ModalContainerParams) {
+export default function EditModalContainer({ title }: { title: string }) {
+  // console.log("Direct Title: ", title);
   const [modalOpen, setModalOpen] = useState(false);
   // const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,6 +76,7 @@ export default function EditModalContainer({ title }: ModalContainerParams) {
         const page_res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/page/?title=${title}`,
         );
+        // console.log("Title received in Modal: ", title);
         const page: PageObject<BasePageContent> = page_res.data;
         // console.log("Page received from request");
         // console.log(page);
@@ -108,7 +106,7 @@ export default function EditModalContainer({ title }: ModalContainerParams) {
       <div className="relative">
         <button
           onClick={onClick}
-          className="absolute right-0 top-0 rounded bg-[#00a5a5] px-4 py-2 text-black opacity-40 shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
+          className="mr-5 mt-5 absolute right-0 top-0 rounded bg-[#00a5a5] px-4 py-2 text-black opacity-40 shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
         >
           Edit
         </button>

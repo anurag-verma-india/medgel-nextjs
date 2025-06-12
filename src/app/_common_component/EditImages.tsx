@@ -20,24 +20,28 @@ const EditImages = ({ images }: EditImagesParams) => {
   const renderImages = (key: string, img: ImageObj) => {
     const imageURL = `${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`;
     return (
-      <div key={key} className="mb-6">
-        <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-          <Image
-            width={img.width}
-            height={img.height}
-            src={imageURL}
-            // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
-            // src={`${process.env.}/${img.url}`}
-            alt={img.url}
-          />
-          {renderImageDetails(key, img)}
-          <button
-            onClick={() => downloadImage(imageURL, img.url)}
-            className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
-          >
-            Download
-          </button>
-        </div>
+      <div key={key}>
+        {img && img.width && img.height && (
+          <div key={key} className="mb-6">
+            <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <Image
+                width={img.width}
+                height={img.height}
+                src={imageURL}
+                // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
+                // src={`${process.env.}/${img.url}`}
+                alt={img.url}
+              />
+              {renderImageDetails(key, img)}
+              <button
+                onClick={() => downloadImage(imageURL, img.url)}
+                className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
+              >
+                Download
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -68,6 +72,7 @@ const EditImages = ({ images }: EditImagesParams) => {
         make sure to replace images with same width to hight ratio
       </div>
       {Object.entries(images).map(([key, value]) => renderImages(key, value))}
+
       {/* </div> */}
     </>
   );

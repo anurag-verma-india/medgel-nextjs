@@ -19,6 +19,7 @@ import ProductCategory from "@/models/productCategory";
 import handleError from "@/helpers/handleError";
 import ProductList from "@/models/productList";
 import { AnyBulkWriteOperation } from "mongoose";
+import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 // import { Key } from "lucide-react";
 
 /*
@@ -127,10 +128,17 @@ export async function GET() {
 // }
 
 export async function PUT(request: NextRequest) {
-  // TODO: Make sure the user is admin
-  /*
-  Add products to existing category (identify by id or name)
-  */
+  const isAdmin = await checkAdminFromCookie();
+
+  if (!isAdmin) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "You are not authorized to make this request",
+      },
+      { status: 503 },
+    );
+  }
 
   type received_list_edit_object = {
     _id: string;
@@ -144,8 +152,8 @@ export async function PUT(request: NextRequest) {
 
   type put_request_body = {
     product_category_id: string;
-    lists_to_edit: received_list_edit_object[];
     product_category_name: string;
+    lists_to_edit: received_list_edit_object[];
     list_names_to_add: string[];
     lists_to_delete: string[];
     lists_to_move: received_list_move_object[];
@@ -187,7 +195,8 @@ export async function PUT(request: NextRequest) {
         { status: 404 },
       );
     }
-    const product_category = ProductCategory.findById(product_category_id);
+    const product_category =
+      await ProductCategory.findById(product_category_id);
     if (!product_category) {
       return NextResponse.json(
         {
@@ -217,14 +226,14 @@ export async function PUT(request: NextRequest) {
         // lists_to_edit.forEach(async (list_obj: received_list_edit_object) => {
         // Validating Mongodb id
 
-        const found_list_name = await ProductList.findOne({
-          product_list_name: list_obj.product_list_name,
-          _id: {$ne: list_obj._id}
-        });
-        // console.log("Found list name: ");
-        // console.log(found_list_name);
-
         if (list_obj._id.match(/^[0-9a-fA-F]{24}$/)) {
+          // Check if list with same name already exists
+          const found_list_name = await ProductList.findOne({
+            product_list_name: list_obj.product_list_name,
+            _id: { $ne: list_obj._id },
+          });
+          // console.log("Found list name: ");
+          // console.log(found_list_name);
           if (!found_list_name) {
             productList_operations.push({
               updateOne: {

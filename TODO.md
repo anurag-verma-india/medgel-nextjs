@@ -9,13 +9,15 @@
 
 - [ ] Edit functionality in pages
 
-News section
+- [ ] News section
+
+- [ ] Show Loading state on link click
+
 
 ## UI fixes (Rajat)
 
 - [ ] UI
 
-  - [ ] Show Loading state on link click
 
 - [ ] Fix font in whole site
 - [ ] Quality & Compliance Page

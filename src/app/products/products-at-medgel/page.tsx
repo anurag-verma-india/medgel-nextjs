@@ -5,7 +5,7 @@ import ProductContainer from "./ProductContainer";
 // import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
 import EditProductsPopupContainer from "./EditProductsPopup";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
-import ClientSideProducts from "./ClientSideProducts";
+import ClientSideProductCategories from "./ClientSideProductCategories";
 
 export default async function ProductPage() {
   let tokenValid = false;
@@ -34,7 +34,7 @@ export default async function ProductPage() {
         <h1 className="p-2 pb-10 pt-5 text-center text-4xl font-bold text-[#1D8892] underline decoration-[#F9BC65] underline-offset-[15px] md:text-6xl">
           Products at Medgel
         </h1>
-        <ClientSideProducts>
+        <ClientSideProductCategories>
           {/* <div>This is a sample div</div>
           {isAdmin && <div>I am admin</div>}
           {!isAdmin && <div>I am not admin</div>} */}
@@ -48,7 +48,7 @@ export default async function ProductPage() {
               emailSent={emailSent}
             />
           </div>
-        </ClientSideProducts>
+        </ClientSideProductCategories>
       </div>
     </>
   );

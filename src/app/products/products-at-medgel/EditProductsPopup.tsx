@@ -1,8 +1,8 @@
 // src/app/products/products-at-medgel/EditProductsPopup.tsx
 "use client";
 
-import ProductsContext from "@/contexts/ProductsContext";
-import { ProductContextProps, ProductsStateType } from "@/types";
+import ProductsContext from "@/contexts/ProductCategoriesContext";
+import { ProductContextProps, ProductsCategoriesStateType } from "@/types";
 import axios from "axios";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { Clipboard } from "lucide-react";
@@ -20,7 +20,7 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
 
   // Create a deep copy of productsState for local edits
   const [localProductsState, setLocalProductsState] =
-    useState<ProductsStateType>(
+    useState<ProductsCategoriesStateType>(
       JSON.parse(JSON.stringify(productsState)), // Deep copy to prevent reference issues
     );
 

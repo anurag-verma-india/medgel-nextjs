@@ -1,0 +1,163 @@
+.MediCapsGroup-container {
+  padding-top: 2rem;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+  }
+
+  .MediCapsGroup-title {
+    text-align: center;
+    color: #20B2AA;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+    border-bottom: 2px solid #FFA500;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .MediCapsGroup-content-wrapper {
+    padding: clamp(1rem, 3vw, 2rem);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .MediCapsGroup-quote-section {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+    flex-wrap: wrap;
+  }
+
+  .MediCapsGroup-quote-mark {
+    color: #FFA500;
+    font-size: clamp(3rem, 6vw, 4rem);
+    line-height: 1;
+    margin-right: 1rem;
+  }
+
+  .MediCapsGroup-quote-text {
+    text-align: left;
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    color: #333;
+    margin: 0;
+    padding-top: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .MediCapsGroup-description-container {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+    flex-wrap: wrap;
+  }
+
+  .MediCapsGroup-text-content {
+    flex: 1;
+    min-width: min(100%, 300px);
+  }
+  .MediCapsGroup-text-content h2 {
+    color: #ff8c00;
+  }
+
+  .MediCapsGroup-text-content p {
+    margin: 0 0 1rem 0;
+    line-height: 1.6;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  .MediCapsGroup-image-container {
+    flex: 1;
+    min-width: min(100%, 300px);
+  }
+
+  .MediCapsGroup-image-container img {
+    width: 80%;
+    height: auto;
+    border-radius: 8px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  .MediCapsGroup-companies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+  }
+  
+  .MediCapsGroup-company-section h2 {
+    color: #20B2AA;
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+  }
+
+  .MediCapsGroup-company-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .MediCapsGroup-company-section li {
+    color: #FFA500;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    position: relative;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    line-height: 1.4;
+  }
+
+  .MediCapsGroup-company-section li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+  }
+
+  @media (max-width: 480px) {
+    .MediCapsGroup-container {
+      padding: 0.75rem;
+    }
+
+    .MediCapsGroup-content-wrapper {
+      padding: 0.75rem;
+    }
+
+    .MediCapsGroup-quote-section {
+      margin-bottom: 1rem;
+    }
+
+    .MediCapsGroup-company-section li {
+      padding-left: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    .MediCapsGroup-description-container {
+      flex-direction: column;
+    }
+
+    .MediCapsGroup-image-container {
+      order: -1;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .MediCapsGroup-companies-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (hover: hover) {
+    .MediCapsGroup-company-section li:hover {
+      color: #ff8c00;
+      transform: translateX(5px);
+      transition: all 0.3s ease;
+    }
+  }
