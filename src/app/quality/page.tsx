@@ -2,7 +2,40 @@
 // import img2 from "/qualitImg/img2.png";
 import Image from "next/image";
 import React from "react";
-const Qality=()=>{
+
+import fetchPage from "@/helpers/getPage";
+import { BasePageContent } from "@/types";
+
+interface qualityContent extends BasePageContent {
+ 
+  
+  qualtiy_overview_para1: string;
+  qualtiy_overview_para2: string;
+  qualtiy_overview_para3: string;
+  quality_policy_para1: string;
+  quality_policy1: string;
+  quality_policy2: string;
+  quality_policy3: string;
+  quality_policy4: string;
+  quality_policy5: string;
+  quality_policy_para2: string;
+    quality_policy_para3: string;
+    quality_policy_para4: string;
+    
+    quality_control: string;
+    quality_assurance_para1: string;
+    quality_assurance_para2: string;
+
+}
+
+
+const Qality= async()=>{
+    const title = "quality-compliance";
+
+    const fetchedQuality = await fetchPage<qualityContent>(title);
+
+    const quality : qualityContent = fetchedQuality.content;
+
     return(
         <>
         {/* Section 1 */}
@@ -14,12 +47,12 @@ const Qality=()=>{
             </div>
 
             <div className="mt-10 text-gray-900 ">
-                <h1>To strive to attain high level of Quality for all the products which shall provide maximum value to its customers by consistent supply of quality products and reliable service.</h1>
+                <h1>{quality.qualtiy_overview_para1}</h1>
 
-<h1 className="mt-5">To meet the required GMP requirements pertaining to the countries where the business is being carried out.</h1>
+                <h1 className="mt-5">{quality.quality_overview_para2
+}</h1>
 
-<h1 className="mt-5">Every activity is closely monitored by IPQC Inspectors, to evaluate the quality and hence attaining the desired Product Quality. Medgel follow various systems in accordance with ISO 9001:2000 to assure that activity is carried out in a defined way as per the system.
-                </h1>
+                <h1 className="mt-5">{quality.quality_overview_para3}</h1>
             </div>
             </div>
             <div className="md:flex hidden">
@@ -41,22 +74,22 @@ const Qality=()=>{
             </div>
             <main className="w-full mt-3 h-1  bg-slate-300"></main>
             <div className="mt-10 px-5">
-                <h1>To strive to attain high level of Quality for all the products which shall provide maximum value to its customers by consistent supply of quality products and reliable services.</h1>
+                <h1>{quality.quality_policy_para1}</h1>
                 <ul className="mt-5 px-5">
-                    <li className="list-disc ">Team Work</li>
-                    <li className="list-disc ">Customer Satisfaction</li>
-                    <li className="list-disc ">Surpassing Safety and Health norms</li>
-                    <li className="list-disc ">Providing Product at Competitive Price</li>
-                    <li className="list-disc ">Competent Manpower</li>
+                    <li className="list-disc ">{quality.quality_policy1}</li>
+                    <li className="list-disc ">{quality.quality_policy2}</li>
+                    <li className="list-disc ">{quality.quality_policy3}</li>
+                    <li className="list-disc ">{quality.quality_policy4}</li>
+                    <li className="list-disc ">{quality.quality_policy5}</li>
                 </ul>
                 <h1 className="mt-3">
-                    To continue our world class manufacturing status, we will ensuer compliance to cGMP and applicable regulatory expectation, We will continue to invest in other related Quality Management Systems
+                 {quality.quality_policy_para2}
                 </h1>
                 <h1 className="mt-3">
-                    The quality policy and objectives are reviewed periodically for their continuing suitability.
+                    {quality.quality_policy_para3}
                 </h1>
                 <h1 className="mt-3">
-                    We shall ensure that these are understood, implemented and maintained at all levels in the organization
+                    {quality.quality_policy_para4}
                 </h1>
             </div>
             </div>
@@ -79,7 +112,7 @@ const Qality=()=>{
             </div>
 
             <div className="mt-5 text-gray-900 ">
-                <h1 className="">The most sophisticated testing machinery at Medgel's laboratory ensures the best quality product of highest & most pure standards. All raw materials from time of entry through in process to finished goods are tested by the stringent & strict methods. Quality Control follows established pharmacopeia methods such as USP, BP, IP & others. A highly automated plant reduces actual material handling & dramatically decreases the possibility of contamination by limiting human contact.</h1>
+                <h1 className="">{quality.quality_control}</h1>
             </div>
 
             <div className="w-fit mt-10">
@@ -88,8 +121,8 @@ const Qality=()=>{
             </div>
 
             <div className="mt-5 text-gray-900 mb-10">
-                <h1 className="">Quality Assurance department ensures consistent quality products by maintaining vigil through qa checks at each stage. Medgel have team of qualified, experienced & dedicated professionals. Medgel also makes sure high quality nutraceuticals products are always delivered through our "best in class" infrastructure, world class technology and experienced staf</h1>
-                <h1 className="mt-5 ">Quality Assurance & Quality Control staff tries to set advance technology systems in manufacturing plant so that our customers get the best product</h1>
+                <h1 className="">{quality.quality_assurance_para1}</h1>
+                <h1 className="mt-5 ">{quality.quality_assurance_para2}</h1>
             </div>
             </div>
             

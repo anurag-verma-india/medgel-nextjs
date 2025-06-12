@@ -1,4 +1,5 @@
 "use client";
+import "./currentopenings.css";
 
 import React, { useState } from "react";
 
@@ -105,14 +106,17 @@ const CurrentOpenings = () => {
 
   return (
     <div className="current-openings-container">
-      <h1 className="current-openings-title">Current Openings</h1>
+      <h1 className="current-openings-title">Current Openings
+        <div className="current-openings-underline"></div>
+
+      </h1>
       <p className="current-openings-subtitle">
-        What Inspires You Inspires Us
-        <br />
+        What Inspires You, Inspires Us</p>
+        <p className="current-openings-subtitle-description">
         {/* Added {"string"} because of ' (apostrophe) */}
-        {
-          "Are you inspired to lead, learn, grow, and make a difference? You've come to the right place."
-        }
+        
+        "Are you inspired to lead, learn, grow, and make a difference? You've come to the right place."
+        
       </p>
 
       <div className="department-section">
@@ -120,10 +124,11 @@ const CurrentOpenings = () => {
           <h2>QC Department</h2>
           <div className="department-header-underline"></div>
           <svg
+            style={{ transform: 'translateX(-1rem)' }}
             className={`department-toggle-icon ${qcDepartmentOpen ? "rotate" : ""}`}
             viewBox="0 0 24 24"
             fill="none"
-            stroke="currentColor"
+            stroke="#fb923c"
             strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -136,18 +141,18 @@ const CurrentOpenings = () => {
             {qcDepartmentOpenings.map((opening, index) => (
               <div key={index} className="opening-card">
                 <div className="opening-info">
-                  <h3 className="opening-title">{opening.designation}</h3>
+                  <p className="opening-title"><span className="opening-bold">Designation :  </span>{opening.designation}</p>
                   <p className="opening-experience">
-                    Experience: {opening.experience}
+                    <span className="opening-bold">Experience :</span> {opening.experience}
                   </p>
                   <p className="opening-qualification">
-                    Qualification: {opening.qualification}
+                    <span className="opening-bold">Qualification :</span> {opening.qualification}
                   </p>
                   <p className="opening-description">
-                    Job Description: {opening.jobDescription}
+                    <span className="opening-bold">Job Description :</span> {opening.jobDescription}
                   </p>
                   <p className="opening-requirement">
-                    Requirement: {opening.requirement}
+                    <span className="opening-bold">Requirement : </span>{opening.requirement}
                   </p>
                 </div>
                 <button className="apply-btn">Apply Now</button>
@@ -157,18 +162,21 @@ const CurrentOpenings = () => {
         )}
       </div>
 
+      
+
       <div className="department-section">
         <div
           className="department-header"
           onClick={toggleQualityAssuranceDepartment}
         >
           <h2>Quality Assurance Department</h2>
-          <div className="department-header-underline"></div>
+          {/* <div className="department-header-underline"></div> */}
           <svg
+            style={{ transform: 'translateX(-1rem)' }}
             className={`department-toggle-icon ${qualityAssuranceDepartmentOpen ? "rotate" : ""}`}
             viewBox="0 0 24 24"
             fill="none"
-            stroke="currentColor"
+            stroke="#F9AD42"
             strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -202,175 +210,7 @@ const CurrentOpenings = () => {
         )}
       </div>
 
-      <style>
-        {`
-        .current-openings-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 40px 20px;
-        }
-
-        .current-openings-title {
-          font-size: 2.5rem;
-          color: #0D9488;
-          text-align: center;
-          margin-bottom: 16px;
-        }
-
-        .current-openings-subtitle {
-          font-size: 1.25rem;
-          text-align: center;
-          color: #333;
-          margin-bottom: 32px;
-        }
-
-        .department-section {
-          margin-bottom: 40px;
-        }
-
-        .department-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 24px;
-          cursor: pointer;
-        }
-
-        .department-header h2 {
-          font-size: 1.75rem;
-          color: #0D9488;
-          margin-bottom: 8px;
-        }
-
-        .department-header-underline {
-          width: 128px;
-          height: 4px;
-          background-color: #FB923C;
-        }
-
-        .department-toggle-icon {
-          width: 24px;
-          height: 24px;
-          transition: transform 0.3s;
-        }
-
-        .department-toggle-icon.rotate {
-          transform: rotate(180deg);
-        }
-
-        .department-openings {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          grid-gap: 24px;
-        }
-
-        .opening-card {
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-
-        .opening-title {
-          font-size: 1.25rem;
-          color: #0D9488;
-          margin-bottom: 8px;
-        }
-
-        .opening-experience,
-        .opening-qualification,
-        .opening-description,
-        .opening-requirement {
-          font-size: 0.95rem;
-          color: #333;
-          margin-bottom: 8px;
-        }
-
-        .apply-btn {
-          background-color: #0D9488;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          padding: 8px 16px;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background-color 0.2s;
-        }
-
-        .apply-btn:hover {
-          background-color: #0F766E;
-        }
-
-        @media (max-width: 768px) {
-          .current-openings-title {
-            font-size: 2rem;
-          }
-
-          .current-openings-subtitle {
-            font-size: 1.1rem;
-          }
-
-          .department-header h2 {
-            font-size: 1.5rem;
-          }
-
-          .opening-card {
-            padding: 20px;
-          }
-
-          .opening-title {
-            font-size: 1.1rem;
-          }
-
-          .opening-experience,
-          .opening-qualification,
-          .opening-description,
-          .opening-requirement {
-            font-size: 0.9rem;
-          }
-
-          .apply-btn {
-            font-size: 0.95rem;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .current-openings-title {
-            font-size: 1.75rem;
-          }
-
-          .current-openings-subtitle {
-            font-size: 1rem;
-          }
-
-          .department-header h2 {
-            font-size: 1.25rem;
-          }
-
-          .opening-card {
-            padding: 16px;
-          }
-
-          .opening-title {
-            font-size: 1rem;
-          }
-
-          .opening-experience,
-          .opening-qualification,
-          .opening-description,
-          .opening-requirement {
-            font-size: 0.85rem;
-          }
-
-          .apply-btn {
-            font-size: 0.9rem;
-          }
-        }
-        `}
-      </style>
+      
     </div>
   );
 };

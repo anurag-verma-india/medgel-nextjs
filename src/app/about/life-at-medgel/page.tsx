@@ -45,6 +45,7 @@ const LifeAtMedgel = async () => {
         <div className="min-h-screen bg-white">
           {/* <Header /> */}
           {/* Main Content */}
+          <div className="bg-[#EFEFEF]">
           <main className="mx-auto max-w-7xl px-4 py-12">
             {/* <EditModalContainer title={title} page={page} /> */}
             {/* <VerifyAndShowEditButton title={title} /> */}
@@ -53,7 +54,7 @@ const LifeAtMedgel = async () => {
             {/* </IfAdminShowThis> */}
             {/* Header */}
             <div className="mb-12 text-center">
-              <h1 className="relative inline-block text-5xl font-bold text-teal-500">
+              <h1 className="relative inline-block text-5xl font-bold text-[#1D8892]">
                 {/* {page.content["page_title"] || ""} */}
                 {page.content.page_title}
                 <div className="absolute bottom-0 left-0 right-0 -mb-2 h-1 bg-orange-400"></div>
@@ -79,10 +80,10 @@ const LifeAtMedgel = async () => {
                 <h2 className="text-3xl font-bold text-orange-500">
                   {page.content.title_1}
                 </h2>
-                <p className="leading-relaxed text-gray-700">
+                <p className="leading-relaxed text-gray-900">
                   {page.content.title1_des_1}
                 </p>
-                <p className="leading-relaxed text-gray-700">
+                <p className="leading-relaxed text-gray-900">
                   {page.content.title1_des_2}
                 </p>
               </div>
@@ -94,15 +95,16 @@ const LifeAtMedgel = async () => {
                 {page.content.title_2}
               </h2>
               <div className="space-y-6">
-                <p className="mx-auto max-w-4xl text-center leading-relaxed text-gray-700">
+                <p className="mx-auto max-w-4xl text-center leading-relaxed text-gray-900">
                   {page.content.title2_des_1}
                 </p>
-                <p className="mx-auto max-w-4xl text-center leading-relaxed text-gray-700">
+                <p className="mx-auto max-w-4xl text-center leading-relaxed text-gray-900">
                   {page.content.title2_des_2}
                 </p>
               </div>
             </div>
           </main>
+          </div>
         <CurrentOpenings />
         </div>
       </>
