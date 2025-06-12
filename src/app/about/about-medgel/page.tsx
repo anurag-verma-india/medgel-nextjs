@@ -12,8 +12,10 @@ import EditModalContainer from "@/app/_common_component/EditModalContainer";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 
 export const dynamic = "force-dynamic";
+
 const AboutTitle = "about/about-medgel$overview";
 const MissionValuesTitle = "about-us/about-medgel$mission-values";
+const ManagementCircleTitle = "about/about-medgel$management";
 
 async function AboutUs() {
   let isAdmin = false;
@@ -33,7 +35,9 @@ async function AboutUs() {
       <MissionValues title={MissionValuesTitle}>
         {isAdmin && <EditModalContainer title={MissionValuesTitle} />}
       </MissionValues>
-      <ManagementCircle />
+      <ManagementCircle title={ManagementCircleTitle}>
+        {isAdmin && <EditModalContainer title={ManagementCircleTitle} />}
+      </ManagementCircle>
       <MediCapsGroup />
       <WorldWideOperation />
       <EHSSection />
