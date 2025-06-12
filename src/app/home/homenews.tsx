@@ -9,14 +9,24 @@ import { NewsType } from "@/types";
 const HomeNews: React.FC = () => {
   const [newsList, setNewsList] = useState<NewsType[]>([
     {
-      title: "This is a sample title",
-      description: "This is a sample description",
+      title: "Successful USFDA Inspection of Medgel Facility",
+      description:
+        "Medgel Pvt Ltd is pleased to announce that the US Food and Drug Administration (FDA) has completed a successful inspection of its soft gelatin capsule manufacturing facility, located in SEZ Pharma Zone Pithampur, Indore, India.",
     },
     {
-      title: "What is Lorem Ipsum?",
+      title: "Spreading Worldwide",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "MEDGEL is providing a ceaseless supply of the finest quality of soft-gel to markets in virtually every corner of the world....",
     },
+    // {
+    //   title: "This is a sample title",
+    //   description: "This is a sample description",
+    // },
+    // {
+    //   title: "What is Lorem Ipsum?",
+    //   description:
+    //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    // },
   ]);
   // const newsContainerRef = useRef<HTMLDivElement | null>(null);
 

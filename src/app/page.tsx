@@ -17,8 +17,6 @@ const HomePage = () => {
       <PurposeSection />
       <Bpurpose />
       <HomeNews />
-      {/* <LatestAtMedgel2/> */}
-      {/* <LatestAtMedgel/> */}
       <Portfolio />
       <Cpurpose />
 
