@@ -21,13 +21,13 @@ const EditImages = ({ images }: EditImagesParams) => {
   const renderImages = (key: string, img: ImageObj) => {
     const imageURL = `${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`;
     return (
-      <div key={key}>
+      <div key={key} className="grid place-items-center p-4">
         {img && img.width && img.height && (
-          <div key={key} className="mb-6">
-            <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+          <div key={key} className="mb-6 text-justify">
+            <div className="rounded-2xl border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
               <Image
-                width={img.width}
-                height={img.height}
+                width={400}
+                height={500}
                 src={imageURL}
                 // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
                 // src={`${process.env.}/${img.url}`}
@@ -37,7 +37,7 @@ const EditImages = ({ images }: EditImagesParams) => {
               <div className="flex flex-row space-x-3">
                 <button
                   onClick={() => downloadImage(imageURL, img.url)}
-                  className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
+                  className="my-4 mt-1 w-24 rounded-2xl bg-[#46A6A5] p-2 text-white hover:bg-[#3a8a89]"
                 >
                   Download
                 </button>
@@ -45,7 +45,7 @@ const EditImages = ({ images }: EditImagesParams) => {
                   onClick={() => {
                     redirect("/imageupload", RedirectType.push);
                   }}
-                  className="my-4 flex rounded-lg bg-[#46A6A5] p-4 text-white hover:bg-[#3a8a89]"
+                  className="my-4 mt-1 w-24 rounded-2xl bg-[#46A6A5] p-2 text-white hover:bg-[#3a8a89]"
                 >
                   Replace Image
                 </button>
@@ -61,14 +61,24 @@ const EditImages = ({ images }: EditImagesParams) => {
     return (
       <>
         <div className="my-4">
-          <div>
-            URL:
+          <div className="text-slate-700">
+            <span className="font-bold text-black">URL:</span>
             {`${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`}
           </div>
-          <div>Width: {img.width} px</div>
-          <div>Height: {img.height} px</div>
-          <div>Size: {img.size} KB</div>
-          <div>width/height ratio: {img.aspectratio} px/px</div>
+          <div className="text-slate-700">
+            <span className="font-bold text-black">Width:</span> {img.width} px
+          </div>
+          <div className="text-slate-700">
+            <span className="font-bold text-black">Height:</span> {img.height}{" "}
+            px
+          </div>
+          <div className="text-slate-700">
+            <span className="font-bold text-black">Size:</span> {img.size} KB
+          </div>
+          <div className="text-slate-700">
+            <span className="font-bold text-black">Width/Height Ratio:</span>{" "}
+            {img.aspectratio} px/px
+          </div>
         </div>
       </>
     );
@@ -76,11 +86,11 @@ const EditImages = ({ images }: EditImagesParams) => {
   return (
     <>
       {/* <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"> */}
-      <div className="block w-full text-center text-3xl font-medium text-gray-700">
+      <div className="block w-full text-center text-3xl font-bold text-[#0D9488] underline">
         IMAGES
       </div>
-      <div className="my-2 w-full text-center">
-        make sure to replace images with same width to hight ratio
+      <div className="my-2 w-full text-center text-xl text-red-700">
+        Make sure to replace images with same width to hight ratio
       </div>
       {Object.entries(images).map(([key, value]) => renderImages(key, value))}
 
