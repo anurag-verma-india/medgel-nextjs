@@ -27,6 +27,7 @@ export default async function ProductPage() {
   const isAdmin = await checkAdminFromCookie();
   return (
     <>
+      {isAdmin && <EditProductsPopupContainer />}
       {/* <IfAdminShowThis> */}
       {/* {isAdmin && <EditProductsPopupContainer />} */}
       {/* </IfAdminShowThis> */}
@@ -41,7 +42,6 @@ export default async function ProductPage() {
 
           {/* Product Categories */}
           <div className="mb-10 w-11/12 overflow-hidden rounded-2xl border-2 bg-neutral-100 md:w-5/6">
-            {isAdmin && <EditProductsPopupContainer />}
             <ProductContainer
               tokenValid={tokenValid}
               allowVerificationAfter={allowVerificationAfter}

@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
           experience,
           qualification,
           job_description,
-          requirement
+          requirement,
         } = job;
         // Check if the department exists
         const existingDepartment = await JobOpening.findById(department_id);
@@ -406,6 +406,8 @@ export async function DELETE(request: NextRequest) {
       }[];
     } = body;
     const problems: string[] = [];
+    console.log("jobs_to_delete: ", jobs_to_delete);
+    console.log("departments_to_delete: ", departments_to_delete);
 
     const operations_on_jobs: AnyBulkWriteOperation[] = [];
     if (jobs_to_delete && jobs_to_delete.length > 0) {
@@ -422,12 +424,26 @@ export async function DELETE(request: NextRequest) {
           problems.push(`Invalid job data: ${JSON.stringify(job)}`);
           continue; // Skip to the next job
         }
+
         const { department_id, job_id } = job;
+        console.log(
+          `Deleting job with ID "${job_id}" from department "${department_id}"`,
+        );
         // Check if the department exists
         const existingDepartment = await JobOpening.findById(department_id);
         if (!existingDepartment) {
           problems.push(
             `Department with ID "${department_id}" does not exist.`,
+          );
+          continue; // Skip to the next job
+        }
+
+        const existingJob = existingDepartment.jobs.find(
+          (job) => job._id.toString() === job_id,
+        );
+        if (!existingJob) {
+          problems.push(
+            `Job with ID "${job_id}" does not exist in department "${department_id}".`,
           );
           continue; // Skip to the next job
         }
@@ -504,7 +520,6 @@ export async function DELETE(request: NextRequest) {
     return handleError(error, "Failed to delete jobs");
   }
 }
-
 
 /*
 // Request body interfaces for /api/job_openings endpoints
