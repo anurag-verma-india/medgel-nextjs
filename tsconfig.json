@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/helpers/unusedGenToken.ts.nobuild"
-  ],
+, "src/controller/Award.Controller.js"  ],
   "exclude": ["node_modules"]
 }
