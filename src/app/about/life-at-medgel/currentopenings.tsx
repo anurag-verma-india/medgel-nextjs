@@ -3,7 +3,7 @@ import { JobDepartmentTypeDB } from "@/types";
 import "./currentopenings.css";
 
 import React, { useEffect, useState } from "react";
-import JobApplyPopup from "./JobApplyPopup";
+// import JobApplyPopup from "./JobApplyPopup";
 // import DepartmentsEditPopup from "./DepartmentsEditPopup";
 // import DepartmentsEditPopup from "./CDepartmentsEditPopup";
 import DepartmentsEditPopup from "./C2DepartmentsEditPopup";
