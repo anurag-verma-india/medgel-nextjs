@@ -2,11 +2,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "antd";
-const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
+const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
   const [showspin,setShowSpin]=useState(false)
   const [form, setForm] = useState({
     title:"",
-    anual_Report:""
+    description:""
   });
   
   const submit = (e) => {
@@ -24,35 +24,25 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
 
   const formData = new FormData();
   formData.append("title", form.title);
-// for (let pair of formData.entries()) {
-//         console.log(pair[0], pair[1]); // Now price will be logged as a proper JSON string
-//     }
-  // Ensure it's a File before appending
-  if (form.anual_Report instanceof File) {
-    formData.append("anual_Report", form.anual_Report); // 👈 send actual file
-  } else {
-   
-    alert("Please upload a valid pdf file");
-    return;
-  }
+  formData.append("description", form.description);
 
   try {
-    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/anualreport`, formData, {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/news`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
       },
     });
 
-    console.log("Anual Report created:", res.data);
-    if(res.data.message==="Anual Report created successfully"){
+    console.log("News created:", res.data);
+    if(res.data.message==="News Created SuccessFully"){
        setShowSpin(false)
-        alert("Anual Report created successfully");
+        alert("News Added successfully");
         window.location.reload()
     }
     setOpenEditModal(false);
-    setForm({ title: "", award_Image: "" });
+    setForm({ title: "", description: "" });
   } catch (err) {
-    console.error("Error uploading anual Report:", err);
+    console.error("Error uploading News:", err);
   }
       };
 
@@ -64,12 +54,12 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
 
   return (
     <Modal
-      title={<span className="text-[#3F5D97]">Add Anual Report PDF</span>}
+      title={<span className="text-[#3F5D97]">Add News</span>}
       open={openEditModal}
       onOk={handleOk}
       onCancel={handleCancel}
-      width={350}
-      height={300}
+      width={850}
+      height={800}
       footer={
         <div className="flex justify-center space-x-4">
           <button
@@ -104,7 +94,7 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
             type="text"
             id="AddNewOffer"
             className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Anual Report Title"
+            placeholder="Enter News Title"
             name="title"
             value={form.title}
             onChange={submit}
@@ -113,21 +103,18 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
 
         <div className="mb-4">
          <div className="mb-4">
-         <label htmlFor="product-images" className="text-nowrap mb-2 block font-bold capitalize">File Image</label>
-                  
-
-         <input
-                    className="form-control"
-                    type="file"
-                    accept="application/pdf"
-                    name="anual_Report"
-                    id="product-images"
-                    onChange={(e) => {
-  setForm({ ...form, anual_Report: e.target.files[0] }); 
-}}
-                    // onChange={submit}
-                    required
-                  />
+         <label htmlFor="product-images" className="text-nowrap mb-2 block font-bold capitalize">Add Description</label>
+          
+          <textarea
+             rows="10"
+            type="text"
+            id="AddNewOffer"
+            className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter News Description"
+            name="description"
+            value={form.description}
+            onChange={submit}
+          />
         </div>
                 
         </div>
@@ -136,4 +123,4 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
   );
 };
 
-export default AnualReportPopup;
+export default NewsPopup;

@@ -2,11 +2,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "antd";
-const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
+
+const AwardPopup = ({ openEditModal, setOpenEditModal }) => {
   const [showspin,setShowSpin]=useState(false)
   const [form, setForm] = useState({
     title:"",
-    anual_Report:""
+    award_Image:""
   });
   
   const submit = (e) => {
@@ -24,35 +25,35 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
 
   const formData = new FormData();
   formData.append("title", form.title);
-// for (let pair of formData.entries()) {
-//         console.log(pair[0], pair[1]); // Now price will be logged as a proper JSON string
-//     }
+for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]); // Now price will be logged as a proper JSON string
+    }
   // Ensure it's a File before appending
-  if (form.anual_Report instanceof File) {
-    formData.append("anual_Report", form.anual_Report); // 👈 send actual file
+  if (form.award_Image instanceof File) {
+    formData.append("award_Image", form.award_Image); // 👈 send actual file
   } else {
    
-    alert("Please upload a valid pdf file");
+    alert("Please upload a valid image file");
     return;
   }
 
   try {
-    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/anualreport`, formData, {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/award`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
 
-    console.log("Anual Report created:", res.data);
-    if(res.data.message==="Anual Report created successfully"){
+    console.log("Award created:", res.data);
+    if(res.data.message==="Award created successfully"){
        setShowSpin(false)
-        alert("Anual Report created successfully");
+        alert("Award created successfully");
         window.location.reload()
     }
     setOpenEditModal(false);
     setForm({ title: "", award_Image: "" });
   } catch (err) {
-    console.error("Error uploading anual Report:", err);
+    console.error("Error uploading award:", err);
   }
       };
 
@@ -64,7 +65,7 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
 
   return (
     <Modal
-      title={<span className="text-[#3F5D97]">Add Anual Report PDF</span>}
+      title={<span className="text-[#3F5D97]">Add Award</span>}
       open={openEditModal}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -104,7 +105,7 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
             type="text"
             id="AddNewOffer"
             className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Anual Report Title"
+            placeholder="Enter Award Title"
             name="title"
             value={form.title}
             onChange={submit}
@@ -119,11 +120,11 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
          <input
                     className="form-control"
                     type="file"
-                    accept="application/pdf"
-                    name="anual_Report"
+                    accept="image/*"
+                    name="award_Image"
                     id="product-images"
                     onChange={(e) => {
-  setForm({ ...form, anual_Report: e.target.files[0] }); 
+  setForm({ ...form, award_Image: e.target.files[0] }); 
 }}
                     // onChange={submit}
                     required
@@ -136,4 +137,4 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
   );
 };
 
-export default AnualReportPopup;
+export default AwardPopup;

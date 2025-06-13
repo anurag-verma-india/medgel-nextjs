@@ -46,7 +46,7 @@ const menuItems: MenuItem[] = [
   { label: "Facilities", href: "/facilities" },
   { label: "Investor Relations", href: "/investor" },
   { label: "Contact Us", href: "/contact" },
-  { label: "News", href: "/news" },
+  // { label: "News", href: "/news" },
 ];
 
 export default function Header() {

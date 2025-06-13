@@ -31,7 +31,15 @@ export interface PageObject<T extends BasePageContent = BasePageContent> {
   __v: number;
 }
 
+export interface NewsObject {
+  _id: string;
+  title: string;
+  description: string;
+  // ...other fields
+}
+
 export type NewsType = {
+  _id:string,
   title: string;
   description: string;
 };

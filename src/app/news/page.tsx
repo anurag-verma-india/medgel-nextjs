@@ -1,9 +1,47 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-
+import { NewsObject } from "@/types";
+import { useSearchParams } from 'next/navigation';
 const inter = Inter({ subsets: ["latin"] });
+import NewsEditPopup from "../home/NewsEditPopup";
+import { NextRequest, NextResponse } from "next/server";
+
 
 export default function page() {
+   const searchParams = useSearchParams();
+  const id = searchParams?.get('id');
+   const [openEditModal,setOpenEditModal]=useState<Boolean>(false)
+   const [NewId,setNewId]=useState("")
+    const [isAdmin,setIsAdmin]=useState<Boolean>(false)
+       const [newsList, setNewsList] = useState<NewsObject>({} as NewsObject);
+    const fetchNews = async () => {
+      try {
+      const newsResponse = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/news?id=${id}`,
+      );
+      console.log(newsResponse.data)
+      if (newsResponse.data) {
+        setNewsList(newsResponse.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    };
+    useEffect(() => {
+          fetch("/api/check-admin")
+            .then((res) => res.json())
+            .then((data) => setIsAdmin(data.isAdmin))
+            .catch((err) => console.log("Auth check error:", err));
+          fetchNews()
+        }, []);
+       const openModal: (id: string) => void = (id) => {
+          setNewId(id)
+          setOpenEditModal(true)
+        }
   return (
     <div className={`min-h-screen bg-gray-50 ${inter.className}`}>
       {/* Hero Section */}
@@ -23,16 +61,17 @@ export default function page() {
         {/* Content Card */}
         <div className="rounded-2xl bg-white p-6 shadow-xl sm:p-8 lg:p-12">
           {/* Title */}
-          <h1 className="mb-6 text-3xl font-bold leading-tight text-[#20878c] sm:text-4xl lg:text-5xl">
-            Breaking: Revolutionary Technology Transforms Industry Standards
+          <div className="flex justify-center">
+          <h1 className="mb-6 text-3xl text-center font-bold leading-tight text-[#20878c] sm:text-4xl lg:text-5xl">
+            {newsList.title}
           </h1>
+          {
+          isAdmin && 
+        <button onClick={()=>openModal(newsList._id)} className="bg-[#1D8892]  w-44 h-10 rounded-lg m-3 ml-auto text-white">Edit</button>
+        }
+          </div>
 
-          {/* Subtitle */}
-          <p className="mb-2 text-lg font-medium leading-relaxed text-black sm:text-xl">
-            Industry experts predict this breakthrough will reshape how
-            businesses operate, setting new benchmarks for efficiency and
-            innovation across multiple sectors.
-          </p>
+          
 
           {/* Meta Information */}
           <div className="mb-8 flex flex-wrap items-center gap-4 border-b border-gray-200 pb-8">
@@ -51,68 +90,22 @@ export default function page() {
           {/* News Content */}
           <div className="prose prose-lg max-w-none">
             <p className="mb-6 leading-relaxed text-gray-700">
-              In a groundbreaking development that has sent ripples through the
-              technology sector, researchers have unveiled a revolutionary
-              approach that promises to redefine industry standards. This
-              innovative solution addresses long-standing challenges that have
-              plagued businesses for decades, offering unprecedented levels of
-              efficiency and scalability.
+             {newsList.description}
             </p>
 
-            <p className="mb-6 leading-relaxed text-gray-700">
-              The breakthrough technology, developed over three years of
-              intensive research, combines cutting-edge algorithms with
-              practical applications that can be immediately implemented across
-              various industries. Early adopters report significant improvements
-              in operational efficiency, with some organizations seeing up to
-              40% reduction in processing times.
-            </p>
-
-            <p className="mb-6 leading-relaxed text-gray-700">
-              "This represents a paradigm shift in how we approach complex
-              problems," said Dr. Sarah Johnson, lead researcher on the project.
-              "We're not just optimizing existing processes; we're fundamentally
-              reimagining what's possible."
-            </p>
-
-            <p className="mb-6 leading-relaxed text-gray-700">
-              The implications extend far beyond immediate applications.
-              Industry analysts predict that this technology will create new
-              market opportunities worth billions of dollars over the next
-              decade. Companies that adopt these innovations early are
-              positioned to gain significant competitive advantages in their
-              respective markets.
-            </p>
-
-            <p className="mb-6 leading-relaxed text-gray-700">
-              Key features of the new technology include enhanced data
-              processing capabilities, improved security protocols, and seamless
-              integration with existing infrastructure. The solution is designed
-              to be scalable, making it suitable for both small businesses and
-              large enterprises.
-            </p>
-
-            <p className="mb-6 leading-relaxed text-gray-700">
-              Looking ahead, the development team plans to expand the
-              technology's capabilities further, with several major updates
-              scheduled for release throughout the year. These enhancements will
-              introduce additional features that address emerging market needs
-              and technological trends.
-            </p>
-
-            <p className="leading-relaxed text-gray-700">
-              As organizations worldwide begin to recognize the potential of
-              this breakthrough, the technology sector stands on the brink of a
-              transformation that could reshape the competitive landscape for
-              years to come. The question is no longer whether this technology
-              will be adopted, but how quickly businesses can integrate it into
-              their operations to stay ahead of the curve.
-            </p>
+            
           </div>
 
           {/* Call to Action */}
         </div>
       </div>
+      {
+              openEditModal && <NewsEditPopup
+              openEditModal={openEditModal}
+              setOpenEditModal={setOpenEditModal}
+              NewsId={NewId}
+              />
+            }
 
       {/* Bottom Spacing */}
       <div className="h-20"></div>
