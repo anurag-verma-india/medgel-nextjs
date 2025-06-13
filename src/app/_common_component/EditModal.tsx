@@ -151,10 +151,10 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
     const textValue = getStringValue(value);
 
     return (
-      <div key={key} className="mb-6">
+      <div key={key} className="mb-4">
         <label
           htmlFor={key}
-          className="mb-2 block text-sm font-medium text-gray-700"
+          className="mb-2 block text-lg text-sm font-bold text-black"
         >
           {key.replace(/_/g, " ").toUpperCase()}
         </label>
@@ -195,6 +195,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
               ×
             </button>
           </div>
+
           {/* <div className="mb-2 block text-lg font-medium text-gray-700">
               IMAGES
             </div>
@@ -202,7 +203,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
               renderImages(key, value),
             )} */}
           {/* Dynamic form fields */}
-          <div className="mb-2 block w-full text-center text-3xl font-medium text-gray-700">
+          <div className="mb-2 block w-full text-center text-3xl font-bold text-[#0D9488] underline">
             TEXT
           </div>
           {Object.entries(formData).map(([key, value]) =>
@@ -217,21 +218,21 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
         <button
           type="button"
           onClick={() => setModalOpen(false)}
-          className="w-full rounded-lg bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 sm:w-auto"
+          className="w-full rounded-2xl bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 sm:w-auto"
         >
           Cancel
         </button>
         <button
           type="button"
           onClick={handleReset}
-          className="w-full rounded-lg bg-yellow-500 px-6 py-3 font-semibold text-white hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300 sm:w-auto"
+          className="w-full rounded-2xl bg-yellow-500 px-6 py-3 font-semibold text-white hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300 sm:w-auto"
         >
           Reset
         </button>
         <button
           type="submit"
           onClick={handleSave}
-          className="w-full rounded-lg bg-blue-500 px-6 py-3 font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 sm:w-auto"
+          className="w-full rounded-2xl bg-blue-500 px-6 py-3 font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 sm:w-auto"
         >
           Save
         </button>
