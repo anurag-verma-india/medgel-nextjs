@@ -4,7 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import policy from "@/models/Policy";
 import handleError from "@/helpers/handleError";
-
+import path from "path";
+import fs from "fs/promises";
 export async function GET(request: NextRequest) {
 
 
@@ -23,6 +24,57 @@ export async function GET(request: NextRequest) {
     //   { error: "Server error", details: error.message },
     //   { status: 500 },
     // );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const {  reportid,reportpath } = body;
+
+    if (!reportid || !reportpath) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please provide both report ID and report path.",
+        },
+        { status: 400 }
+      );
+    }
+
+    await dbConnect();
+
+    // Delete award from DB
+    const deletedAward = await policy.findByIdAndDelete(reportid);
+
+    if (!deletedAward) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Report not found.",
+        },
+        { status: 404 }
+      );
+    }
+
+    // Delete image from filesystem
+    const fullPdfPath = path.join(process.cwd(), "public", reportpath);
+    try {
+      await fs.unlink(fullPdfPath);
+      console.log("pdf deleted:", fullPdfPath);
+    } catch (fsErr) {
+  const err = fsErr as Error;
+  console.warn("Failed to delete pdf:", err.message);
+}
+
+    return NextResponse.json({
+      success: true,
+      message: "Report deleted successfully.",
+      deletedAward,
+    });
+
+  } catch (error) {
+    return handleError(error, "Failed to delete Report");
   }
 }
 

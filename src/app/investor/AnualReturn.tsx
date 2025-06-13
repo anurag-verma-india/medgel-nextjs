@@ -19,12 +19,7 @@ const rpype: ReportType[] = [
     const [openEditModal, setOpenEditModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [report, setreport] = useState<ReportType[]>([]);
-  useEffect(() => {
-    fetch("/api/check-admin")
-      .then((res) => res.json())
-      .then((data) => setIsAdmin(data.isAdmin))
-      .catch((err) => console.log("Auth check error:", err));
-    async function fetchData(){
+  async function fetchData(){
       try{
         const reportResponse= await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/annualReport`,
@@ -37,15 +32,44 @@ const rpype: ReportType[] = [
       console.log(error)
     }
     }
+  useEffect(() => {
+    fetch("/api/check-admin")
+      .then((res) => res.json())
+      .then((data) => setIsAdmin(data.isAdmin))
+      .catch((err) => console.log("Auth check error:", err));
+    
     fetchData()
   }, []);
   const openpdf = (url: string) => {
     // console.log(`${process.env.NEXT_PUBLIC_SITE_URL}/${url}`)
     window.open(`${process.env.NEXT_PUBLIC_SITE_URL}/${url}`, '_blank');
   }
-  const deletereport=(id:string,path:string)=>{
-    alert(id)
+  
+const deletereport=async(id:string,path:string)=>{
+    try {
+    const confirmDelete = window.confirm("Are you sure you want to delete this Report?");
+    if (!confirmDelete) return;
+
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_SITE_URL}/api/annualReport`, {
+      data: {
+        reportid: id,
+        reportpath: path,
+      }, // Pass image path to backend for deletion
+    });
+
+    if (response.status === 200) {
+      alert("Report deleted successfully.");
+      window.location.reload()
+      // Optionally refetch or update state
+    } else {
+      alert("Failed to delete Report.");
+    }
+  } catch (error) {
+    console.error("Delete error:", error);
+    alert("Something went wrong while deleting.");
   }
+}
+
     return (
         <div className={styles.section}>
           
@@ -65,12 +89,12 @@ const rpype: ReportType[] = [
 
           <div className={styles.itemList}>
            {
-  Array.isArray(report) && report.map((item, index) => {
+  Array.isArray(report) && report.length>=1  && report.map((item, index) => {
     return isAdmin ? (
       <div key={index} className={styles.item}>
                 <MdDelete onClick={()=>deletereport(item._id,item.anual_Report)} className="w-10 h-10 mb-2 text-red-600 cursor-pointer"/>
         <span onClick={() => openpdf(item.anual_Report)} className={styles.itemText}>
-          {item.title} (Admin)
+          {item.title}
         </span>
         <span onClick={() => openpdf(item.anual_Report)} className={styles.chevron}>›</span>
       </div>

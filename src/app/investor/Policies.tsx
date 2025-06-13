@@ -4,26 +4,23 @@ import styles from "./page.module.css";
 import PolicyPopup from "./PolicyPopup.jsx"
 import { ReactNode, useState,useEffect} from "react";
 import axios from "axios";
+import { MdDelete } from "react-icons/md";
 export default function Policies(){
     type ReportType = {
+      _id:string;
   title: string;
 
 policy_Report: string;
 };
 
 const rpype: ReportType[] = [
-  { title: "Award 1", policy_Report: "uploads/1.pdf" },
+  { _id:"8569745dfr85",title: "Award 1", policy_Report: "uploads/1.pdf" },
   // ...
 ];
   const [openEditModal, setOpenEditModal] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
       const [report, setreport] = useState<ReportType[]>([]);
-    
-    useEffect(() => {
-      fetch("/api/check-admin")
-        .then((res) => res.json())
-        .then((data) => setIsAdmin(data.isAdmin))
-        .catch((err) => console.log("Auth check error:", err));
+
       async function fetchData(){
       try{
         const reportResponse= await axios.get(
@@ -37,12 +34,44 @@ const rpype: ReportType[] = [
       console.log(error)
     }
     }
+    
+    useEffect(() => {
+      fetch("/api/check-admin")
+        .then((res) => res.json())
+        .then((data) => setIsAdmin(data.isAdmin))
+        .catch((err) => console.log("Auth check error:", err));
+      
     fetchData()
     }, []);
     const openpdf = (url: string) => {
     // console.log(`${process.env.NEXT_PUBLIC_SITE_URL}/${url}`)
     window.open(`${process.env.NEXT_PUBLIC_SITE_URL}/${url}`, '_blank');
   }
+
+  const deletereport=async(id:string,path:string)=>{
+    try {
+    const confirmDelete = window.confirm("Are you sure you want to delete this Report?");
+    if (!confirmDelete) return;
+
+    const response = await axios.delete(`${process.env.NEXT_PUBLIC_SITE_URL}/api/policyReport`, {
+      data: {
+        reportid: id,
+        reportpath: path,
+      }, // Pass image path to backend for deletion
+    });
+
+    if (response.status === 200) {
+      alert("Report deleted successfully.");
+      window.location.reload()
+      // Optionally refetch or update state
+    } else {
+      alert("Failed to delete Report.");
+    }
+  } catch (error) {
+    console.error("Delete error:", error);
+    alert("Something went wrong while deleting.");
+  }
+}
     return (
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
@@ -60,15 +89,25 @@ const rpype: ReportType[] = [
           </div>
           <div className={styles.itemList}>
             {
-              Array.isArray(report) && report.map((item,index)=>{
-                return(
-                  <div onClick={()=>openpdf(item.policy_Report)} key={index} className={styles.item}>
-              <span className={styles.itemText}>{item.title}</span>
-              <span  className={styles.chevron}>›</span>
-            </div>
-                )
-              })
-            }
+  Array.isArray(report) && report.length>=1  && report.map((item, index) => {
+    return isAdmin ? (
+      <div key={index} className={styles.item}>
+                <MdDelete onClick={()=>deletereport(item._id,item.policy_Report)} className="w-10 h-10 mb-2 text-red-600 cursor-pointer"/>
+        <span onClick={() => openpdf(item.policy_Report)} className={styles.itemText}>
+          {item.title}
+        </span>
+        <span onClick={() => openpdf(item.policy_Report)} className={styles.chevron}>›</span>
+      </div>
+    ) : (
+      <div key={index} className={styles.item}>
+        <span onClick={() => openpdf(item.policy_Report)} className={styles.itemText}>
+          {item.title}
+        </span>
+        <span onClick={() => openpdf(item.policy_Report)} className={styles.chevron}>›</span>
+      </div>
+    );
+  })
+}
             
           </div>
           {(<PolicyPopup
