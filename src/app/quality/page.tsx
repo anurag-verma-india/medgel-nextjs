@@ -8,9 +8,9 @@ import { BasePageContent } from "@/types";
 import Image from "next/image";
 
 interface qualityContent extends BasePageContent {
-  qualtiy_overview_para1: string;
-  qualtiy_overview_para2: string;
-  qualtiy_overview_para3: string;
+  quality_overview_para1: string;
+  quality_overview_para2: string;
+  quality_overview_para3: string;
   quality_policy_para1: string;
   quality_policy1: string;
   quality_policy2: string;
@@ -32,6 +32,7 @@ const Qality = async () => {
   const fetchedQuality = await fetchPage<qualityContent>(title);
 
   const quality: qualityContent = fetchedQuality.content;
+  console.log("Quality Content:", quality);
 
   return (
     <>
@@ -46,7 +47,7 @@ const Qality = async () => {
           </div>
 
           <div className="mt-10 text-gray-900">
-            <h1>{quality.qualtiy_overview_para1}</h1>
+            <h1>{quality.quality_overview_para1}</h1>
 
             <h1 className="mt-5">{quality.quality_overview_para2}</h1>
 

@@ -1,8 +1,22 @@
 "use client";
 // src/app/about/life-at-medgel/DepartmentsEditPopup.tsx
 
-import { Button, Form, Input, message, Modal, Space, Popconfirm, InputNumber } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Modal,
+  Space,
+  Popconfirm,
+  InputNumber,
+} from "antd";
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -94,14 +108,18 @@ interface DepartmentState {
   original: JobDepartmentTypeDB[];
   current: JobDepartmentTypeDB[];
   toDelete: string[];
-  toCreate: Omit<JobDepartmentType, 'jobs'>[];
+  toCreate: Omit<JobDepartmentType, "jobs">[];
   toUpdate: { id: string; department_name?: string; sequence?: number }[];
 }
 
 interface JobState {
   toDelete: { department_id: string; job_id: string }[];
   toCreate: { department_id: string; job: JobType }[];
-  toUpdate: { department_id: string; job_id: string; updates: Partial<JobType> }[];
+  toUpdate: {
+    department_id: string;
+    job_id: string;
+    updates: Partial<JobType>;
+  }[];
 }
 
 // Component Props
@@ -112,20 +130,20 @@ interface DepartmentsEditPopupProps {
 
 const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
   popupState,
-  popupOpenFn
+  popupOpenFn,
 }) => {
   const [departmentState, setDepartmentState] = useState<DepartmentState>({
     original: [],
     current: [],
     toDelete: [],
     toCreate: [],
-    toUpdate: []
+    toUpdate: [],
   });
 
   const [jobState, setJobState] = useState<JobState>({
     toDelete: [],
     toCreate: [],
-    toUpdate: []
+    toUpdate: [],
   });
 
   const [isJobModalVisible, setIsJobModalVisible] = useState(false);
@@ -133,7 +151,7 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
   const [loading, setLoading] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
-  
+
   const [departmentForm] = Form.useForm();
   const [jobForm] = Form.useForm();
 
@@ -146,21 +164,22 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
 
   const fetchJobOpenings = async () => {
     try {
-      const response = await axios.get<JobOpeningsSuccessResponse>("/api/job_openings");
+      const response =
+        await axios.get<JobOpeningsSuccessResponse>("/api/job_openings");
       if (response.data && response.data.departments) {
         console.log("Job Openings Data:", response.data.departments);
         const departments = response.data.departments || [];
-        setDepartmentState(prev => ({
+        setDepartmentState((prev) => ({
           ...prev,
           original: departments,
-          current: [...departments]
+          current: [...departments],
         }));
-        
+
         // Reset job state when fetching new data
         setJobState({
           toDelete: [],
           toCreate: [],
-          toUpdate: []
+          toUpdate: [],
         });
       }
     } catch (error) {
@@ -170,34 +189,38 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
   };
 
   // Department management functions
-  const handleDepartmentChange = (departmentId: string, field: 'department_name' | 'sequence', value: string | number) => {
-    setDepartmentState(prev => {
-      const updatedCurrent = prev.current.map(dept => 
-        dept._id === departmentId 
-          ? { ...dept, [field]: value }
-          : dept
+  const handleDepartmentChange = (
+    departmentId: string,
+    field: "department_name" | "sequence",
+    value: string | number,
+  ) => {
+    setDepartmentState((prev) => {
+      const updatedCurrent = prev.current.map((dept) =>
+        dept._id === departmentId ? { ...dept, [field]: value } : dept,
       );
 
       // Track changes for update
-      const existingUpdateIndex = prev.toUpdate.findIndex(update => update.id === departmentId);
+      const existingUpdateIndex = prev.toUpdate.findIndex(
+        (update) => update.id === departmentId,
+      );
       let updatedToUpdate = [...prev.toUpdate];
-      
+
       if (existingUpdateIndex >= 0) {
         updatedToUpdate[existingUpdateIndex] = {
           ...updatedToUpdate[existingUpdateIndex],
-          [field]: value
+          [field]: value,
         };
       } else {
         updatedToUpdate.push({
           id: departmentId,
-          [field]: value
+          [field]: value,
         });
       }
 
       return {
         ...prev,
         current: updatedCurrent,
-        toUpdate: updatedToUpdate
+        toUpdate: updatedToUpdate,
       };
     });
   };
@@ -207,33 +230,43 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
       _id: `temp_${Date.now()}`,
       department_name: "New Department",
       sequence: departmentState.current.length + 1,
-      jobs: []
+      jobs: [],
     };
 
-    setDepartmentState(prev => ({
+    setDepartmentState((prev) => ({
       ...prev,
       current: [...prev.current, newDepartment],
-      toCreate: [...prev.toCreate, {
-        department_name: newDepartment.department_name,
-        sequence: newDepartment.sequence
-      }]
+      toCreate: [
+        ...prev.toCreate,
+        {
+          department_name: newDepartment.department_name,
+          sequence: newDepartment.sequence,
+        },
+      ],
     }));
   };
 
   const handleDeleteDepartment = (departmentId: string) => {
-    setDepartmentState(prev => {
-      const filteredCurrent = prev.current.filter(dept => dept._id !== departmentId);
-      
+    setDepartmentState((prev) => {
+      const filteredCurrent = prev.current.filter(
+        (dept) => dept._id !== departmentId,
+      );
+
       // If it's a temporary department (not saved to DB), just remove from toCreate
-      if (departmentId.startsWith('temp_')) {
-        const departmentIndex = prev.current.findIndex(dept => dept._id === departmentId);
-        const tempIndex = departmentIndex - (prev.current.length - prev.toCreate.length);
-        const filteredToCreate = prev.toCreate.filter((_, index) => index !== tempIndex);
-        
+      if (departmentId.startsWith("temp_")) {
+        const departmentIndex = prev.current.findIndex(
+          (dept) => dept._id === departmentId,
+        );
+        const tempIndex =
+          departmentIndex - (prev.current.length - prev.toCreate.length);
+        const filteredToCreate = prev.toCreate.filter(
+          (_, index) => index !== tempIndex,
+        );
+
         return {
           ...prev,
           current: filteredCurrent,
-          toCreate: filteredToCreate
+          toCreate: filteredToCreate,
         };
       }
 
@@ -241,7 +274,7 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
       return {
         ...prev,
         current: filteredCurrent,
-        toDelete: [...prev.toDelete, departmentId]
+        toDelete: [...prev.toDelete, departmentId],
       };
     });
   };
@@ -250,9 +283,11 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
   const handleOpenJobModal = (departmentId: string) => {
     setSelectedDepartmentId(departmentId);
     setIsJobModalVisible(true);
-    
+
     // Set initial values for job form
-    const department = departmentState.current.find(dept => dept._id === departmentId);
+    const department = departmentState.current.find(
+      (dept) => dept._id === departmentId,
+    );
     if (department) {
       const formValues: Record<string, any> = {};
       department.jobs.forEach((job, index) => {
@@ -266,51 +301,55 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
     }
   };
 
-  const handleJobChange = (jobId: string, field: keyof JobType, value: string | number) => {
+  const handleJobChange = (
+    jobId: string,
+    field: keyof JobType,
+    value: string | number,
+  ) => {
     // Update current state
-    setDepartmentState(prev => ({
+    setDepartmentState((prev) => ({
       ...prev,
-      current: prev.current.map(dept => 
-        dept._id === selectedDepartmentId 
+      current: prev.current.map((dept) =>
+        dept._id === selectedDepartmentId
           ? {
               ...dept,
-              jobs: dept.jobs.map(job => 
-                job._id === jobId 
-                  ? { ...job, [field]: value }
-                  : job
-              )
+              jobs: dept.jobs.map((job) =>
+                job._id === jobId ? { ...job, [field]: value } : job,
+              ),
             }
-          : dept
-      )
+          : dept,
+      ),
     }));
 
     // Track for updates if it's not a temporary job
-    if (!jobId.startsWith('temp_job_')) {
-      setJobState(prev => {
+    if (!jobId.startsWith("temp_job_")) {
+      setJobState((prev) => {
         const existingUpdateIndex = prev.toUpdate.findIndex(
-          update => update.department_id === selectedDepartmentId && update.job_id === jobId
+          (update) =>
+            update.department_id === selectedDepartmentId &&
+            update.job_id === jobId,
         );
         let updatedToUpdate = [...prev.toUpdate];
-        
+
         if (existingUpdateIndex >= 0) {
           updatedToUpdate[existingUpdateIndex] = {
             ...updatedToUpdate[existingUpdateIndex],
             updates: {
               ...updatedToUpdate[existingUpdateIndex].updates,
-              [field]: value
-            }
+              [field]: value,
+            },
           };
         } else {
           updatedToUpdate.push({
             department_id: selectedDepartmentId,
             job_id: jobId,
-            updates: { [field]: value }
+            updates: { [field]: value },
           });
         }
 
         return {
           ...prev,
-          toUpdate: updatedToUpdate
+          toUpdate: updatedToUpdate,
         };
       });
     }
@@ -323,64 +362,72 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
       experience: "0-1 years",
       qualification: "Bachelor's degree",
       job_description: "Job description here",
-      requirement: 1
+      requirement: 1,
     };
 
-    setDepartmentState(prev => ({
+    setDepartmentState((prev) => ({
       ...prev,
-      current: prev.current.map(dept => 
-        dept._id === selectedDepartmentId 
+      current: prev.current.map((dept) =>
+        dept._id === selectedDepartmentId
           ? { ...dept, jobs: [...dept.jobs, newJob] }
-          : dept
-      )
+          : dept,
+      ),
     }));
 
-    setJobState(prev => ({
+    setJobState((prev) => ({
       ...prev,
-      toCreate: [...prev.toCreate, {
-        department_id: selectedDepartmentId,
-        job: {
-          designation: newJob.designation,
-          experience: newJob.experience,
-          qualification: newJob.qualification,
-          job_description: newJob.job_description,
-          requirement: newJob.requirement
-        }
-      }]
+      toCreate: [
+        ...prev.toCreate,
+        {
+          department_id: selectedDepartmentId,
+          job: {
+            designation: newJob.designation,
+            experience: newJob.experience,
+            qualification: newJob.qualification,
+            job_description: newJob.job_description,
+            requirement: newJob.requirement,
+          },
+        },
+      ],
     }));
   };
 
   const handleDeleteJob = (jobId: string) => {
     // Remove from current state
-    setDepartmentState(prev => ({
+    setDepartmentState((prev) => ({
       ...prev,
-      current: prev.current.map(dept => 
-        dept._id === selectedDepartmentId 
-          ? { ...dept, jobs: dept.jobs.filter(job => job._id !== jobId) }
-          : dept
-      )
+      current: prev.current.map((dept) =>
+        dept._id === selectedDepartmentId
+          ? { ...dept, jobs: dept.jobs.filter((job) => job._id !== jobId) }
+          : dept,
+      ),
     }));
 
     // If it's a temporary job, remove from toCreate
-    if (jobId.startsWith('temp_job_')) {
-      setJobState(prev => ({
+    if (jobId.startsWith("temp_job_")) {
+      setJobState((prev) => ({
         ...prev,
-        toCreate: prev.toCreate.filter(item => {
+        toCreate: prev.toCreate.filter((item) => {
           const job = departmentState.current
-            .find(dept => dept._id === selectedDepartmentId)
-            ?.jobs.find(j => j._id === jobId);
-          return !(item.department_id === selectedDepartmentId && 
-                   job && 
-                   item.job.designation === job.designation &&
-                   item.job.experience === job.experience &&
-                   item.job.qualification === job.qualification);
-        })
+            .find((dept) => dept._id === selectedDepartmentId)
+            ?.jobs.find((j) => j._id === jobId);
+          return !(
+            item.department_id === selectedDepartmentId &&
+            job &&
+            item.job.designation === job.designation &&
+            item.job.experience === job.experience &&
+            item.job.qualification === job.qualification
+          );
+        }),
       }));
     } else {
       // If it's an existing job, add to toDelete
-      setJobState(prev => ({
+      setJobState((prev) => ({
         ...prev,
-        toDelete: [...prev.toDelete, { department_id: selectedDepartmentId, job_id: jobId }]
+        toDelete: [
+          ...prev.toDelete,
+          { department_id: selectedDepartmentId, job_id: jobId },
+        ],
       }));
     }
   };
@@ -397,16 +444,21 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
       if (departmentState.toDelete.length > 0 || jobState.toDelete.length > 0) {
         const deletePayload: DeleteJobOpeningsRequest = {};
         if (departmentState.toDelete.length > 0) {
-          deletePayload.departments_to_delete = departmentState.toDelete.map(id => ({ id }));
+          deletePayload.departments_to_delete = departmentState.toDelete.map(
+            (id) => ({ id }),
+          );
         }
         if (jobState.toDelete.length > 0) {
           deletePayload.jobs_to_delete = jobState.toDelete;
         }
 
         requests.push(
-          axios.delete<JobOpeningsSuccessResponse | JobOpeningsErrorResponse>("/api/job_openings", {
-            data: deletePayload
-          })
+          axios.delete<JobOpeningsSuccessResponse | JobOpeningsErrorResponse>(
+            "/api/job_openings",
+            {
+              data: deletePayload,
+            },
+          ),
         );
       }
 
@@ -418,26 +470,29 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
         }
         if (jobState.toCreate.length > 0) {
           // Map temporary department IDs to actual department IDs for jobs
-          const jobsToCreate = jobState.toCreate.map(job => {
+          const jobsToCreate = jobState.toCreate.map((job) => {
             let departmentId = job.department_id;
-            
+
             // If it's a temporary department, we need to find the corresponding real department
-            if (departmentId.startsWith('temp_')) {
+            if (departmentId.startsWith("temp_")) {
               // For now, we'll keep the temp ID and handle it on the backend
               // In a real scenario, you'd need to get the actual ID after department creation
               departmentId = departmentId;
             }
-            
+
             return {
               department_id: departmentId,
-              ...job.job
+              ...job.job,
             };
           });
           createPayload.jobs = jobsToCreate;
         }
 
         requests.push(
-          axios.post<JobOpeningsSuccessResponse | JobOpeningsErrorResponse>("/api/job_openings", createPayload)
+          axios.post<JobOpeningsSuccessResponse | JobOpeningsErrorResponse>(
+            "/api/job_openings",
+            createPayload,
+          ),
         );
       }
 
@@ -448,23 +503,26 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
           updatePayload.departments = departmentState.toUpdate;
         }
         if (jobState.toUpdate.length > 0) {
-          updatePayload.jobs = jobState.toUpdate.map(job => ({
+          updatePayload.jobs = jobState.toUpdate.map((job) => ({
             department_id: job.department_id,
             job_id: job.job_id,
-            ...job.updates
+            ...job.updates,
           }));
         }
 
         requests.push(
-          axios.put<JobOpeningsSuccessResponse | JobOpeningsErrorResponse>("/api/job_openings", updatePayload)
+          axios.put<JobOpeningsSuccessResponse | JobOpeningsErrorResponse>(
+            "/api/job_openings",
+            updatePayload,
+          ),
         );
       }
 
       // Execute all requests
       const responses = await Promise.all(requests);
-      
+
       // Check results and collect errors
-      responses.forEach(response => {
+      responses.forEach((response) => {
         const result = response.data;
         if (!result.success) {
           hasErrors = true;
@@ -477,25 +535,25 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
         setIsErrorModalVisible(true);
       } else {
         message.success("All changes saved successfully!");
-        
+
         // Reset states
-        setDepartmentState(prev => ({
+        setDepartmentState((prev) => ({
           original: prev.current,
           current: prev.current,
           toDelete: [],
           toCreate: [],
-          toUpdate: []
+          toUpdate: [],
         }));
         setJobState({
           toDelete: [],
           toCreate: [],
-          toUpdate: []
+          toUpdate: [],
         });
-        
+
         // Close modals and reload page
         popupOpenFn(false);
         setIsJobModalVisible(false);
-        
+
         // Reload the page
         window.location.reload();
       }
@@ -512,14 +570,17 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
     }
   };
 
-  const selectedDepartment = departmentState.current.find(dept => dept._id === selectedDepartmentId);
+  const selectedDepartment = departmentState.current.find(
+    (dept) => dept._id === selectedDepartmentId,
+  );
 
   return (
     <>
       <div className="relative">
         <button
           onClick={() => popupOpenFn(true)}
-          className="absolute right-0 top-0 z-50 mr-5 mt-5 rounded bg-[#00a5a5] px-4 py-2 text-black opacity-40 shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black w-fit"
+          // className="absolute right-0 top-0 z-50 mr-5 mt-5 w-fit rounded bg-[#00a5a5] px-4 py-2 text-black opacity-40 shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
+          className="absolute right-0 top-0 mr-5 mt-5 rounded bg-[#00a5a5] px-4 py-2 text-white shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
         >
           Edit Jobs
         </button>
@@ -531,16 +592,19 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
         onOk={handleSaveChanges}
         onCancel={() => popupOpenFn(false)}
         okText={loading ? "Saving..." : "Save All Changes"}
+        okButtonProps={{
+          style: { backgroundColor: "#00a5a5", color: "white" },
+        }}
         cancelText="Cancel"
         width={800}
         confirmLoading={loading}
         maskClosable={false}
       >
         {departmentState.current.length === 0 ? (
-          <div className="text-center py-8">
+          <div className="py-8 text-center">
             <p className="mb-4">No Job Openings Found</p>
-            <Button 
-              type="primary" 
+            <Button
+              type="primary"
               icon={<PlusOutlined />}
               onClick={handleAddDepartment}
             >
@@ -550,11 +614,17 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
         ) : (
           <>
             <div className="mb-4">
-              <Button 
-                type="primary" 
+              <Button
+                type="primary"
                 icon={<PlusOutlined />}
                 onClick={handleAddDepartment}
                 className="mb-4"
+                style={{
+                  backgroundColor: "#00a5a5",
+                  color: "white",
+                  opacity: 0.8,
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                }}
               >
                 Add New Department
               </Button>
@@ -562,9 +632,14 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
 
             <Form form={departmentForm} layout="vertical">
               {departmentState.current.map((department, index) => (
-                <div key={department._id} className="mb-6 rounded border border-gray-200 p-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold">Department {index + 1}</h3>
+                <div
+                  key={department._id}
+                  className="mb-6 rounded border border-gray-200 p-4"
+                >
+                  <div className="mb-4 flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">
+                      Department {index + 1}
+                    </h3>
                     <div className="flex gap-2">
                       <Button
                         type="default"
@@ -595,18 +670,34 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-1">Department Name</label>
+                      <label className="mb-1 block text-sm font-medium">
+                        Department Name
+                      </label>
                       <Input
                         value={department.department_name}
-                        onChange={(e) => handleDepartmentChange(department._id, 'department_name', e.target.value)}
+                        onChange={(e) =>
+                          handleDepartmentChange(
+                            department._id,
+                            "department_name",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Enter department name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Sequence</label>
+                      <label className="mb-1 block text-sm font-medium">
+                        Sequence
+                      </label>
                       <InputNumber
                         value={department.sequence}
-                        onChange={(value) => handleDepartmentChange(department._id, 'sequence', value || 0)}
+                        onChange={(value) =>
+                          handleDepartmentChange(
+                            department._id,
+                            "sequence",
+                            value || 0,
+                          )
+                        }
                         placeholder="Enter sequence"
                         min={1}
                         className="w-full"
@@ -628,31 +719,40 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
         footer={[
           <Button key="close" onClick={() => setIsJobModalVisible(false)}>
             Close
-          </Button>
+          </Button>,
         ]}
         width={900}
         maskClosable={false}
       >
         <div className="mb-4">
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             icon={<PlusOutlined />}
             onClick={handleAddJob}
             className="mb-4"
+            style={{
+              backgroundColor: "#00a5a5",
+              color: "white",
+              opacity: 0.8,
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
           >
             Add New Job
           </Button>
         </div>
 
         {selectedDepartment?.jobs.length === 0 ? (
-          <div className="text-center py-8">
+          <div className="py-8 text-center">
             <p>No jobs in this department yet.</p>
           </div>
         ) : (
           <Form form={jobForm} layout="vertical">
             {selectedDepartment?.jobs.map((job, index) => (
-              <div key={job._id} className="mb-6 rounded border border-gray-200 p-4">
-                <div className="flex items-center justify-between mb-4">
+              <div
+                key={job._id}
+                className="mb-6 rounded border border-gray-200 p-4"
+              >
+                <div className="mb-4 flex items-center justify-between">
                   <h4 className="text-md font-semibold">Job {index + 1}</h4>
                   <Popconfirm
                     title="Delete Job"
@@ -674,34 +774,54 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1">Designation</label>
+                    <label className="mb-1 block text-sm font-medium">
+                      Designation
+                    </label>
                     <Input
                       value={job.designation}
-                      onChange={(e) => handleJobChange(job._id, 'designation', e.target.value)}
+                      onChange={(e) =>
+                        handleJobChange(job._id, "designation", e.target.value)
+                      }
                       placeholder="Enter job designation"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Experience</label>
+                    <label className="mb-1 block text-sm font-medium">
+                      Experience
+                    </label>
                     <Input
                       value={job.experience}
-                      onChange={(e) => handleJobChange(job._id, 'experience', e.target.value)}
+                      onChange={(e) =>
+                        handleJobChange(job._id, "experience", e.target.value)
+                      }
                       placeholder="Enter experience requirement"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Qualification</label>
+                    <label className="mb-1 block text-sm font-medium">
+                      Qualification
+                    </label>
                     <Input
                       value={job.qualification}
-                      onChange={(e) => handleJobChange(job._id, 'qualification', e.target.value)}
+                      onChange={(e) =>
+                        handleJobChange(
+                          job._id,
+                          "qualification",
+                          e.target.value,
+                        )
+                      }
                       placeholder="Enter qualification requirement"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Requirements</label>
+                    <label className="mb-1 block text-sm font-medium">
+                      Requirements
+                    </label>
                     <InputNumber
                       value={job.requirement}
-                      onChange={(value) => handleJobChange(job._id, 'requirement', value || 1)}
+                      onChange={(value) =>
+                        handleJobChange(job._id, "requirement", value || 1)
+                      }
                       placeholder="Number of openings"
                       min={1}
                       className="w-full"
@@ -709,10 +829,18 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
                   </div>
                 </div>
                 <div className="mt-4">
-                  <label className="block text-sm font-medium mb-1">Job Description</label>
+                  <label className="mb-1 block text-sm font-medium">
+                    Job Description
+                  </label>
                   <Input.TextArea
                     value={job.job_description}
-                    onChange={(e) => handleJobChange(job._id, 'job_description', e.target.value)}
+                    onChange={(e) =>
+                      handleJobChange(
+                        job._id,
+                        "job_description",
+                        e.target.value,
+                      )
+                    }
                     placeholder="Enter job description"
                     rows={3}
                   />
@@ -736,13 +864,13 @@ const DepartmentsEditPopup: React.FC<DepartmentsEditPopupProps> = ({
         footer={[
           <Button key="close" onClick={() => setIsErrorModalVisible(false)}>
             Close
-          </Button>
+          </Button>,
         ]}
         width={600}
       >
         <div className="max-h-96 overflow-y-auto">
           <p className="mb-4">The following errors occurred while saving:</p>
-          <ul className="list-disc list-inside space-y-2">
+          <ul className="list-inside list-disc space-y-2">
             {errorMessages.map((error, index) => (
               <li key={index} className="text-red-600">
                 {error}
