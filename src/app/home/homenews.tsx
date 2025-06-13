@@ -14,6 +14,16 @@ const HomeNews: React.FC = () => {
         "Medgel Pvt Ltd is pleased to announce that the US Food and Drug Administration (FDA) has completed a successful inspection of its soft gelatin capsule manufacturing facility, located in SEZ Pharma Zone Pithampur, Indore, India.",
     },
     {
+      title: "Successful USFDA Inspection of Medgel Facility",
+      description:
+        "Medgel Pvt Ltd is pleased to announce that the US Food and Drug Administration (FDA) has completed a successful inspection of its soft gelatin capsule manufacturing facility, located in SEZ Pharma Zone Pithampur, Indore, India.",
+    },
+    {
+      title: "Spreading Worldwide",
+      description:
+        "MEDGEL is providing a ceaseless supply of the finest quality of soft-gel to markets in virtually every corner of the world....",
+    },
+    {
       title: "Spreading Worldwide",
       description:
         "MEDGEL is providing a ceaseless supply of the finest quality of soft-gel to markets in virtually every corner of the world....",
@@ -71,21 +81,24 @@ const HomeNews: React.FC = () => {
         <div className="homenews-section">
           {/* <div className="homenews-list" ref={newsContainerRef}> */}
           <div className="homenews-list">
-            {newsList.length > 0 ? (
-              newsList.map((news, index) => (
-                <div className="homenews-item" key={index}>
-                  <h3 className="text-left">{news.title}</h3>
-                  <p className="text-left">{news.description}</p>
-                  {/* <div className="flex content-start">
-                    <a href="#read-more" className="homeread-more">
-                      Read More
-                    </a>
-                  </div> */}
-                </div>
-              ))
-            ) : (
-              <p>No latest news available</p>
-            )}
+            <div className="homenews-list-title">MedGel Latest News</div>
+            <div className="homenews-list-content">
+              {newsList.length > 0 ? (
+                newsList.map((news, index) => (
+                  <div className="homenews-item" key={index}>
+                    <h3 className="text-left">{news.title}</h3>
+                    <p className="text-left">{news.description}</p>
+                    <div className="flex content-start">
+                      <a href="#read-more" className="homeread-more">
+                        Read More ❯
+                      </a>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No latest news available</p>
+              )}
+            </div>
           </div>
           <div className="homenews-image">
             <Image
@@ -96,6 +109,9 @@ const HomeNews: React.FC = () => {
             />
           </div>
         </div>
+        {/* <div className="homenews-more-stories">
+          <button className="homenews-stories-button">More Stories ❯❯ </button>
+        </div> */}
       </div>
     </div>
   );
