@@ -92,13 +92,16 @@
 .item:last-child {
   margin-bottom: 0rem;
  border-bottom: none;
+  cursor: pointer;
 }
+
 
 
 .itemText {
   font-size: 1.1rem;
   color: #FF9201;
   font-weight: 500;
+  text-transform: capitalize;
   text-decoration: underline;
   transition: color 0.2s ease;
 }
@@ -113,6 +116,7 @@
 
 .item:hover .chevron {
   transform: translateX(4px);
+  cursor: pointer;
 }
 
 /* Responsive Design */
@@ -139,6 +143,8 @@
   
   .item {
     padding: 20px 24px;
+     cursor: pointer;
+
   }
   
   .item:hover {
