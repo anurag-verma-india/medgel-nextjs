@@ -91,3 +91,23 @@ export type ProductListParams = {
   params: Promise<{ listId: string }>;
   children: React.ReactNode;
 };
+
+export interface JobType {
+  designation: string;
+  experience: string;
+  qualification: string;
+  job_description: string;
+  requirement: number;
+}
+export interface JobDepartmentType {
+  department_name: string;
+  sequence: number;
+  jobs: JobType[];
+}
+export interface JobTypeDB extends JobType {
+  _id: string;
+}
+export interface JobDepartmentTypeDB extends JobDepartmentType {
+  _id: string;
+  jobs: JobTypeDB[];
+}

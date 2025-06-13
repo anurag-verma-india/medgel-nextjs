@@ -1,219 +1,230 @@
+.current-openings-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
 
-      
-        .current-openings-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 40px 20px;
-        }
+.current-openings-title {
+  /* font-size: 3.5rem; */
+  font: bold 3rem 'Arial', sans-serif;
+  color: #1D8892;
+  text-align: center;
+  margin-bottom: 3rem;
+}
 
-        .current-openings-title {
-          /* font-size: 3.5rem; */
-          font: bold 3rem 'Arial', sans-serif;
-          color: #1D8892;
-          text-align: center;
-          margin-bottom: 3rem;
-        }
+.current-openings-subtitle {
+  font-size: 1.25rem;
+  text-align: center;
+  color: #FF9201;
+  margin-bottom: 15px;
+}
 
-        .current-openings-subtitle {
-          font-size: 1.25rem;
-          text-align: center;
-          color: #FF9201;
-          margin-bottom: 15px;
-        }
+.current-openings-subtitle-description {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #333;
+  margin-bottom: 32px;
+}
 
-        .current-openings-subtitle-description {
-          font-size: 1.2rem;
-          text-align: center;
-          color: #333;
-          margin-bottom: 32px;
-        }
+.department-section {
+  margin-bottom: 1.5rem;
+  border-color: #1D8892;
+  border-top-left-radius: 21px;
+  border-top-right-radius: 21px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  /* border-width: 2px; */
+}
 
-        .department-section {
-          margin-bottom: 1.5rem;
-          border-color: #1D8892;
-          border-top-left-radius: 21px;
-          border-top-right-radius: 21px;
-          border-bottom-left-radius: 0px;
-          border-bottom-right-radius: 0px;
-          border-width: 2px;
-        }
+.department-header {
+  background-color: red;
+  border-top: 4px;
+  border-color: #1D8892;
+  /* Assuming you want a visible border */
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 
-        .department-header {
-         border-top: 4px ;
-         border-color : #1D8892; /* Assuming you want a visible border */
-          border-top-left-radius: 18px;
-          border-top-right-radius: 18px;
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-          
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-    
-          background-color: #1D8892;
-          cursor: pointer;
-        }
+  display: flex;
+  /* justify-content: space-between; */
+  justify-content: start;
+  
 
-        .department-header h2 {
-          font-size: 1.75rem;
-          color: #F9AD42;
-          margin: 8px 8px;
-        }
+  background-color: #1D8892;
+  /* cursor: pointer; */
+}
 
-         .current-openings-underline {
-         width: 30vw;
-          height: 4px;
-          margin: 0 auto;
-          background-color: #FB923C;
-        } 
+.department-header h2 {
+  font-size: 1.75rem;
+  color: #F9AD42;
+  margin: 8px 8px;
+  /* display: flex;
+  justify-content: center; */
+  padding-left: 1rem;
+  width: 100%;
+}
 
-        .department-toggle-icon {
-          width: 24px;
-          height: 24px;
-          transition: transform 0.3s;
-        }
+.current-openings-underline {
+  width: 30vw;
+  height: 4px;
+  margin: 0 auto;
+  background-color: #FB923C;
+}
 
-        .department-toggle-icon.rotate {
+.department-toggle-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s;
+}
+
+/* .department-toggle-icon.rotate {
           transform: rotate(180deg);
-        }
+        } */
 
-        .department-openings {
-          border-top: 4px solid #0D9488; /* Assuming you want a visible border */
- 
- 
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          grid-gap: 24px;
-        }
-
-        .opening-card {
-          background-color: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          padding: 20px;
-          margin: 10px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          border-color: #1D8892;
-          border-width: 1.5px ;
-        }
-
-        .opening-title {
-           font-size: 0.95rem;
-          color: #333;
-          margin-bottom: 8px;
-        }
-
-        .opening-experience,
-        .opening-qualification,
-        .opening-description,
-        .opening-requirement {
-          font-size: 0.95rem;
-          color: #333;
-          margin-bottom: 8px;
-        }
-
-        .opening-bold{
-          font-weight: bold;
-          color: black;
-        }
-        
-        .apply-btn {
-          background-color: #ffffff;
-          color: #0F766E;
-          border-color: #0F766E;
-          border-radius: 4px;
-          border-width: 1.5px;
-          padding: 8px 16px;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background-color 0.2s;
-        }
-
-        .apply-btn:hover {
-          background-color: #0F766E;
-          color: #ffffff;
-        }
-
-        @media (max-width: 768px) {
-          .current-openings-title {
-            font: bold 2rem 'Arial', sans-serif;
-          }
-
-          .current-openings-subtitle {
-            font-size: 1.1rem;
-          }
-
-          .current-openings-subtitle-description {
-          font-size: 0.95rem;
-          }
-
-          .department-header h2 {
-            font-size: 1.5rem;
-          }
-
-          .opening-card {
-            padding: 20px;
-            margin: 5px;
-          }
-
-          .opening-title {
-            font-size: 1.1rem;
-          }
-
-          .opening-experience,
-          .opening-qualification,
-          .opening-description,
-          .opening-requirement {
-            font-size: 0.9rem;
-          }
-
-          .apply-btn {
-            font-size: 0.95rem;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .current-openings-title {
-            font: bold 1.75rem 'Arial', sans-serif;
-          }
-
-          .current-openings-subtitle {
-            font-size: 1rem;
-          }
-          .current-openings-subtitle-description {
-            font-size: 0.85rem;
-          }
+.department-openings {
+  border-top: 4px solid #0D9488;
+  /* Assuming you want a visible border */
 
 
-          .department-header h2 {
-            font-size: 1.25rem;
-          }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 24px;
 
-          .opening-card {
-            padding: 16px;
-            margin: 5px;
-          }
+  border-color: #1D8892;
+  border-width: 2px;
+  border-radius: 0 0 18px 18px;
+}
 
-          .opening-title {
-            font-size: 1rem;
-          }
+.opening-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-color: #1D8892;
+  border-width: 1.5px;
+}
 
-          .opening-experience,
-          .opening-qualification,
-          .opening-description,
-          .opening-requirement {
-            font-size: 0.85rem;
-          }
+.opening-title {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 8px;
+}
 
-          .apply-btn {
-            font-size: 0.9rem;
-          }
-        }
-      
-      
-  
-  
-  
+.opening-experience,
+.opening-qualification,
+.opening-description,
+.opening-requirement {
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.opening-bold {
+  font-weight: bold;
+  color: black;
+}
+
+.apply-btn {
+  background-color: #ffffff;
+  color: #0F766E;
+  border-color: #0F766E;
+  border-radius: 4px;
+  border-width: 1.5px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.apply-btn:hover {
+  background-color: #0F766E;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .current-openings-title {
+    font: bold 2rem 'Arial', sans-serif;
+  }
+
+  .current-openings-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .current-openings-subtitle-description {
+    font-size: 0.95rem;
+  }
+
+  .department-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .opening-card {
+    padding: 20px;
+    margin: 5px;
+  }
+
+  .opening-title {
+    font-size: 1.1rem;
+  }
+
+  .opening-experience,
+  .opening-qualification,
+  .opening-description,
+  .opening-requirement {
+    font-size: 0.9rem;
+  }
+
+  .apply-btn {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .current-openings-title {
+    font: bold 1.75rem 'Arial', sans-serif;
+  }
+
+  .current-openings-subtitle {
+    font-size: 1rem;
+  }
+
+  .current-openings-subtitle-description {
+    font-size: 0.85rem;
+  }
+
+
+  .department-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .opening-card {
+    padding: 16px;
+    margin: 5px;
+  }
+
+  .opening-title {
+    font-size: 1rem;
+  }
+
+  .opening-experience,
+  .opening-qualification,
+  .opening-description,
+  .opening-requirement {
+    font-size: 0.85rem;
+  }
+
+  .apply-btn {
+    font-size: 0.9rem;
+  }
+}
+
+
+
+
+
 /*    */
