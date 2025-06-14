@@ -18,6 +18,7 @@ const EditImages = ({ images }: EditImagesParams) => {
     link.download = fileName;
     link.click();
   };
+
   const renderImages = (key: string, img: ImageObj) => {
     const imageURL = `${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`;
     return (
@@ -85,16 +86,7 @@ const EditImages = ({ images }: EditImagesParams) => {
   };
   return (
     <>
-      {/* <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"> */}
-      <div className="block w-full text-center text-3xl font-bold text-[#0D9488] underline">
-        IMAGES
-      </div>
-      <div className="my-2 w-full text-center text-xl text-red-700">
-        Make sure to replace images with same width to hight ratio
-      </div>
       {Object.entries(images).map(([key, value]) => renderImages(key, value))}
-
-      {/* </div> */}
     </>
   );
 };

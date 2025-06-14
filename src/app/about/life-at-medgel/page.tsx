@@ -47,11 +47,7 @@ const LifeAtMedgel = async () => {
           {/* Main Content */}
           <div className="bg-[#EFEFEF]">
           <main className="mx-auto max-w-7xl px-4 py-12">
-            {/* <EditModalContainer title={title} page={page} /> */}
-            {/* <VerifyAndShowEditButton title={title} /> */}
-            {/* <IfAdminShowThis> */}
             {isAdmin && <EditModalContainer title={title} />}
-            {/* </IfAdminShowThis> */}
             {/* Header */}
             <div className="mb-12 text-center">
               <h1 className="relative inline-block text-5xl font-bold text-[#1D8892]">
