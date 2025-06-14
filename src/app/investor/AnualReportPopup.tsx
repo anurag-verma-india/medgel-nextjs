@@ -2,16 +2,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "antd";
-// import { useDispatch } from "react-redux";
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import { MdDelete } from "react-icons/md";
-// import { GetProductByIdFetcher } from "../../Features/Product/GetProductByid";
-// import { GetProductBySubTypeIdFetcher } from "../../Features/Product/ProductsBySubTypeId";
-// import { ProductTypes } from "../ProductTypes";
-// import { API_URL } from "../../Features/NwConfig";
-// import { ProductUpdateFetcher } from "../../Features/Product/ProductUpdate";
-// import { useNavigate } from "react-router-dom";
 const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
   const [showspin,setShowSpin]=useState(false)
   const [form, setForm] = useState({

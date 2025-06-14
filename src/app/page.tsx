@@ -7,15 +7,19 @@ import Cpurpose from "./home/Cpurpose";
 // import Footer from "./Footer";
 import Portfolio from "./home/Portfolio";
 import HomeNews from "./home/homenews";
+import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const isAdmin = await checkAdminFromCookie();
+
   return (
     <div>
       <SliderComponent />
       <CardRow />
       <PurposeSection />
       <Bpurpose />
-      <HomeNews />
+      {/* Will Get checked  */}
+      <HomeNews adminCheck={isAdmin} />
       <Portfolio />
       <Cpurpose />
     </div>

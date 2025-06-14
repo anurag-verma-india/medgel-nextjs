@@ -141,7 +141,7 @@ export async function PUT(request: NextRequest) {
         success: false,
         message: "You are not authorized to make this request",
       },
-      { status: 503 },
+      { status: 403 },
     );
   }
 

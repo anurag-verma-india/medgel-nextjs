@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import AwardsContainer from "./AwardsContainer";
 import AwardPopup from "./AwardPopup";
 
-export default function Achievements() {
+export default function FetchAndShowAwards() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -18,16 +18,16 @@ export default function Achievements() {
   return (
     <div>
       {isAdmin && (
-        <div className="flex justify-end m-5">
+        <div className="m-5 flex justify-end">
           <button
-            className="bg-[#1D8892] rounded-lg p-3  text-white"
+            className="rounded-lg bg-[#1D8892] p-3 text-white"
             onClick={() => setOpenEditModal(true)}
           >
             Edit
           </button>
         </div>
       )}
-      
+
       <AwardsContainer />
       {openEditModal && (
         <AwardPopup

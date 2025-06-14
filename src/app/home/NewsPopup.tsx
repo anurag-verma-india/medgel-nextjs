@@ -2,12 +2,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "antd";
-
-const AwardPopup = ({ openEditModal, setOpenEditModal }) => {
+const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
   const [showspin, setShowSpin] = useState(false);
   const [form, setForm] = useState({
     title: "",
-    award_Image: "",
+    description: "",
   });
 
   const submit = (e) => {
@@ -23,38 +22,29 @@ const AwardPopup = ({ openEditModal, setOpenEditModal }) => {
 
     const formData = new FormData();
     formData.append("title", form.title);
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Now price will be logged as a proper JSON string
-    }
-    // Ensure it's a File before appending
-    if (form.award_Image instanceof File) {
-      formData.append("award_Image", form.award_Image); // 👈 send actual file
-    } else {
-      alert("Please upload a valid image file");
-      return;
-    }
+    formData.append("description", form.description);
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/award`,
+        `${process.env.NEXT_PUBLIC_API_URL}/news`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         },
       );
 
-      console.log("Award created:", res.data);
-      if (res.data.message === "Award created successfully") {
+      console.log("News created:", res.data);
+      if (res.data.message === "News Created SuccessFully") {
         setShowSpin(false);
-        alert("Award created successfully");
+        alert("News Added successfully");
         window.location.reload();
       }
       setOpenEditModal(false);
-      setForm({ title: "", award_Image: "" });
+      setForm({ title: "", description: "" });
     } catch (err) {
-      console.error("Error uploading award:", err);
+      console.error("Error uploading News:", err);
     }
   };
 
@@ -65,12 +55,12 @@ const AwardPopup = ({ openEditModal, setOpenEditModal }) => {
 
   return (
     <Modal
-      title={<span className="text-[#3F5D97]">Add Award</span>}
+      title={<span className="text-[#3F5D97]">Add News</span>}
       open={openEditModal}
       onOk={handleOk}
       onCancel={handleCancel}
-      width={350}
-      height={300}
+      width={850}
+      height={800}
       footer={
         <div className="flex justify-center space-x-4">
           <button
@@ -108,7 +98,7 @@ const AwardPopup = ({ openEditModal, setOpenEditModal }) => {
             type="text"
             id="AddNewOffer"
             className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Award Title"
+            placeholder="Enter News Title"
             name="title"
             value={form.title}
             onChange={submit}
@@ -121,20 +111,18 @@ const AwardPopup = ({ openEditModal, setOpenEditModal }) => {
               htmlFor="product-images"
               className="mb-2 block text-nowrap font-bold capitalize"
             >
-              File Image
+              Add Description
             </label>
 
-            <input
-              className="form-control"
-              type="file"
-              accept="image/*"
-              name="award_Image"
-              id="product-images"
-              onChange={(e) => {
-                setForm({ ...form, award_Image: e.target.files[0] });
-              }}
-              // onChange={submit}
-              required
+            <textarea
+              rows="10"
+              type="text"
+              id="AddNewOffer"
+              className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter News Description"
+              name="description"
+              value={form.description}
+              onChange={submit}
             />
           </div>
         </div>
@@ -143,4 +131,4 @@ const AwardPopup = ({ openEditModal, setOpenEditModal }) => {
   );
 };
 
-export default AwardPopup;
+export default NewsPopup;
