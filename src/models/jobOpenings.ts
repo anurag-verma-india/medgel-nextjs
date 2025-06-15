@@ -1,3 +1,5 @@
+// src/models/jobOpenings.ts
+
 import mongoose from "mongoose";
 
 const JobObj = new mongoose.Schema({

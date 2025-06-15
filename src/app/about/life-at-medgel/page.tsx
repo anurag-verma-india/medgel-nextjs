@@ -1,24 +1,16 @@
 // file_path: "@/app/about/life-at-medgel/page.tsx"
 
 import Image from "next/image";
-// import Link from "next/link";
-// import Header from "app/pages/_common_component/Header";
-// import { cookies } from "next/headers";
-// import EditModalContainer from "../../_common_component/EditModalContainer.jsx";
-// import EditModalContainer from "../../_common_component/EditModalContainer";
 import fetchPage from "@/helpers/getPage";
-// import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
 import { BasePageContent } from "@/types";
 import EditModalContainer from "@/app/_common_component/EditModalContainer";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import CurrentOpenings from "./currentopenings";
-// import { MongooseError } from "mongoose";
 
 const title = "about-us/life-at-medgel";
 
 interface LifeAtMedgelContent extends BasePageContent {
   page_title: string;
-  // img: string;
   title_1: string;
   title1_des_1: string;
   title1_des_2: string;
@@ -29,15 +21,9 @@ interface LifeAtMedgelContent extends BasePageContent {
 
 export const dynamic = "force-dynamic";
 
-// connecting to db
 const LifeAtMedgel = async () => {
-  // cookies()
-  // or headers()
-  // const career = await fetchCareer();
-  // const page = await fetchPage(title);
   try {
     const page = await fetchPage<LifeAtMedgelContent>(title);
-    // console.log("page fetched:", page);
     const isAdmin = await checkAdminFromCookie();
 
     return (
@@ -62,7 +48,6 @@ const LifeAtMedgel = async () => {
               <div className="relative overflow-hidden rounded-lg shadow-lg">
                 <div className="relative aspect-[497/269] w-full">
                   <Image
-                    // src={`${process.env.NEXT_PUBLIC_SITE_URL}/${page.content.img}`}
                     src={`${process.env.NEXT_PUBLIC_SITE_URL}/${page.images[0].url}`}
                     alt="Life at Medgel"
                     fill
@@ -101,12 +86,11 @@ const LifeAtMedgel = async () => {
             </div>
           </main>
           </div>
-        <CurrentOpenings />
+        <CurrentOpenings checkAdmin={isAdmin} />
         </div>
       </>
     );
   } catch (error) {
-    // return <div>{error.toString()}</div>;
     console.log("Error in loading about/life-at-medgel page");
     console.log(error);
   }

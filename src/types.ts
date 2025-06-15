@@ -1,5 +1,6 @@
 // src/types.ts
 
+
 import { JwtPayload } from "jsonwebtoken";
 
 export interface BasePageContent {
@@ -100,6 +101,8 @@ export type ProductListParams = {
   children: React.ReactNode;
 };
 
+// Job Related Types
+
 export interface JobType {
   designation: string;
   experience: string;
@@ -119,3 +122,5 @@ export interface JobDepartmentTypeDB extends JobDepartmentType {
   _id: string;
   jobs: JobTypeDB[];
 }
+
+// Job Related Types end

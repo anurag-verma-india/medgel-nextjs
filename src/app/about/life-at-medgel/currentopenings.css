@@ -1,3 +1,5 @@
+/* src/app/about/life-at-medgel/currentopenings.css */
+
 .current-openings-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -5,7 +7,6 @@
 }
 
 .current-openings-title {
-  /* font-size: 3.5rem; */
   font: bold 3rem 'Arial', sans-serif;
   color: #1D8892;
   text-align: center;
@@ -26,43 +27,25 @@
   margin-bottom: 32px;
 }
 
-.department-section {
+.department-item {
   margin-bottom: 1.5rem;
-  border-color: #1D8892;
-  border-top-left-radius: 21px;
-  border-top-right-radius: 21px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  /* border-width: 2px; */
 }
 
 .department-header {
-  background-color: red;
-  border-top: 4px;
-  border-color: #1D8892;
-  /* Assuming you want a visible border */
+  background-color: #1D8892;
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-
-  display: flex;
-  /* justify-content: space-between; */
-  justify-content: start;
-  
-
-  background-color: #1D8892;
-  /* cursor: pointer; */
+  padding: 8px 1rem;
 }
 
 .department-header h2 {
   font-size: 1.75rem;
   color: #F9AD42;
-  margin: 8px 8px;
-  /* display: flex;
-  justify-content: center; */
-  padding-left: 1rem;
-  width: 100%;
+  /* Removed margin and padding-left from here as it's handled by parent flexbox now */
+  width: auto;
+  /* Allow content to dictate width */
 }
 
 .current-openings-underline {
@@ -72,28 +55,28 @@
   background-color: #FB923C;
 }
 
-.department-toggle-icon {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s;
+.department-header-underline {
+  width: 100%;
+  height: 3px;
+  background-color: #F9AD42;
+  /* Adjust color as needed */
+  margin-top: 4px;
+  border-radius: 2px;
 }
 
-/* .department-toggle-icon.rotate {
-          transform: rotate(180deg);
-        } */
 
 .department-openings {
-  border-top: 4px solid #0D9488;
-  /* Assuming you want a visible border */
-
+  border: 2px solid #1D8892;
+  border-top: none;
+  /* No top border as header handles it */
+  border-radius: 0 0 18px 18px;
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 24px;
-
-  border-color: #1D8892;
-  border-width: 2px;
-  border-radius: 0 0 18px 18px;
+  padding: 24px;
+  /* Add padding inside the openings container */
+  align-items: stretch;
 }
 
 .opening-card {
@@ -101,12 +84,17 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-color: #1D8892;
-  border-width: 1.5px;
+  border: 1.5px solid #1D8892;
+}
+
+.opening-info {
+  flex-grow: 1;
+  /* Allows info section to take up available space */
+  margin-bottom: 1rem;
+  /* Space between info and buttons */
 }
 
 .opening-title {
@@ -132,18 +120,93 @@
 .apply-btn {
   background-color: #ffffff;
   color: #0F766E;
-  border-color: #0F766E;
+  border: 1.5px solid #0F766E;
   border-radius: 4px;
-  border-width: 1.5px;
   padding: 8px 16px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  width: 100%;
+  /* Fit to container */
+  max-width: 200px;
+  /* Max width for apply button */
+  box-sizing: border-box;
+  /* Include padding and border in the element's total width and height */
 }
 
 .apply-btn:hover {
   background-color: #0F766E;
   color: #ffffff;
+}
+
+.job-action-btn.ant-btn {
+  /* Target Ant Design button directly */
+  width: 100%;
+  /* Make edit/delete buttons also fit container */
+  max-width: 200px;
+  /* Same max width as apply button */
+  height: 38px;
+  /* Ensure same height as apply button, adjust if apply-btn height changes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-job-btn {
+  border-color: #1D8892 !important;
+  /* A shade of blue-green for edit */
+  color: #1D8892 !important;
+}
+
+.edit-job-btn:hover {
+  background-color: #1D8892 !important;
+  color: #ffffff !important;
+}
+
+.delete-job-btn {
+  background-color: #dc3545 !important;
+  /* Bootstrap red for danger */
+  border-color: #dc3545 !important;
+  color: #ffffff !important;
+}
+
+.delete-job-btn:hover {
+  background-color: #c82333 !important;
+  /* Darker red on hover */
+  border-color: #bd2130 !important;
+}
+
+.add-job-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #1D8892;
+}
+
+.add-job-button-style {
+  background-color: transparent !important;
+  border-color: #00a5a5 !important;
+  color: #00a5a5 !important;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: auto;
+}
+
+.add-job-button-style:hover {
+  background-color: #00a5a5 !important;
+  color: #ffffff !important;
 }
 
 @media (max-width: 768px) {
@@ -163,9 +226,37 @@
     font-size: 1.5rem;
   }
 
-  .opening-card {
+  .department-header>div {
+    /* Target the flex container inside department-header */
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: flex-start;
+    /* Align text to the left */
+  }
+
+  .department-header .mt-2.flex {
+    /* Target the buttons container */
+    margin-top: 0.5rem;
+    /* Add some space above buttons */
+    width: 100%;
+    /* Make buttons container take full width */
+  }
+
+  .department-header .ant-btn {
+    width: 100%;
+    /* Make buttons full width in mobile */
+    max-width: none;
+    /* Remove max-width constraint */
+  }
+
+  .department-openings {
+    padding: 16px;
+    /* Adjust padding for smaller screens */
+  }
+
+  .opening-card,
+  .add-job-card {
     padding: 20px;
-    margin: 5px;
   }
 
   .opening-title {
@@ -179,8 +270,14 @@
     font-size: 0.9rem;
   }
 
-  .apply-btn {
+  .apply-btn,
+  .add-job-button-style,
+  .job-action-btn {
     font-size: 0.95rem;
+    width: 100%;
+    /* Ensure full width on smaller screens */
+    max-width: none;
+    /* Remove max-width constraint */
   }
 }
 
@@ -197,14 +294,18 @@
     font-size: 0.85rem;
   }
 
-
   .department-header h2 {
     font-size: 1.25rem;
   }
 
-  .opening-card {
+  .department-openings {
+    padding: 12px;
+    /* Further adjust padding for very small screens */
+  }
+
+  .opening-card,
+  .add-job-card {
     padding: 16px;
-    margin: 5px;
   }
 
   .opening-title {
@@ -218,13 +319,9 @@
     font-size: 0.85rem;
   }
 
-  .apply-btn {
+  .apply-btn,
+  .add-job-button-style,
+  .job-action-btn {
     font-size: 0.9rem;
   }
 }
-
-
-
-
-
-/*    */
