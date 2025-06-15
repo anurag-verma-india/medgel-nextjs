@@ -1,4 +1,3 @@
-
 import React from "react";
 import "./Footer.css";
 import Link from "next/link";
@@ -15,9 +14,9 @@ const Footer = () => {
         <div className="footer-column">
           <h4>About Us</h4>
           <ul>
-            <Link href={"/about/life-at-medgel"}>
+            {/* <Link href={"/about/life-at-medgel"}>
               <li>Life At Medgel</li>
-            </Link>
+            </Link> */}
             <Link href={"/about/awards_"}>
               <li>Awards & Accreditation</li>
             </Link>
@@ -36,6 +35,11 @@ const Footer = () => {
           </ul>
         </div>
 
+        <div className="footer-column">
+          <Link href={"careers"}>
+            <h4>Careers</h4>
+          </Link>
+        </div>
         <div className="footer-column">
           <Link href={"/facilities"}>
             <h4>Facilities</h4>

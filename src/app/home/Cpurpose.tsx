@@ -35,6 +35,15 @@ const Cpurpose = () => {
               </a>
             </li>
             <li className="faq-item">
+              <a href="careers" target="_">
+                <button className="faq-button">
+                  Join Medgel
+                  <div className="mr-3" />
+                  <span className="arrow">→</span>
+                </button>
+              </a>
+            </li>
+            {/* <li className="faq-item">
               <a href="facilities" target="_">
                 <button className="faq-button">
                   Medgel Facilities
@@ -42,7 +51,7 @@ const Cpurpose = () => {
                   <span className="arrow">→</span>
                 </button>
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
 

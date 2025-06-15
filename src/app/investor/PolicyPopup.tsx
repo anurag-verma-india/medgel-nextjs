@@ -2,11 +2,21 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "antd";
-const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
+// import { useDispatch } from "react-redux";
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+// import { MdDelete } from "react-icons/md";
+// import { GetProductByIdFetcher } from "../../Features/Product/GetProductByid";
+// import { GetProductBySubTypeIdFetcher } from "../../Features/Product/ProductsBySubTypeId";
+// import { ProductTypes } from "../ProductTypes";
+// import { API_URL } from "../../Features/NwConfig";
+// import { ProductUpdateFetcher } from "../../Features/Product/ProductUpdate";
+// import { useNavigate } from "react-router-dom";
+const PolicyPopup = ({ openEditModal, setOpenEditModal }) => {
   const [showspin, setShowSpin] = useState(false);
   const [form, setForm] = useState({
     title: "",
-    anual_Report: "",
+    policy_Report: "",
   });
 
   const submit = (e) => {
@@ -26,16 +36,16 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
     //         console.log(pair[0], pair[1]); // Now price will be logged as a proper JSON string
     //     }
     // Ensure it's a File before appending
-    if (form.anual_Report instanceof File) {
-      formData.append("anual_Report", form.anual_Report); // 👈 send actual file
+    if (form.policy_Report instanceof File) {
+      formData.append("policy_Report", form.policy_Report); // 👈 send actual file
     } else {
-      alert("Please upload a valid pdf file");
+      alert("Please upload a valid policy file");
       return;
     }
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/anualreport`,
+        `${process.env.NEXT_PUBLIC_API_URL}/policy`,
         formData,
         {
           headers: {
@@ -44,16 +54,16 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
         },
       );
 
-      console.log("Anual Report created:", res.data);
-      if (res.data.message === "Anual Report created successfully") {
+      console.log("Policy File created:", res.data);
+      if (res.data.message === "Policy Report created successfully") {
         setShowSpin(false);
-        alert("Anual Report created successfully");
+        alert("Policy File created successfully");
         window.location.reload();
       }
       setOpenEditModal(false);
-      setForm({ title: "", award_Image: "" });
+      setForm({ title: "", policy_Report: "" });
     } catch (err) {
-      console.error("Error uploading anual Report:", err);
+      console.error("Error uploading Policy File:", err);
     }
   };
 
@@ -64,7 +74,7 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
 
   return (
     <Modal
-      title={<span className="text-[#3F5D97]">Add Anual Report PDF</span>}
+      title={<span className="text-[#3F5D97]">Add Policy PDF</span>}
       open={openEditModal}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -107,7 +117,7 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
             type="text"
             id="AddNewOffer"
             className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Anual Report Title"
+            placeholder="Enter Policy Title"
             name="title"
             value={form.title}
             onChange={submit}
@@ -127,10 +137,10 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
               className="form-control"
               type="file"
               accept="application/pdf"
-              name="anual_Report"
+              name="policy_Report"
               id="product-images"
               onChange={(e) => {
-                setForm({ ...form, anual_Report: e.target.files[0] });
+                setForm({ ...form, policy_Report: e.target.files[0] });
               }}
               // onChange={submit}
               required
@@ -142,4 +152,4 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
   );
 };
 
-export default AnualReportPopup;
+export default PolicyPopup;

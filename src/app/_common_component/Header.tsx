@@ -26,7 +26,7 @@ const menuItems: MenuItem[] = [
     href: "#",
     subItems: [
       { label: "About Medgel", href: "/about/about-medgel" },
-      { label: "Life At Medgel", href: "/about/life-at-medgel" },
+      // { label: "Life At Medgel", href: "/about/life-at-medgel" },
       // { label: "Life At Medgel Old", href: "/about/life-at-medgel-old" },
       { label: "Awards & Accreditation", href: "/about/awards_" },
       // { label: "Awards & Accreditation All", href: "/about/awardsviewall" },
@@ -45,6 +45,7 @@ const menuItems: MenuItem[] = [
   { label: "Quality & Compliance", href: "/quality" },
   { label: "Facilities", href: "/facilities" },
   { label: "Investor Relations", href: "/investor" },
+  { label: "Careers", href: "/careers" },
   { label: "Contact Us", href: "/contact" },
   // { label: "News", href: "/news" },
 ];
