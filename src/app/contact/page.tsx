@@ -50,7 +50,7 @@ const ContactUs = () => {
               {/* <div className="form-row"> */}
               <div className="flex h-10 w-11/12 pr-3">
                 <input
-                  className="w-10/12 rounded border-2 border-black"
+                  className="w-10/12 rounded border-2 border-black px-2"
                   type="email"
                   name="email"
                   placeholder="Your Email*"
@@ -60,7 +60,7 @@ const ContactUs = () => {
                 />
                 <div className="w-5" />
                 <input
-                  className="w-10/12 rounded border-2 border-black"
+                  className="w-10/12 rounded border-2 border-black px-2"
                   type="text"
                   name="subject"
                   placeholder="Subject*"
@@ -74,12 +74,15 @@ const ContactUs = () => {
                   name="message"
                   placeholder="Your Message"
                   value={formData.message}
-                  onChange={handleInputChange} // The error is in onChange
+                  onChange={handleInputChange}
                   rows={4}
                   required
                 />
               </div>
-              <button type="submit" className="mx-14 md:mx-24 bg-[#0d9488] w-1/2 h-10 ">
+              <button
+                type="submit"
+                className="mx-14 h-10 w-1/2 bg-[#0d9488] md:mx-24"
+              >
                 Contact Us
               </button>
             </div>
@@ -137,7 +140,7 @@ const ContactUs = () => {
               <br />
               INDIA
               <br />
-              Pincode 454775
+              Pincode 454775
             </p>
           </div>
         </a>
