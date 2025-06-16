@@ -1,12 +1,13 @@
 .footer {
-  background-color: #00A5A5;
+  background-color: #00a5a5;
   /* Match the teal color */
   color: white;
-  padding: 40px 20px;
+  padding: 40px 40px;
   font-family: Arial, sans-serif;
 }
 
 .footer-container {
+  /* background-color: blueviolet; */
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -14,27 +15,38 @@
 
 .footer-column {
   flex: 1;
-  margin: 0 10px;
+  margin: 0 30px;
   min-width: 200px;
+  /* background-color: chartreuse; */
 }
 
 .footer-column h4 {
-  font-size: 18px;
+  font-size: 1.6rem;
   margin-bottom: 15px;
-}
-
-.footer-column ul {
-  list-style-type: none;
-  padding: 0;
+  font-weight: bolder;
 }
 
 .footer-column li {
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 1.1rem;
 }
 
 .footer-bottom {
   margin-top: 20px;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.9rem;
+}
+
+.footer-logo img {
+  background-color: white;
+  height: 3.8rem;
+  width: 15rem;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 480px) {
+  .footer-column li {
+    font-size: 1rem;
+  }
 }
