@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent, JSX } from "react";
 import Image from "next/image";
-
+import { redirect, useSearchParams } from 'next/navigation';
 interface ImageState {
   src: string;
   alt: string;
@@ -27,9 +27,17 @@ const IMAGE_VALIDATION = {
 };
 
 export default function ImageUploadPage(): JSX.Element {
+  const searchParams = useSearchParams();
+    const imgurl = searchParams?.get('imgurl');
+    const title = searchParams?.get('title');
+    const index = searchParams?.get('key');
+    const basePath = title?.split("$")[0];
+    // alert(title)
+    const previmg=process.env.NEXT_PUBLIC_SITE_URL+"/"+imgurl
+    // alert(imgurl)
   // Initial state with default image
   const [image, setImage] = useState<ImageState>({
-    src: "/life-at-medgel.png", // Assumes you have this image in your public folder
+    src: previmg, // Assumes you have this image in your public folder
     alt: "Default placeholder image",
   });
 
@@ -96,6 +104,12 @@ export default function ImageUploadPage(): JSX.Element {
 
     return { valid: true, error: null };
   };
+   const downloadImage = (imageUrl: string, fileName: string): void => {
+    const link = document.createElement("a");
+    link.href = imageUrl;
+    link.download = fileName;
+    link.click();
+  };
 
   /**
    * Gets image dimensions from a file
@@ -140,6 +154,7 @@ export default function ImageUploadPage(): JSX.Element {
     }
 
     const file = files[0];
+    // alert(file)
 
     // Validate file is an image
     if (!file.type.startsWith("image/")) {
@@ -148,38 +163,39 @@ export default function ImageUploadPage(): JSX.Element {
     }
 
     try {
-      // Get and validate image dimensions
-      const dimensions = await getImageDimensions(file);
-      setImageDimensions(dimensions);
-
-      const { valid, error } = validateImageDimensions(
-        dimensions.width,
-        dimensions.height,
-      );
-
-      if (!valid) {
-        setValidationError(error);
-        // Still show preview even if validation fails
-        const objectUrl = URL.createObjectURL(file);
-        setImage({
-          src: objectUrl,
-          alt: file.name || "Selected image (invalid dimensions)",
-        });
-        setSelectedFile(null); // Clear selected file since it's invalid
-        return;
-      }
-
-      // All validations passed
       const objectUrl = URL.createObjectURL(file);
       setImage({
         src: objectUrl,
         alt: file.name || "Selected image",
       });
       setSelectedFile(file);
-    } catch (error) {
+      // Get and validate image dimensions
+      // const dimensions = await getImageDimensions(file);
+      // setImageDimensions(dimensions);
+
+      // const { valid, error } = validateImageDimensions(
+      //   dimensions.width,
+      //   dimensions.height,
+      // );
+
+      // if (!valid) {
+      //   setValidationError(error);
+      //   // Still show preview even if validation fails
+      //   const objectUrl = URL.createObjectURL(file);
+      //   setImage({
+      //     src: objectUrl,
+      //     alt: file.name || "Selected image (invalid dimensions)",
+      //   });
+      //   setSelectedFile(null); // Clear selected file since it's invalid
+      }
+     catch (error) {
       console.error("Error processing image:", error);
       setValidationError("Failed to process image. Please try another file.");
     }
+
+      // All validations passed
+      
+    
   };
 
   /**
@@ -201,6 +217,8 @@ export default function ImageUploadPage(): JSX.Element {
       // Create FormData object to send the file
       const formData = new FormData();
       formData.append("image", selectedFile);
+      formData.append("title", title?title:"");
+      formData.append("index", index?index:"");
 
       // Send the file to the server
       const response = await fetch("/api/upload", {
@@ -213,6 +231,9 @@ export default function ImageUploadPage(): JSX.Element {
 
       if (!response.ok) {
         throw new Error("Upload failed");
+      }
+      else{
+        downloadImage(previmg,imgurl?imgurl:previmg)
       }
 
       const data = await response.json();
@@ -234,6 +255,11 @@ export default function ImageUploadPage(): JSX.Element {
       setIsLoading(false);
     }
   };
+  const previous=()=>{
+    redirect(basePath?basePath:"/")
+    // window.location.reload()
+  }
+ 
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
@@ -254,20 +280,23 @@ export default function ImageUploadPage(): JSX.Element {
           </div>
 
           {isUploaded && (
+            <>
             <p className="mb-4 text-center text-sm text-green-600">
               Image successfully uploaded to server!
             </p>
+            <button onClick={previous} className="bg-green-400 text-white p-2 mb-3 w-full">View Changes</button>
+            </>
           )}
 
           {/* Display validation error */}
-          {validationError && (
+          {/* {validationError && (
             <p className="mb-4 text-center text-sm text-red-600">
               {validationError}
             </p>
-          )}
+          )} */}
 
           {/* Display image dimensions if available */}
-          {imageDimensions && (
+          {/* {imageDimensions && (
             <div className="mb-4 text-center text-sm text-gray-700">
               <p>
                 Dimensions: {imageDimensions.width}×{imageDimensions.height}px
@@ -277,7 +306,7 @@ export default function ImageUploadPage(): JSX.Element {
                 (Target: {IMAGE_VALIDATION.targetAspectRatio.toFixed(2)})
               </p>
             </div>
-          )}
+          )} */}
 
           {/* Form for file upload */}
           <form
