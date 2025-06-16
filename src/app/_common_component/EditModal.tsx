@@ -3,7 +3,7 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import { PageObject, BasePageContent } from "@/types";
+import { PageObject, BasePageContent, ImageObj } from "@/types";
 import EditImages from "./EditImages";
 
 // Improved type definitions
@@ -209,7 +209,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
           {Object.entries(formData).map(([key, value]) =>
             renderTextField(key, value),
           )}
-          <EditImages images={children.images} />
+          <EditImages images={children.images} title={title} />
         </div>
       </div>
 

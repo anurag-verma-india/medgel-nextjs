@@ -17,6 +17,7 @@
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "formidable": "^3.5.4",
+    "image-size": "^2.0.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.503.0",
     "mongoose": "^8.9.5",

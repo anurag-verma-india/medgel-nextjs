@@ -9,9 +9,10 @@ import React from "react";
 
 type EditImagesParams = {
   images: ImageObj[];
+  title:string
 };
 
-const EditImages = ({ images }: EditImagesParams) => {
+const EditImages = ({ images,title }:EditImagesParams) => {
   const downloadImage = (imageUrl: string, fileName: string): void => {
     const link = document.createElement("a");
     link.href = imageUrl;
@@ -19,6 +20,7 @@ const EditImages = ({ images }: EditImagesParams) => {
     link.click();
   };
   const renderImages = (key: string, img: ImageObj) => {
+    console.log(`key = ${key} and value= ${img.url}`)
     const imageURL = `${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`;
     return (
       <div key={key} className="grid place-items-center p-4">
@@ -43,7 +45,7 @@ const EditImages = ({ images }: EditImagesParams) => {
                 </button>
                 <button
                   onClick={() => {
-                    redirect("/imageupload", RedirectType.push);
+                    redirect(`/imageupload?imgurl=${img.url}&title=${title}&key=${key}`, RedirectType.push);
                   }}
                   className="my-4 mt-1 w-24 rounded-2xl bg-[#46A6A5] p-2 text-white hover:bg-[#3a8a89]"
                 >
