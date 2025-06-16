@@ -23,7 +23,7 @@ const menuItems: MenuItem[] = [
   { label: "Home", href: "/" },
   {
     label: "About Us",
-    href: "#",
+    href: "/about/about-medgel",
     subItems: [
       { label: "About Medgel", href: "/about/about-medgel" },
       // { label: "Life At Medgel", href: "/about/life-at-medgel" },
@@ -37,7 +37,7 @@ const menuItems: MenuItem[] = [
     href: "/products/products-at-medgel",
     subItems: [
       { label: "Products At Medgel", href: "/products/products-at-medgel" },
-      { label: "About Medgel", href: "/products/medgel-services" },
+      { label: "Medgel Services", href: "/products/medgel-services" },
       // { label: "pl-clv2", href: "/products/pl-clv2/abcd" },
     ],
   },
