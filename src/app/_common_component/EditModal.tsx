@@ -3,7 +3,7 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import { PageObject, BasePageContent, ImageObj } from "@/types";
+import { PageObject, BasePageContent } from "@/types";
 import EditImages from "./EditImages";
 
 // Improved type definitions

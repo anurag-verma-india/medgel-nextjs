@@ -115,7 +115,7 @@ const Footer = () => {
         <div className="footer-column">
           <h4>Products</h4>
           <ul className="list-disc pl-8 underline">
-            <Link href={"products/products-at-medgel"}>
+            <Link href={"/products/products-at-medgel"}>
               <li>Products at Medgel</li>
             </Link>
             <Link href={"/products/medgel-services"}>
