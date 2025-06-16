@@ -4,12 +4,19 @@ import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
 import Pages from "@/models/pages";
+import { imageSize } from 'image-size';
+import { readFileSync } from "fs";
+import dbConnect from "@/lib/dbConnect";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    await dbConnect();
     // Get the form data
     const formData = await request.formData();
     const image = formData.get("image") as File;
+    const title = formData.get("title") as string;
+    const key = Number(formData.get("index"));
+    console.log(`title = ${title} and key=${key}`)
 
     if (!image) {
       return NextResponse.json(
@@ -35,14 +42,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Write the file to the public/uploads directory
     const filePath = join(uploadsDir, filename);
     await writeFile(filePath, buffer);
-
-    // const image_path_update_result = await Pages.updateOne(
-    //   {
-    //     title: "about-us/life-at-medgel",
-    //   },
-    //   { $set: { "images.0": filePath } },
-    // );
-
+    const imageIndex = `images.${key}`;
+    const imageRelativePath = `uploads/${filename}`;
+    const bufferForSize = readFileSync(filePath);
+const dimensions = imageSize(bufferForSize);
+  if (!dimensions.width || !dimensions.height) {
+    return NextResponse.json({ error: "Failed to get image size" }, { status: 500 });
+  }
+    // console.log(`FileName=${imageRelativePath}`)
+    const image_path_update_result = await Pages.updateOne(
+      {
+        title: title,
+      },
+      {
+        $set: {
+    [imageIndex]: {
+      url: imageRelativePath,
+      width: dimensions.width,
+      height: dimensions.height,
+    },
+  }
+  },
+    );
+    console.log(image_path_update_result)
     // Return the path to the uploaded file (relative to public)
     return NextResponse.json({
       message: "File uploaded successfully",

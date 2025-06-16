@@ -3,7 +3,7 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-import { PageObject, BasePageContent } from "@/types";
+import { PageObject, BasePageContent, ImageObj } from "@/types";
 import EditImages from "./EditImages";
 
 // Improved type definitions
@@ -96,10 +96,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
     //   [key]: parsedValue,
     // });
 
-    setFormData({
-      ...formData,
-      [key]: newValue,
-    });
+    setFormData({ ...formData, [key]: newValue });
   };
 
   /**
@@ -116,10 +113,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
     if (!shouldSave) return;
 
     try {
-      await axios.put("/api/page", {
-        title: title,
-        content: formData,
-      });
+      await axios.put("/api/page", { title: title, content: formData });
 
       // Close modal and refresh page to show updates
       setModalOpen(false);
@@ -179,10 +173,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
       <div className="fixed inset-0 z-50 flex h-5/6 flex-col items-center justify-center pt-20">
         <div
           className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 mx-auto flex w-5/6 flex-col overflow-y-auto rounded-xl bg-white p-6 shadow-lg"
-          style={{
-            scrollbarWidth: "auto",
-            scrollbarColor: "#A0AEC0 #EDF2F7",
-          }}
+          style={{ scrollbarWidth: "auto", scrollbarColor: "#A0AEC0 #EDF2F7" }}
         >
           {/* Close button */}
           <div className="flex justify-end">
@@ -209,14 +200,13 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
           {Object.entries(formData).map(([key, value]) =>
             renderTextField(key, value),
           )}
-          {/* <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"> */}
           <div className="block w-full text-center text-3xl font-bold text-[#0D9488] underline">
             IMAGES
           </div>
           <div className="my-2 w-full text-center text-xl text-red-700">
             Make sure to replace images with same width to hight ratio
           </div>
-          <EditImages images={children.images} />
+          <EditImages images={children.images} title={title} />
         </div>
       </div>
 
