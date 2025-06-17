@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ProductsContext from "./ProductCategoriesContext";
 import {
-  ProductsCategoriesStateType,
+  ProductsStateType,
   ProductCategoryItem,
   ProductListEntry,
   ProductListEntryDB,
@@ -19,13 +19,12 @@ type PopupContextProviderType = {
 export default function PopupContextProvider({
   children,
 }: PopupContextProviderType) {
-  const [productsState, setProductsState] =
-    useState<ProductsCategoriesStateType>({
-      activeList: 0,
-      loading: true, // Start with loading true
-      categories: [],
-      error: "",
-    });
+  const [productsState, setProductsState] = useState<ProductsStateType>({
+    activeList: 0,
+    loading: true, // Start with loading true
+    categories: [],
+    error: "",
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -62,10 +61,9 @@ export default function PopupContextProvider({
 
           const product_lists: ProductListEntryDB[] = lists.data.product_lists;
 
+          // console.log("Product lists found (context)");
+          // console.log(product_lists);
 
-        // console.log("Product lists found (context)");
-        // console.log(product_lists);
-        
           // Process each list
           product_lists.forEach((list) => {
             const listEntryToSet: ProductListEntry = {

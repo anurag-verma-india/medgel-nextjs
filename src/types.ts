@@ -69,6 +69,7 @@ export interface ProductListEntry {
 }
 
 export interface ProductCategoryItem {
+  _id: string;
   name: string;
   listEntries: ProductListEntry[];
 }
@@ -77,6 +78,7 @@ export interface ProductsStateType {
   activeList: number;
   categories: ProductCategoryItem[];
   loading: boolean;
+  error: string;
 }
 
 export interface ProductContextProps {

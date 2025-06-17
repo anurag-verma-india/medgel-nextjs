@@ -2,7 +2,7 @@
 "use client";
 
 import ProductsContext from "@/contexts/ProductCategoriesContext";
-import { ProductContextProps, ProductsCategoriesStateType } from "@/types";
+import { ProductContextProps, ProductsStateType } from "@/types";
 import axios from "axios";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { Clipboard } from "lucide-react";
@@ -20,7 +20,7 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
 
   // Create a deep copy of productsState for local edits
   const [localProductsState, setLocalProductsState] =
-    useState<ProductsCategoriesStateType>(
+    useState<ProductsStateType>(
       JSON.parse(JSON.stringify(productsState)), // Deep copy to prevent reference issues
     );
 
