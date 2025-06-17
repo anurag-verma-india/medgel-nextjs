@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./_common_component/Header";
 import Footer from "./_common_component/Footer";
-
+import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -20,17 +20,18 @@ export const metadata: Metadata = {
     "MEDGEL, a state of art facility, for manufacturing of Soft Gel Capsules uniquely with In-line Drying Technology, one of its kind in Asia.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isAdmin = await checkAdminFromCookie()
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
+        <Header checkAdmin={isAdmin}/>
         {children}
         <Footer />
       </body>

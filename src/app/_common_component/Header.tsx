@@ -16,6 +16,7 @@ interface MenuItem {
   label: string;
   href: string;
   subItems?: SubMenuItem[];
+  adminOnly?:boolean
 }
 
 // Define the menu structure
@@ -47,10 +48,10 @@ const menuItems: MenuItem[] = [
   { label: "Investor Relations", href: "/investor" },
   { label: "Careers", href: "/careers" },
   { label: "Contact Us", href: "/contact" },
-  // { label: "News", href: "/news" },
+  { label: "Responses", href: "/responses",adminOnly: true  },
 ];
 
-export default function Header() {
+export default function Header({checkAdmin}: {checkAdmin: boolean}) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
@@ -94,7 +95,10 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden space-x-6 lg:flex">
-            {menuItems.map((item) => (
+            {menuItems.map((item) => {
+              if (item.adminOnly && !checkAdmin) return null;
+              return (
+              
               <div key={item.label} className="group relative">
                 <Link
                   href={item.href}
@@ -132,7 +136,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            ))}
+            )})}
           </nav>
 
           {/* Mobile menu button */}
@@ -151,7 +155,9 @@ export default function Header() {
         <div className="bg-white shadow-inner lg:hidden">
           <div className="container mx-auto px-4 py-3">
             <nav className="space-y-1">
-              {menuItems.map((item) => (
+              {menuItems.map((item) => {
+              if (item.adminOnly && !checkAdmin) return null;
+                return (
                 <div key={item.label} className="py-1">
                   <Link
                     href={item.href}
@@ -183,7 +189,7 @@ export default function Header() {
                     </div>
                   )}
                 </div>
-              ))}
+              )})}
             </nav>
           </div>
         </div>
