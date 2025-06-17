@@ -11,7 +11,7 @@ interface OverviewContent extends BasePageContent {
   // overviewPara1: string;
   // overviewPara2: string;
   // image1: string;
-  
+
   quote: string;
   quote_by: string;
   para1: string;
@@ -36,22 +36,26 @@ const About = async ({
     <>
       {children}
       <div className="medgel-overview">
-        <h1 className="title">{overview.page_title}</h1>
-        <div className="quote-section">
-          <blockquote className="quote">{overview.quote}</blockquote>
-          <cite className="quote-author">— {overview.quote_by}</cite>
+        <h1 className="medgel-overview-title">{overview.page_title}</h1>
+        <div className="medgel-overview-quote-section">
+          <blockquote className="medgel-overview-quote">
+            {overview.quote}
+          </blockquote>
+          <cite className="medgel-overview-quote-author">
+            — {overview.quote_by}
+          </cite>
         </div>
-        <div className="content-section">
-          <div className="text-section">
+        <div className="medgel-overview-content-section">
+          <div className="medgel-overview-text-section">
             {/* <h2>{overview.page_title}</h2> */}
             <p>{overview.para1}</p>
             <p>{overview.para2}</p>
           </div>
-          <div className="icon-section">
+          <div className="medgel-overview-icon-section">
             <Image
               src={`${process.env.NEXT_PUBLIC_SITE_URL}/${fetchedOverview.images[0].url}`}
               alt="Shield and Hand Icon"
-              className="icon"
+              className="medgel-overview-icon"
               width={315}
               height={316}
             />
