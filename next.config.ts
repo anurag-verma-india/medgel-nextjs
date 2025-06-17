@@ -1,53 +1,3 @@
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {
-//     /* config options here */
-//     logging: {
-//         fetches: {
-//             fullUrl: true,
-//         },
-//     },
-//     reactStrictMode: true,
-//     images: {
-//         remotePatterns: [
-//             // {
-//             //     hostname: "example.com",
-//             // },
-//             {
-//                 hostname: "localhost",
-//             },
-//         ],
-//     },
-// };
-
-// export default nextConfig;
-
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {
-//   /* config options here */
-//   logging: {
-//     fetches: {
-//       fullUrl: true,
-//     },
-//   },
-//   reactStrictMode: true,
-//   images: {
-//     remotePatterns: [
-//       // {
-//       //     hostname: "example.com",
-//       // },
-//       {
-//         hostname: "localhost",
-//       },
-//     ],
-//   },
-//   // Fix for cross-origin request warning
-//   allowedDevOrigins: ["10.10.16.243"],
-// };
-
-// export default nextConfig;
-
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -69,12 +19,17 @@ const nextConfig: NextConfig = {
       {
         hostname: "10.10.16.243",
       },
+      {
+        hostname: "pika-welcome-cicada.ngrok-free.app",
+      },
     ],
   },
   // Fix for cross-origin request warning
-  experimental: {
-    allowedDevOrigins: ["10.10.16.243"],
-  },
+  allowedDevOrigins: [
+    "localhost",
+    "10.10.16.243",
+    "pika-welcome-cicada.ngrok-free.app",
+  ],
 };
 
 export default nextConfig;
