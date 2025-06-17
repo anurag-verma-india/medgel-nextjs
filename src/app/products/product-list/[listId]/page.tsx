@@ -10,7 +10,7 @@ const page = async ({ params }: ProductListParams) => {
   return (
     <>
       {/* Edit Button */}
-      {/* {isAdmin && <ProductListEditPopup />} */}
+      {isAdmin && <ProductListEditPopup />}
       <ProductList params={params}>
         {isAdmin && <ProductListEditPopup />}
       </ProductList>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ProductsContext from "./ProductCategoriesContext";
 import {
-  ProductsStateType,
+  ProductsCategoriesStateType,
   ProductCategoryItem,
   ProductListEntry,
   ProductListEntryDB,
@@ -19,12 +19,13 @@ type PopupContextProviderType = {
 export default function PopupContextProvider({
   children,
 }: PopupContextProviderType) {
-  const [productsState, setProductsState] = useState<ProductsStateType>({
-    activeList: 0,
-    loading: true, // Start with loading true
-    categories: [],
-    error: "",
-  });
+  const [productsState, setProductsState] =
+    useState<ProductsCategoriesStateType>({
+      activeList: 0,
+      loading: true, // Start with loading true
+      categories: [],
+      error: "",
+    });
 
   useEffect(() => {
     async function fetchData() {

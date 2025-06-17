@@ -27,18 +27,14 @@ type ListItemType = {
   ListTitle: string;
   NumberOfProducts: number;
   ListId: string;
-  CategoryId: string;
 };
 
-const ListItem = ({ ListTitle, NumberOfProducts, ListId,CategoryId }: ListItemType) => {
+const ListItem = ({ ListTitle, NumberOfProducts, ListId }: ListItemType) => {
   const { popupState, setPopupState } = useContext(PopupContext);
 
-  const HandleListClick = (listId: string,CategoryId:string) => {
+  const HandleListClick = (listId: string) => {
     if (popupState.tokenValid) {
       // TODO: This Page's API call must also check user's JWT token from cookies
-      // console.log("ListId: ", listId);
-      // console.log("CategoryId: ", CategoryId);
-      window.localStorage.setItem("activeCategoryId", CategoryId);
       redirect(`/products/product-list/${listId}`, RedirectType.push);
     } else {
       setPopupState({ ...popupState, popupOpen: !popupState.popupOpen });
@@ -70,7 +66,7 @@ const ListItem = ({ ListTitle, NumberOfProducts, ListId,CategoryId }: ListItemTy
         ref={listItemRef}
         className="relative m-3 flex cursor-pointer flex-row overflow-hidden rounded-xl bg-white px-2 py-2 text-lg md:m-6 md:py-3 md:text-2xl"
         onClick={() => {
-          HandleListClick(ListId,CategoryId);
+          HandleListClick(ListId);
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

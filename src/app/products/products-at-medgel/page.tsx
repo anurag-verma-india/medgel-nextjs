@@ -27,15 +27,15 @@ export default async function ProductPage() {
   const isAdmin = await checkAdminFromCookie();
   return (
     <>
-      {isAdmin && <EditProductsPopupContainer />}
-      {/* <IfAdminShowThis> */}
-      {/* {isAdmin && <EditProductsPopupContainer />} */}
-      {/* </IfAdminShowThis> */}
-      <div className="flex flex-col items-center">
-        <h1 className="p-2 pb-10 pt-5 text-center text-4xl font-bold text-[#1D8892] underline decoration-[#F9BC65] underline-offset-[15px] md:text-6xl">
-          Products at Medgel
-        </h1>
-        <ClientSideProductCategories>
+      <ClientSideProductCategories>
+        {isAdmin && <EditProductsPopupContainer />}
+        {/* <IfAdminShowThis> */}
+        {/* {isAdmin && <EditProductsPopupContainer />} */}
+        {/* </IfAdminShowThis> */}
+        <div className="flex flex-col items-center">
+          <h1 className="p-2 pb-10 pt-5 text-center text-4xl font-bold text-[#1D8892] underline decoration-[#F9BC65] underline-offset-[15px] md:text-6xl">
+            Products at Medgel
+          </h1>
           {/* <div>This is a sample div</div>
           {isAdmin && <div>I am admin</div>}
           {!isAdmin && <div>I am not admin</div>} */}
@@ -48,8 +48,8 @@ export default async function ProductPage() {
               emailSent={emailSent}
             />
           </div>
-        </ClientSideProductCategories>
-      </div>
+        </div>
+      </ClientSideProductCategories>
     </>
   );
 }

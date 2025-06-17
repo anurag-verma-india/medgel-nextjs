@@ -2,7 +2,7 @@
 "use client";
 
 import ProductsContext from "@/contexts/ProductCategoriesContext";
-import { ProductContextProps, ProductsStateType } from "@/types";
+import { ProductContextProps, ProductsCategoriesStateType } from "@/types";
 import axios from "axios";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { Clipboard } from "lucide-react";
@@ -20,7 +20,7 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
 
   // Create a deep copy of productsState for local edits
   const [localProductsState, setLocalProductsState] =
-    useState<ProductsStateType>(
+    useState<ProductsCategoriesStateType>(
       JSON.parse(JSON.stringify(productsState)), // Deep copy to prevent reference issues
     );
 
@@ -453,6 +453,7 @@ const EditProductsPopupContainer = () => {
           onClick={() => {
             setModalOpen(!modalOpen);
           }}
+          // className="absolute right-0 top-0 rounded bg-[#00a5a5] px-4 py-2 text-black opacity-40 shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
           className="absolute right-0 top-0 mr-5 mt-5 rounded bg-[#00a5a5] px-4 py-2 text-white shadow hover:bg-[#197777] focus:outline-none focus:ring-2 focus:ring-black"
         >
           Edit

@@ -24,10 +24,9 @@ export default function ProductCategories() {
     setProductsState({ ...productsState, activeList: nextList });
   };
 
-  const handleCategoryClick = (index: number,id:string) => {
+  const handleCategoryClick = (index: number) => {
     setProductsState({ ...productsState, activeList: index });
     console.log("Changing active products state: ", index);
-    console.log("Changing active products state id: ", id);
   };
 
   // Show loading state
@@ -94,7 +93,7 @@ export default function ProductCategories() {
             className={`flex w-full cursor-pointer justify-center border-b-2 border-r-2 border-neutral-200 p-8 text-center ${
               activeList === index ? "bg-neutral-100" : ""
             }`}
-            onClick={() => handleCategoryClick(index,category._id)}
+            onClick={() => handleCategoryClick(index)}
           >
             {category.name}
           </div>
