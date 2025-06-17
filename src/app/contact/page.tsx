@@ -3,6 +3,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import "./ContactUs.css";
 import Image from "next/image";
+import axios from "axios";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -22,9 +23,27 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    try {
+              const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/contactus`,
+                formData,
+                {
+                  headers: {
+                    "Content-Type":  "application/json",
+                  },
+                },
+              );
+            //   console.log(res)
+            if(res.status===201){
+    
+                alert("Message Sent!!!")
+            }
+            } catch (err) {
+              console.error("Error uploading anual Report:", err);
+            }
   };
 
   return (

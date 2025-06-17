@@ -13,6 +13,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Popconfirm, message, Modal } from "antd";
 import axios from "axios";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import ApplyNowModal from "./ApplyNowModal"
 
 // Request body interfaces for API calls (copied from ContextCode.tsx for clarity in this file)
 interface DeleteJobOpeningsRequest {
@@ -40,6 +41,7 @@ interface CurrentOpeningsProps {
 
 const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
   // State management
+  const [openEditModal, setOpenEditModal]=useState<Boolean>(false)
   const [jobOpenings, setJobOpenings] = useState<JobDepartmentTypeDB[]>([]);
   const [addDepartmentVisible, setAddDepartmentVisible] =
     useState<boolean>(false);
@@ -65,6 +67,7 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
   const [deleteLoading, setDeleteLoading] = useState<string>(""); // Loading state for department deletion
   const [jobDeleteLoading, setJobDeleteLoading] = useState<string>(""); // Loading state for job deletion
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [JobDetails, setJobDetails] = useState({});
   const [isErrorModalVisible, setIsErrorModalVisible] =
     useState<boolean>(false);
 
@@ -330,6 +333,11 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
       </div>
     );
   }
+  const apply=(jobdet:any)=>{
+    setOpenEditModal(true)
+    setJobDetails(jobdet)
+
+  }
 
   return (
     <>
@@ -421,7 +429,7 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
                       </p>
                     </div>
                     <div className="flex flex-col items-center gap-2 mt-auto"> {/* Centered buttons */}
-                      <button className="apply-btn">Apply Now</button>
+                      <button onClick={()=>apply(job)} className="apply-btn">Apply Now</button>
                       {checkAdmin && (
                         <>
                           <Button
@@ -521,6 +529,14 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
           onSuccess={fetchJobOpenings}
         />
       )}
+
+      {
+        openEditModal && <ApplyNowModal 
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        JobDetails={JobDetails}
+        />
+      }
 
       {/* General Error Modal for CurrentOpenings component's direct API calls */}
       <Modal
