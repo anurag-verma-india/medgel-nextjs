@@ -4,63 +4,62 @@
   line-height: 1.6;
 }
 
-.title {
+.medgel-overview-title {
   color: #008080;
   text-align: center;
   font-size: 3rem;
   text-decoration: underline;
   text-decoration-color: #ff9201;
-  text-underline-offset: 1rem;
-  text-decoration-thickness: 3px;
+  text-underline-offset: 0.7rem;
+  text-decoration-thickness: 4px;
 }
 
-.quote-section {
+.medgel-overview-quote-section {
   text-align: center;
 
   margin: 20px 0;
 }
 
-.quote {
+.medgel-overview-quote {
   font-size: 1.5rem;
   font-style: italic;
   color: black;
 }
 
-.quote-author {
+.medgel-overview-quote-author {
   display: block;
   margin-top: 10px;
   color: #ff9201;
   font-weight: bold;
 }
 
-.content-section {
+.medgel-overview-content-section {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.text-section p {
+.medgel-overview-text-section p {
   font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
-.text-section h2 {
+.medgel-overview-text-section h2 {
   color: #008080;
 }
 
-.text-section {
-
+.medgel-overview-text-section {
   max-width: 600px;
   margin-right: 0;
   margin: 0 auto;
 }
 
-.icon-section {
+.medgel-overview-icon-section {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.icon {
+.medgel-overview-icon {
   width: 300px;
   /* Adjust size as needed */
   height: auto;
@@ -68,17 +67,17 @@
 
 /* Responsive Design */
 @media (min-width: 768px) {
-  .content-section {
+  .medgel-overview-content-section {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
 
-  .text-section {
+  .medgel-overview-text-section {
     max-width: 60%;
   }
 
-  .icon-section {
+  .medgel-overview-icon-section {
     justify-content: flex-end;
   }
 }
