@@ -1,3 +1,4 @@
+// src/app/_common_component/Footer.tsx
 import React from "react";
 import "./Footer.css";
 import Link from "next/link";
