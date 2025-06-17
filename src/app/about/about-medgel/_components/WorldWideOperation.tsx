@@ -46,9 +46,9 @@ const WorldWideOperation = async ({
             </ul>
           </div>
 
-          {/* <div className="WorldWideOperation-map-container">
-                    <img src="/images/map.png" alt="Targeted Countries"> </img>
-                    </div> */}
+          <div className="WorldWideOperation-map-container">
+            <img src="/images/map.png" alt="Targeted Countries"></img>
+          </div>
         </div>
 
         <div className="WorldWideOperation-description">
