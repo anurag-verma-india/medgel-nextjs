@@ -42,7 +42,7 @@ const VerifyEmail = () => {
 
   return (
     <>
-      <div className="m-10 flex h-20 justify-center">
+      <div className="m-10 flex h-25 justify-center">
         {!tokenValid && (
           <div className="flex text-center">
             An error occurred.

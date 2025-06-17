@@ -4,8 +4,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./slider.css";
-import React from "react";
+import React, { ReactNode } from "react";
+import { PageObject } from "@/types";
+import { SliderComponentType } from "../page";
+import Link from "next/link";
+import { redirect, RedirectType } from "next/navigation";
 // import Image from "next/image";
+export const dynamic = "force-dynamic";
 
 function RightPointerBracketSvg() {
   return (
@@ -38,23 +43,33 @@ function LeftPointerBracketSvg() {
   );
 }
 
-const SliderComponent = () => {
+const SliderComponent = ({
+  data,
+  children,
+}: {
+  data: PageObject<SliderComponentType>;
+  children: ReactNode;
+}) => {
   const slides = [
     {
-      image: "/images/slider1.png",
-      buttonText: "WATCH VIDEO",
+      image: data.images[0].url,
+      // image: "/images/slider1.png",
+      // buttonText: "WATCH VIDEO",
     },
     {
-      image: "/images/slider2.png",
-      buttonText: "WATCH VIDEO",
+      image: data.images[1].url,
+      // image: "/images/slider2.png",
+      // buttonText: "WATCH VIDEO",
     },
     {
-      image: "/images/slider3.png",
-      buttonText: "WATCH VIDEO",
+      image: data.images[2].url,
+      // image: "/images/slider3.png",
+      // buttonText: "WATCH VIDEO",
     },
     {
-      image: "/images/slider4.png",
-      buttonText: "WATCH VIDEO",
+      image: data.images[3].url,
+      // image: "/images/slider4.png",
+      // buttonText: "WATCH VIDEO",
     },
   ];
 
@@ -83,67 +98,77 @@ const SliderComponent = () => {
   };
 
   return (
-    <div className="homeslider-container">
-      <Slider ref={sliderRef} {...settings}>
-        {slides.map((slide, index) => (
-          <div key={index} className="homeslide">
-            <img
-              src={slide.image}
-              alt={`Slide ${index + 1}`}
-              className="homeslide-image"
-            />
-            <div className="homeslide-content">
-              <h1>
-                WE WELCOME YOU <br />
-                AT{" "}
-                {/* <Image
-                  src={"/medgel-logo.svg"}
-                  alt={"MedGel"}
-                  height={100}
-                  width={400}
-                /> */}
-                <span
-                  style={{
-                    color: "#E4961B",
-                    fontWeight: "bold",
-                  }}
-                >
-                  MED
-                </span>
-                <span
-                  style={{
-                    color: "#005CA6",
-                    fontWeight: "bold",
-                  }}
-                >
-                  GEL
-                </span>
-                <br />
-              </h1>
-              <p>
-                SERVING TO OTC PHARMA AND NUTRACEUTICALS
-                {index !== 3 && " IN SOFTGELS."}
-                {index === 3 && (
-                  <span style={{ color: "white" }}> IN SOFTGELS.</span>
-                )}
-              </p>
-              {slide.buttonText && (
-                <button className="homeslide-button">{slide.buttonText}</button>
-              )}
+    <>
+      {/* <div className="flex">{children}</div> */}
+      <div className="homeslider-container">
+        <Slider ref={sliderRef} {...settings}>
+          {slides.map((slide, index) => (
+            <div key={index} className="homeslide">
+              <img
+                src={slide.image}
+                alt={`Slide ${index + 1}`}
+                className="homeslide-image"
+              />
+              <div className="homeslide-content">
+                <h1>
+                  {/* WE WELCOME YOU <br />
+                  AT{" "} */}
+                  {data.content.slidertext1} <br />
+                  {data.content.slidertext2}{" "}
+                  <span
+                    style={{
+                      color: "#E4961B",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {data.content.slidertext3}
+                  </span>
+                  <span
+                    style={{
+                      color: "#005CA6",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {data.content.slidertext4}
+                  </span>
+                  <br />
+                </h1>
+                {/* <p>SERVING TO OTC PHARMA AND NUTRACEUTICALS IN SOFTGELS.</p> */}
+                <p>
+                  {/* SERVING TO OTC PHARMA AND NUTRACEUTICALS */}
+                  {data.content.para1}
+                  {index !== 3 && " IN SOFTGELS."}
+                  {index === 3 && (
+                    // <span style={{ color: "white" }}> IN SOFTGELS.
+                    <span style={{ color: "white" }}>{data.content.para2}</span>
+                  )}
+                </p>
+                {/* {slide.buttonText && (
+                  <button className="homeslide-button">
+                    {slide.buttonText}
+                  </button>
+                )} */}
+                {/* <Link href={"https://www.google.com"} target="_" > */}
+                <Link href={data.content.video_link} target="_">
+                  <button className="homeslide-button">
+                    {data.content.buttontext}
+                  </button>
+                </Link>
+              </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
 
-      <button className="homeslider-nav-button prev" onClick={handlePrev}>
-        {/* &lt;*/}
-        <LeftPointerBracketSvg />
-      </button>
-      <button className="homeslider-nav-button next" onClick={handleNext}>
-        {/* &gt;*/}
-        <RightPointerBracketSvg />
-      </button>
-    </div>
+        <button className="homeslider-nav-button prev" onClick={handlePrev}>
+          {/* &lt;*/}
+          <LeftPointerBracketSvg />
+        </button>
+        <button className="homeslider-nav-button next" onClick={handleNext}>
+          {/* &gt;*/}
+          <RightPointerBracketSvg />
+        </button>
+      </div>
+    </>
   );
 };
 

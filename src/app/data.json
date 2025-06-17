@@ -1,0 +1,18 @@
+{
+  "title": "home$slider",
+  "content": {
+    "slidertext1": "WE WELCOME YOU",
+    "slidertext2": "AT",
+    "slidertext3": "MED",
+    "slidertext4": "GEL",
+    "buttontext": "WATCH VIDEO",
+    "para1": "SERVING TO OTC PHARMA AND NUTRACEUTICALS",
+    "para2": "IN SOFTGELS."
+  },
+  "images": [
+    { "url": "images/slider1.png" },
+    { "url": "images/slider2.png" },
+    { "url": "images/slider3.png" },
+    { "url": "images/slider4.png" }
+  ]
+}

@@ -8,16 +8,71 @@ import Cpurpose from "./home/Cpurpose";
 import Portfolio from "./home/Portfolio";
 import HomeNews from "./home/homenews";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
+import fetchPage from "@/helpers/getPage";
+import EditModalContainer from "./_common_component/EditModalContainer";
+
+const SliderComponentTitle = "home$slider";
+const CardRowTitle = "home$cardrow";
+
+const PurposeSectionTitle = "home$PurposeSectionTitle";
+const BpurposeTitle = "home$BpurposeTitle";
+const HomeNewsTitle = "home$HomeNewsTitle";
+const PortfolioTitle = "home$PortfolioTitle";
+const CpurposeTitle = "home$CpurposeTitle";
+
+export type CardRowType = {
+  value1: string;
+  description1: string;
+  value2: string;
+  description2: string;
+  value3: string;
+  description3: string;
+  value4: string;
+  description4: string;
+};
+
+export type SliderComponentType = {
+  slidertext1: string;
+  slidertext2: string;
+  slidertext3: string;
+  slidertext4: string;
+  buttontext: string;
+  video_link: string;
+  para1: string;
+  para2: string;
+};
 
 const HomePage = async () => {
-  const isAdmin = await checkAdminFromCookie();
+  let isAdmin = false;
+  try {
+    isAdmin = await checkAdminFromCookie();
+  } catch (error) {
+    // console.log("Error in loading about/life-at-medgel page");
+    console.log("Error in checking authorization level");
+    console.log(error);
+  }
+
+  const SliderComponentData =
+    await fetchPage<SliderComponentType>(SliderComponentTitle);
+  const CardRowData = await fetchPage<CardRowType>(CardRowTitle);
+
+  // console.log("Card Row data: ", CardRowData);
 
   return (
     <div>
-      <SliderComponent />
-      <CardRow />
-      <PurposeSection />
-      <Bpurpose />
+      <SliderComponent data={SliderComponentData}>
+        {isAdmin && <EditModalContainer title={CardRowTitle} />}
+      </SliderComponent>
+      
+      <CardRow data={CardRowData}>
+        {isAdmin && <EditModalContainer title={CardRowTitle} />}
+      </CardRow>
+      <PurposeSection>
+        {isAdmin && <EditModalContainer title={CardRowTitle} />}
+      </PurposeSection>
+      <Bpurpose>
+        {isAdmin && <EditModalContainer title={CardRowTitle} />}
+      </Bpurpose>
       {/* Will Get checked  */}
       <HomeNews adminCheck={isAdmin} />
       <Portfolio />
