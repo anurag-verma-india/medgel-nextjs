@@ -100,7 +100,7 @@ const ContactUs = () => {
               </div>
               <button
                 type="submit"
-                className="mx-14 h-10 w-1/2 bg-[#0d9488] md:mx-24"
+                className="mx-14 h-10 w-1/2 bg-[#0d9488] md:mx-24 rounded-lg"
               >
                 Contact Us
               </button>
