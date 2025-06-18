@@ -5,8 +5,8 @@ import axios from "axios";
 import { RedirectType, redirect, useSearchParams } from "next/navigation";
 import { ProductListParams } from "@/types";
 import { use, useEffect, useState } from "react";
-import AddProductPopup from "./AddProductPopup"
-import ProductEditPopup from "./ProductEditPopup"
+import AddProductPopup from "./AddProductPopup";
+import ProductEditPopup from "./ProductEditPopup";
 type ProductType = {
   id: string;
   innovator: string;
@@ -21,20 +21,18 @@ interface ProductPageState {
   list: ProductType[];
 }
 
-
 const MobileProductList = ({
   productList,
-  isAdmin
+  isAdmin,
 }: {
   productList: ProductPageState;
-  isAdmin:Boolean
+  isAdmin: Boolean;
 }) => {
+  const openeditmodal = (product) => {
+    setProductData(product);
+    setProductOpenEditModal(true);
+  };
 
-  const openeditmodal=(product)=>{
-    setProductData(product)
-    setProductOpenEditModal(true)
-  }
- 
   return (
     <>
       {/* Mobile View - Vertical Layout */}
@@ -95,17 +93,21 @@ const MobileProductList = ({
                   </dd> */}
                 </div>
 
-                {
-                  isAdmin &&
+                {isAdmin && (
                   <div className="py-2">
-                  <dt className="mb-1 text-sm font-medium text-gray-500">
-                    Edit
-                  </dt>
-                  <dd className="text-sm">
-                     <button onClick={()=>openeditmodal(product)}  className=" bg-[#1d8892] p-3 rounded-lg text-white">Edit</button>
-                  </dd>
-                </div>
-                }
+                    <dt className="mb-1 text-sm font-medium text-gray-500">
+                      Edit
+                    </dt>
+                    <dd className="text-sm">
+                      <button
+                        onClick={() => openeditmodal(product)}
+                        className="rounded-lg bg-[#1d8892] p-3 text-white"
+                      >
+                        Edit
+                      </button>
+                    </dd>
+                  </div>
+                )}
               </dl>
             </div>
           </div>
@@ -118,18 +120,19 @@ const MobileProductList = ({
 const DesktopProductList = ({
   productList,
   isAdmin,
-  listId
+  listId,
 }: {
   productList: ProductPageState;
-  isAdmin:Boolean,
-  listId:string
+  isAdmin: Boolean;
+  listId: string;
 }) => {
-  const [openProductEditModal, setProductOpenEditModal]=useState<Boolean>(false)
-  const [productdata, setProductData]=useState({})
-  const openeditmodal=(product)=>{
-    setProductData(product)
-    setProductOpenEditModal(true)
-  }
+  const [openProductEditModal, setProductOpenEditModal] =
+    useState<Boolean>(false);
+  const [productdata, setProductData] = useState({});
+  const openeditmodal = (product) => {
+    setProductData(product);
+    setProductOpenEditModal(true);
+  };
   return (
     <>
       {/* Desktop View - Table */}
@@ -143,9 +146,7 @@ const DesktopProductList = ({
               <th className="px-4 py-3 font-semibold">Code</th>
               <th className="px-4 py-3 font-semibold">Composition</th>
               <th className="px-4 py-3 font-semibold">Color</th>
-              {
-               isAdmin && <th className="px-4 py-3 font-semibold">Edit</th>
-              }
+              {isAdmin && <th className="px-4 py-3 font-semibold">Edit</th>}
             </tr>
           </thead>
           <tbody>
@@ -168,19 +169,26 @@ const DesktopProductList = ({
                 </td>
                 <td className="px-4 py-4">{product.color}</td>
                 <td className="px-4 py-4">
-                  { isAdmin && <button onClick={()=>openeditmodal(product)}  className=" bg-[#1d8892] p-3 rounded-lg text-white">Edit</button>
-}</td>
+                  {isAdmin && (
+                    <button
+                      onClick={() => openeditmodal(product)}
+                      className="rounded-lg bg-[#1d8892] p-3 text-white"
+                    >
+                      Edit
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
 
-            {
-              openProductEditModal && <ProductEditPopup
-              openProductEditModal={openProductEditModal}
-              setProductOpenEditModal={setProductOpenEditModal}
-              productdata={productdata}
-              listId={listId}
+            {openProductEditModal && (
+              <ProductEditPopup
+                openProductEditModal={openProductEditModal}
+                setProductOpenEditModal={setProductOpenEditModal}
+                productdata={productdata}
+                listId={listId}
               />
-            }
+            )}
           </tbody>
         </table>
       </div>
@@ -188,7 +196,13 @@ const DesktopProductList = ({
   );
 };
 
-export default function ProductList({ params, checkAdmin}: {checkAdmin: boolean,params: ProductListParams} ) {
+export default function ProductList({
+  params,
+  checkAdmin,
+}: {
+  checkAdmin: boolean;
+  params: ProductListParams;
+}) {
   const { listId } = use(params);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
@@ -245,7 +259,7 @@ export default function ProductList({ params, checkAdmin}: {checkAdmin: boolean,
   const handleBackClick = () => {
     redirect("/products/products-at-medgel", RedirectType.push);
   };
-  const [openEditModal, setOpenEditModal]=useState<Boolean>(false)
+  const [openEditModal, setOpenEditModal] = useState<Boolean>(false);
 
   return (
     <>
@@ -273,33 +287,45 @@ export default function ProductList({ params, checkAdmin}: {checkAdmin: boolean,
           )}
           {!isLoading && (
             <>
-            {
-            checkAdmin && <button onClick={()=>setOpenEditModal(true)} className="ml-auto bg-[#1d8892] p-3 rounded-lg text-white">Add</button>
-            }
+              {checkAdmin && (
+                <button
+                  onClick={() => setOpenEditModal(true)}
+                  className="ml-auto rounded-lg bg-[#1d8892] p-3 text-white"
+                >
+                  Add
+                </button>
+              )}
               {/* Product List Title */}
               <h2 className="mb-8 w-full text-center text-3xl font-bold text-orange-400">
                 {productList.title}
               </h2>
 
-              {
-                openEditModal && <AddProductPopup
-                openEditModal={openEditModal}
-                setOpenEditModal={setOpenEditModal}
-                listId={listId}
+              {openEditModal && (
+                <AddProductPopup
+                  openEditModal={openEditModal}
+                  setOpenEditModal={setOpenEditModal}
+                  listId={listId}
                 />
-              }
+              )}
 
               {isEmpty && (
                 <>
                   <div className="text-3xl">This list is empty</div>
-                  <div className="flex w-full justify-center">{children}</div>
+                  {/* <div className="flex w-full justify-center">{children}</div> */}
                   <div className="h-screen" />
                 </>
               )}
               {!isEmpty && (
                 <>
-                  <MobileProductList isAdmin={checkAdmin} productList={productList}/>
-                  <DesktopProductList listId={listId} isAdmin={checkAdmin} productList={productList}/>
+                  <MobileProductList
+                    isAdmin={checkAdmin}
+                    productList={productList}
+                  />
+                  <DesktopProductList
+                    listId={listId}
+                    isAdmin={checkAdmin}
+                    productList={productList}
+                  />
                 </>
               )}
             </>
