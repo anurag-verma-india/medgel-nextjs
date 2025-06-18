@@ -14,6 +14,7 @@ import { NextRequest } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 // import ProductList from "@/models/productList";
 import Product from "@/models/products";
+import ProductList from "@/models/productList";
 import handleError from "@/helpers/handleError";
 
 /*
@@ -31,7 +32,8 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect();
     const body = await request.json();
-    const product = new Product(body.product);
+    // console.log(body)
+    const product = new Product(body);
     const savedProduct = await product.save();
 
     return NextResponse.json({
@@ -76,11 +78,10 @@ export async function PUT(request: NextRequest) {
   try {
     // TODO: Make sure user is admin
     const body = await request.json();
-    const product = body.product;
-    const { product_id } = body;
+    const { product_id,innovator,product,code,composition,color } = body;
     console.log("Product received\n", product);
     // const { innovator, product, code, composition, color } = body.product;
-    if (!product) {
+    if (!body) {
       return NextResponse.json(
         {
           success: false,
@@ -93,14 +94,19 @@ export async function PUT(request: NextRequest) {
 
     console.log("Finding product: \nid: ", product_id);
 
-    const ProductDocument = await Product.findById(product_id);
-    console.log("Found product");
-
-    for (const key in product) {
-      ProductDocument[key] = product[key];
-    }
-
-    const edited_product = await ProductDocument.save();
+    const edited_product = await Product.findByIdAndUpdate(
+      product_id,
+      {
+        $set: {
+          innovator,
+          color,
+          code,
+          composition,
+          product
+        },
+      },
+      { new: true } 
+    );
 
     return NextResponse.json({
       success: true,
@@ -114,8 +120,10 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   // TODO: Make sure the user is admin
   try {
-    const body = await request.json();
-    const { product_id } = body;
+    const { searchParams } = new URL(request.url);
+    const product_id = searchParams.get("product_id");
+    const listid = searchParams.get("listId");
+    console.log("product_id: ", product_id);
     // console.log(product_id);
     if (!product_id) {
       return NextResponse.json(
@@ -128,6 +136,14 @@ export async function DELETE(request: NextRequest) {
     }
     await dbConnect();
     const deleted_product = await Product.findByIdAndDelete(product_id);
+    if(deleted_product){
+      const listdel=await ProductList.findByIdAndUpdate(
+      listid,
+        { $pull: { product_ids: product_id } },
+      
+      { new: true } 
+    );
+    }
     return NextResponse.json({
       deleted_product,
     });

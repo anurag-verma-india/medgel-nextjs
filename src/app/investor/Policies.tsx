@@ -87,7 +87,7 @@ export default function Policies() {
               className="rounded-lg bg-[#1D8892] p-3 text-white"
               onClick={() => setOpenEditModal(true)}
             >
-              Edit
+              Add
             </button>
           </div>
         )}

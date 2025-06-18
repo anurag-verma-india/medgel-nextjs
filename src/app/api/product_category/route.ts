@@ -48,31 +48,38 @@ DELETE
 Delete a list
  */
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   // Used in ProductsContextProvider
   try {
     await dbConnect();
-    const categories = await ProductCategory.find({});
-
-    if (categories) {
+     const { searchParams } = new URL(request.url);
+      const id = searchParams.get("id");
+        console.log(searchParams)
+      if (id) {
+        const productCategoriesItem = await ProductCategory.findById(id);
+        if (!productCategoriesItem) {
+          return NextResponse.json({ error: "News not found" }, { status: 404 });
+        }
+        else{
+          return NextResponse.json({
+        success: true,
+        productCategoriesItem,
+      });
+        }
+      }
+      else{
+        const categories = await ProductCategory.find({});
       return NextResponse.json({
         success: true,
         categories,
       });
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Product categories were not found in the database",
-      },
-      { status: 404 },
-    );
+      }
   } catch (error) {
     console.error("Error in getting categories: ", error); // Log the complete error object
     return handleError(error, "Failed to get lists from category");
   }
 }
+
 // export async function GET(request: NextRequest) {
 //   // No authentication to get categories
 //   try {
@@ -425,7 +432,6 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json(
       {
-        success: true,
         success: true,
         message:
           problems && problems.length > 0

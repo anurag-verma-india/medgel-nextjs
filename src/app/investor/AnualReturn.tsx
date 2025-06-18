@@ -85,7 +85,7 @@ export default function AnualReturn() {
               className="rounded-lg bg-[#1D8892] p-3 text-white"
               onClick={() => setOpenEditModal(true)}
             >
-              Edit
+              Add
             </button>
           </div>
         )}

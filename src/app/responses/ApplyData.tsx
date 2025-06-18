@@ -81,7 +81,7 @@ export default  function Applydata(){
               <td className="p-4 border border-gray-300 text-center">
                 <button
                   onClick={() => openpdf(item.resume)}
-                  className="bg-blue-600 hover:bg-blue-800 text-white py-1 px-3 rounded transition"
+                  className="bg-blue-600 hover:bg-blue-800 text-white py-1 px-3 rounded-xl  transition"
                 >
                   View Resume
                 </button>
@@ -89,7 +89,7 @@ export default  function Applydata(){
               <td className="p-4 border border-gray-300 text-center">
                 <button
                   onClick={() => DeleteData(item._id, item.resume)}
-                  className="bg-red-600 hover:bg-red-800 text-white py-1 px-3 rounded transition"
+                  className="bg-red-600 hover:bg-red-800 text-white py-1 px-3 rounded-xl transition"
                 >
                   Delete
                 </button>
