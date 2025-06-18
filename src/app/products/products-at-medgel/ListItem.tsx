@@ -3,6 +3,7 @@
 import PopupContext from "@/contexts/PopupContext";
 import { redirect, RedirectType } from "next/navigation";
 import { useContext, useRef, useState } from "react";
+import { Menu, X, LoaderCircle } from "lucide-react"; // Added LoaderCircle for loading spinner
 
 // Simple right pointer bracket SVG component
 const RightPointerBracketSvg = () => (
@@ -31,10 +32,13 @@ type ListItemType = {
 
 const ListItem = ({ ListTitle, NumberOfProducts, ListId }: ListItemType) => {
   const { popupState, setPopupState } = useContext(PopupContext);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const HandleListClick = (listId: string) => {
     if (popupState.tokenValid) {
       // TODO: This Page's API call must also check user's JWT token from cookies
+    setIsLoading(true); // Show loading spinner
+    // No need to explicitly navigate here, Next.js <Link> handles it
       redirect(`/products/product-list/${listId}`, RedirectType.push);
     } else {
       setPopupState({ ...popupState, popupOpen: !popupState.popupOpen });
@@ -113,6 +117,11 @@ const ListItem = ({ ListTitle, NumberOfProducts, ListId }: ListItemType) => {
           }
         `}</style>
       </div>
+      {isLoading && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-gray-800 bg-opacity-75 backdrop-blur-sm">
+          <LoaderCircle className="h-12 w-12 animate-spin text-[#008080]" />
+        </div>
+      )}
     </div>
   );
 };
