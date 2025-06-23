@@ -29,6 +29,11 @@ const MediCapsGroup = async ({
   // const fetchedGroup = await fetchPage<GroupContent>(title);
 
   //   const group : GroupContent = fetchedGroup.content;
+
+  // // const fetchedMission = await fetchPage<missionContent>(title);
+  // console.log("overview fetched:", fetchedMission);
+  console.log("Title about-medgel medicaps group: ", title);
+
   return (
     <div className="MediCapsGroup-container">
       {children}

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import "./Footer.css";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Menu, X, LoaderCircle } from "lucide-react"; // Added LoaderCircle for loading spinner
+import { LoaderCircle } from "lucide-react"; // Added LoaderCircle for loading spinner
 
 const Footer = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const Footer = () => {
             {/* <Link href={"/about/life-at-medgel"}>
               <li>Life At Medgel</li>
             </Link> */}
-            <Link onClick={handleLinkClick} href={"/about/awards_"}>
+            <Link onClick={handleLinkClick} href={"/about/awards"}>
               <li >Awards & Accreditation</li>
             </Link>
 
@@ -121,7 +121,7 @@ const Footer = () => {
             <Link onClick={handleLinkClick} href={"/about/about-medgel"}>
               <li>About Medgel</li>
             </Link>
-            <Link onClick={handleLinkClick} href={"/about/awards_"}>
+            <Link onClick={handleLinkClick} href={"/about/awards"}>
               <li>Awards and Accrediation</li>
             </Link>
           </ul>

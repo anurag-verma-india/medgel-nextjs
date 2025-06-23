@@ -3,7 +3,7 @@ import "./WorldWideOperation.css"; //
 
 import fetchPage from "@/helpers/getPage";
 import { BasePageContent } from "@/types";
-import Image from "next/image";
+// import Image from "next/image";
 import { ReactNode } from "react";
 
 interface WorldWideContent extends BasePageContent {

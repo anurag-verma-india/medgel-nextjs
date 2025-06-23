@@ -27,7 +27,7 @@ const menuItems: MenuItem[] = [
       { label: "About Medgel", href: "/about/about-medgel" },
       // { label: "Life At Medgel", href: "/about/life-at-medgel" },
       // { label: "Life At Medgel Old", href: "/about/life-at-medgel-old" },
-      { label: "Awards & Accreditation", href: "/about/awards_" },
+      { label: "Awards & Accreditation", href: "/about/awards" },
       // { label: "Awards & Accreditation All", href: "/about/awardsviewall" },
     ],
   },
@@ -69,8 +69,8 @@ export default function Header({ checkAdmin }: { checkAdmin: boolean }) {
 
   // Check if the current route matches a menu item or its subitems
   const isCurrentPage = (item: MenuItem): boolean => {
-    const basePath = pathname.split("?")[0];
-    // const basePath = pathname ? pathname.split("?")[0] : "/";
+    // const basePath = pathname.split("?")[0];
+    const basePath = pathname ? pathname.split("?")[0] : "/error";
     if (item.href === "/" && basePath === "/") return true;
     if (item.href !== "/" && basePath.startsWith(item.href)) return true;
     if (item.subItems?.some((subItem) => basePath.startsWith(subItem.href)))
@@ -80,7 +80,9 @@ export default function Header({ checkAdmin }: { checkAdmin: boolean }) {
 
   // Check if the route exactly matches this specific page
   const isExactCurrentPage = (href: string): boolean => {
-    const basePath = pathname.split("?")[0];
+    // const basePath = pathname.split("?")[0];
+    const basePath = pathname ? pathname.split("?")[0] : "/error";
+    if (href === "/" && basePath === "/") return true;
     return (
       basePath === href || (href !== "/" && basePath.startsWith(`${href}/`))
     );
@@ -104,7 +106,8 @@ export default function Header({ checkAdmin }: { checkAdmin: boolean }) {
             {menuItems.map((item) => {
               if (item.adminOnly && !checkAdmin) return null;
               return (
-                <div key={item.label} className="group relative text-center">
+                // <div key={item.label} className="group relative text-center">
+                <div key={item.label} className="group relative">
                   <Link
                     href={item.href}
                     className={`relative block ${

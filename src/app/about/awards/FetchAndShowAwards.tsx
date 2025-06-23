@@ -1,19 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+import { useState } from "react";
 import AwardsContainer from "./AwardsContainer";
 import AwardPopup from "./AwardPopup";
 
-export default function FetchAndShowAwards() {
+export default function FetchAndShowAwards({ isAdmin }: { isAdmin: boolean }) {
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/check-admin")
-      .then((res) => res.json())
-      .then((data) => setIsAdmin(data.isAdmin))
-      .catch((err) => console.log("Auth check error:", err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("/api/check-admin")
+  //     .then((res) => res.json())
+  //     .then((data) => setIsAdmin(data.isAdmin))
+  //     .catch((err) => console.log("Auth check error:", err));
+  // }, []);
 
   return (
     <div>
@@ -28,8 +29,8 @@ export default function FetchAndShowAwards() {
         </div>
       )}
 
-      <AwardsContainer />
-      {openEditModal && (
+      <AwardsContainer isAdmin={isAdmin} />
+      {isAdmin && openEditModal && (
         <AwardPopup
           openEditModal={openEditModal}
           setOpenEditModal={setOpenEditModal}

@@ -38,6 +38,7 @@ async function AboutUs() {
         {isAdmin && <EditModalContainer title={MissionValuesTitle} />}
       </MissionValues>
       <ManagementCircle />
+      {/* <MediCapsGroup> */}
       <MediCapsGroup title={MedicapsGroupTitle}>
         {isAdmin && <EditModalContainer title={MedicapsGroupTitle} />}
       </MediCapsGroup>

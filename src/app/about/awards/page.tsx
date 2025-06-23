@@ -2,11 +2,11 @@
 // import Footer from "../_common_component/Footer";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import FetchAndShowAwards from "./FetchAndShowAwards";
-import EditModalContainer from "@/app/_common_component/EditModalContainer";
+// import EditModalContainer from "@/app/_common_component/EditModalContainer";
 export const dynamic = "force-dynamic";
-const title = "about/awards_$view-all-awards";
-import AwardPopup from "./AwardPopup.tsx";
-import { set } from "mongoose";
+// const title = "about/awards_$view-all-awards";
+// import AwardPopup from "./AwardPopup.tsx";
+// import { set } from "mongoose";
 
 async function aspr() {
   let isAdmin = false;
@@ -19,7 +19,7 @@ async function aspr() {
   }
   return (
     <div>
-      <FetchAndShowAwards />
+      <FetchAndShowAwards isAdmin={isAdmin} />
       {/* <AwardsAccreditations /> */}
     </div>
   );
