@@ -1,3 +1,5 @@
+// TODO: Added email is verified check if not then only show message that you are not verified
+// TODO: Also add the email verification popup
 // import React from "react";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import ProductList from "./ProductList";

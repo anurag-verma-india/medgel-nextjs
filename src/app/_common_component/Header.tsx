@@ -70,6 +70,7 @@ export default function Header({ checkAdmin }: { checkAdmin: boolean }) {
   // Check if the current route matches a menu item or its subitems
   const isCurrentPage = (item: MenuItem): boolean => {
     const basePath = pathname.split("?")[0];
+    // const basePath = pathname ? pathname.split("?")[0] : "/";
     if (item.href === "/" && basePath === "/") return true;
     if (item.href !== "/" && basePath.startsWith(item.href)) return true;
     if (item.subItems?.some((subItem) => basePath.startsWith(subItem.href)))
@@ -103,7 +104,7 @@ export default function Header({ checkAdmin }: { checkAdmin: boolean }) {
             {menuItems.map((item) => {
               if (item.adminOnly && !checkAdmin) return null;
               return (
-                <div key={item.label} className="group relative">
+                <div key={item.label} className="group relative text-center">
                   <Link
                     href={item.href}
                     className={`relative block ${

@@ -1,3 +1,4 @@
+// src/models/products.ts
 /*
 Category 1
 Category 2

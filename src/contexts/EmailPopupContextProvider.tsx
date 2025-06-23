@@ -1,15 +1,15 @@
 // PopupContextProvider.tsx
 import { useState } from "react";
-import PopupContext from "./PopupContext";
+import EmailPopupContext from "./EmailPopupContext";
 
-type PopupContextProviderType = {
+type EmailPopupContextProviderType = {
   children: React.ReactNode;
 };
 
-export default function PopupContextProvider({
+export default function EmailPopupContextProvider({
   children,
-}: PopupContextProviderType) {
-  const [popupState, setPopupState] = useState({
+}: EmailPopupContextProviderType) {
+  const [emailPopupState, setEmailPopupState] = useState({
     tokenValid: false,
     popupOpen: false,
     loading: false,
@@ -23,8 +23,8 @@ export default function PopupContextProvider({
   });
 
   return (
-    <PopupContext.Provider value={{ popupState, setPopupState }}>
+    <EmailPopupContext.Provider value={{ emailPopupState, setEmailPopupState }}>
       {children}
-    </PopupContext.Provider>
+    </EmailPopupContext.Provider>
   );
 }

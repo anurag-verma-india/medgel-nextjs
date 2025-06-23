@@ -1,4 +1,4 @@
-// src/models/productList.js
+// src/models/productList.ts
 
 import mongoose from "mongoose";
 

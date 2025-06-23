@@ -1,3 +1,4 @@
+// src/models/productCategory.ts
 import mongoose from "mongoose";
 
 const product_category = new mongoose.Schema({

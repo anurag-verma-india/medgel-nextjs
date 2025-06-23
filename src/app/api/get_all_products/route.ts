@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
     const { product_id_array } = body;
 
-    console.log("product_id_array:", product_id_array);
+    // console.log("product_id_array (in route):", product_id_array);
 
     if (!product_id_array || product_id_array.length <= 0) {
       return NextResponse.json(
@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
     const products = await Product.find({
       _id: { $in: product_id_array },
     });
+    // console.log("Found products from DB (in route): ");
+    // console.log(products);
     return NextResponse.json(
       {
         success: true,

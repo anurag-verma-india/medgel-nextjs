@@ -10,14 +10,27 @@ const VerifyEmail = () => {
   const params = useSearchParams();
   const [isVerified, setIsVerified] = useState(false);
   const [tokenValid, setTokenValid] = useState(true);
-
-  const token = params.get("token");
+  const token = params ? params.get("token") : "";
   console.log("Token Parameter:", token);
 
+  if (!token || token.length === 0) {
+    return (
+      <>
+        <div className="h-25 m-10 flex justify-center">
+          <div className="flex text-center">
+            This link is invalid please copy and paste the link form the email
+            and try again
+          </div>
+        </div>
+        <div className="h-screen w-full" />
+      </>
+    );
+  }
+
   const verifyOnClick = async () => {
-    console.log("\nInside verifyOnClick\n");
+    // console.log("\nInside verifyOnClick\n");
     try {
-      console.log("Making axios post call with token: ", token);
+      // console.log("Making axios post call with token: ", token);
       const response = await axios.post(`/api/users/verifyemail`, {
         token,
       });
@@ -28,7 +41,7 @@ const VerifyEmail = () => {
       // .catch(() => {
       //   setTokenValid(false);
       // });
-      console.log("response from verify: ", response);
+      // console.log("response from verify: ", response);
       if (response.data.success) {
         setIsVerified(true);
         // redirect(`/pages/products/products-at-medgel`, RedirectType.push);
@@ -42,7 +55,11 @@ const VerifyEmail = () => {
 
   return (
     <>
-      <div className="m-10 flex h-25 justify-center">
+      <div className="m-10 flex justify-center">
+        Click the button below using the same browser and device where you want
+        to get verified.
+      </div>
+      <div className="h-25 m-10 flex justify-center">
         {!tokenValid && (
           <div className="flex text-center">
             An error occurred.

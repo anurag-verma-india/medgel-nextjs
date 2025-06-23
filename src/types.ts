@@ -61,31 +61,27 @@ export interface decodedToken extends JwtPayload {
 }
 
 export interface ProductListEntry {
+  id: string;
   name: string;
   products: number;
-  id: string;
 }
 
-export interface ProductCategoryItem {
+export interface ProductCategoryItemState {
   _id: string;
   name: string;
   listEntries: ProductListEntry[];
+  // listEntries: string[];
+  // number_of_products: number;
 }
 
 // export interface ProductsStateType {
 // export interface ProductsCategoriesStateType {
 export interface ProductsCategoriesStateType {
-  activeList: number;
-  categories: ProductCategoryItem[];
+  activeCategory: number;
+  categories: ProductCategoryItemState[];
   loading: boolean;
-  error: string;
-}
-
-export interface ProductDataStateType {
-  activeCategoryId: string;
-  products: product[];
-  loading: boolean;
-  error: string;
+  // error: string;
+  errors: string[];
 }
 
 // export interface ProductDataStateType {
@@ -95,14 +91,17 @@ export interface ProductDataStateType {
 //   error: string;
 // }
 
-// export interface ProductContextProps {
-//   productsState: ProductsCategoriesStateType;
-//   setProductsState: (object: ProductsCategoriesStateType) => void;
+// export interface ProductDataStateType {
+//   activeCategoryId: string;
+//   products: product[];
+//   loading: boolean;
+//   error: string;
 // }
 
 export interface ProductContextProps {
   productsState: ProductsCategoriesStateType;
   setProductsState: (object: ProductsCategoriesStateType) => void;
+  refetchData: () => void; // Just updates the data from the API
 }
 
 // export interface ProductContextProps {

@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
 
     const { product_id_array } = body;
 
-    console.log("product_id_array:", product_id_array);
+    // console.log("product_id_array:", product_id_array);
 
     if (!product_id_array || product_id_array.length <= 0) {
       return NextResponse.json(
@@ -77,6 +77,14 @@ export async function POST(request: NextRequest) {
     const product_lists = await ProductList.find({
       _id: { $in: product_id_array },
     });
+
+    // console.log("===========================================");
+    // console.log("in get_list_name route");
+    // console.log("category_name");
+    // console.log(category_name);
+    // console.log("product_lists found");
+    // console.log(product_lists);
+    // console.log("===========================================");
 
     return NextResponse.json(
       {

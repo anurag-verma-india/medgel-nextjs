@@ -1,6 +1,6 @@
 "use client";
 
-import PopupContext from "@/contexts/PopupContext";
+import EmailPopupContext, { useEmailPopup } from "@/contexts/EmailPopupContext";
 import { useContext, useEffect } from "react";
 import EmailPopup from "./EmailPopup";
 import Cookies from "universal-cookie";
@@ -16,16 +16,20 @@ const EmailPopupContainer = ({
   allowVerificationAfter,
   emailSent,
 }: PopupContainerParams) => {
-  const { popupState, setPopupState } = useContext(PopupContext);
+  // const { popupState: emailPopupState, setPopupState: setEmailPopupState } = useContext(EmailPopupContext);
+  const { emailPopupState, setEmailPopupState } = useEmailPopup();
   const cookies = new Cookies();
+
+  console.log("Email popup state (email popup container): ");
+  console.log(emailPopupState);
 
   // To set whatever value is obtained from server into this client component
   useEffect(() => {
     // const allowVerificationAfter = cookies.get("allowVerificationAfter");
     // console.log("verification after from cookies :", allowVerificationAfter);
     console.log("verification after from server:", allowVerificationAfter);
-    setPopupState({
-      ...popupState,
+    setEmailPopupState({
+      ...emailPopupState,
       email: cookies.get("email"),
       tokenValid: tokenValid || false,
       // allowVerificationAfter: allowVerificationAfter || 0,
@@ -34,7 +38,7 @@ const EmailPopupContainer = ({
     });
   }, []);
 
-  return <>{popupState.popupOpen && <EmailPopup />}</>;
+  return <>{emailPopupState.popupOpen && <EmailPopup />}</>;
 };
 
 export default EmailPopupContainer;

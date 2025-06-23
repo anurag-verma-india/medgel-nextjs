@@ -22,6 +22,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "pika-welcome-cicada.ngrok-free.app",
       },
+      {
+        hostname: "192.168.29.218",
+      },
     ],
   },
   // Fix for cross-origin request warning
@@ -29,6 +32,7 @@ const nextConfig: NextConfig = {
     "localhost",
     "10.10.16.243",
     "pika-welcome-cicada.ngrok-free.app",
+    "192.168.29.218",
   ],
 };
 

@@ -223,11 +223,11 @@ export default function ProductList({
         const title = productListResponse.data.product_list.product_list_name;
         // console.log("Title:", title);
         // console.log("ID list:", ids_list);
-        // setProductList({ ...productList, title: title });
-        console.log("Id Array");
-        console.log(id_array);
+        setProductList({ ...productList, title: title });
+        // console.log("Id Array");
+        // console.log(id_array);
 
-        setProductList({ title, list: [] });
+        // setProductList({ title, list: [] });
 
         // There are elements in this list
         if (id_array && id_array.length > 0) {
@@ -235,6 +235,8 @@ export default function ProductList({
             `${process.env.NEXT_PUBLIC_API_URL}/get_all_products`,
             { product_id_array: id_array },
           );
+          // console.log("Get all products res: ")
+          // console.log(productsRes)
           const products_list = productsRes.data.products;
           console.log("products list:", products_list);
 

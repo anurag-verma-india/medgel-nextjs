@@ -25,13 +25,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isAdmin = await checkAdminFromCookie()
+  const isAdmin = await checkAdminFromCookie();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header checkAdmin={isAdmin}/>
+        <Header checkAdmin={isAdmin} />
         {children}
         <Footer />
       </body>

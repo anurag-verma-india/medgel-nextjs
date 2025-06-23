@@ -1,13 +1,15 @@
-// src/app/products/products-at-medgel/page.tsx
+import React from "react";
 import { cookies } from "next/headers";
-import verifyJwtToken from "@/helpers/jwtHelper";
-import ProductContainer from "./ProductContainer";
-// import IfAdminShowThis from "@/app/_common_component/IfAdminShowThis";
-import EditProductsPopupContainer from "./EditProductsPopup";
+import ClientSideContextHandler from "./ClientSideContextHandler";
+import Categories from "./Categories";
+import ProductList from "./ProductList";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
-import ClientSideProductCategories from "./ClientSideProductCategories";
+// import ErrorDisplayModal from "./popups/ErrorDisplayModal";
+import verifyJwtToken from "@/helpers/jwtHelper";
+import EmailPopupContainer from "./EmailPopupContainer";
+// import ProductCategoriesPageContainer from "./ProductCategoriesPageContainer";
 
-export default async function ProductPage() {
+const ProductCategoriesPage = async () => {
   let tokenValid = false;
   const cookieStore = await cookies();
   const tokenObj = cookieStore.get("token");
@@ -25,31 +27,32 @@ export default async function ProductPage() {
   }
 
   const isAdmin = await checkAdminFromCookie();
+
   return (
     <>
-      <ClientSideProductCategories>
-        {isAdmin && <EditProductsPopupContainer />}
-        {/* <IfAdminShowThis> */}
-        {/* {isAdmin && <EditProductsPopupContainer />} */}
-        {/* </IfAdminShowThis> */}
-        <div className="flex flex-col items-center">
-          <h1 className="p-2 pb-10 pt-5 text-center text-4xl font-bold text-[#1D8892] underline decoration-[#F9BC65] underline-offset-[15px] md:text-6xl">
-            Products at Medgel
-          </h1>
-          {/* <div>This is a sample div</div>
-          {isAdmin && <div>I am admin</div>}
-          {!isAdmin && <div>I am not admin</div>} */}
-
-          {/* Product Categories */}
-          <div className="mb-10 w-11/12 overflow-hidden rounded-2xl border-2 bg-neutral-100 md:w-5/6">
-            <ProductContainer
-              tokenValid={tokenValid}
-              allowVerificationAfter={allowVerificationAfter}
-              emailSent={emailSent}
-            />
+      <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 sm:p-6 md:p-8">
+        <h1 className="p-2 pb-10 pt-5 text-center text-4xl font-bold text-[#1D8892] decoration-[#F9BC65] underline-offset-[15px] sm:pb-20 sm:underline md:text-6xl">
+          Products at Medgel
+        </h1>
+        {/* <ProductCategoriesPageContainer /> */}
+        <ClientSideContextHandler
+          tokenValid={tokenValid}
+          allowVerificationAfter={allowVerificationAfter}
+          emailSent={emailSent}
+        >
+          <EmailPopupContainer
+            tokenValid={tokenValid}
+            allowVerificationAfter={allowVerificationAfter}
+            emailSent={emailSent}
+          />
+          <div className="mb-10 w-full max-w-6xl overflow-hidden rounded-2xl border-2 bg-neutral-100 shadow-lg">
+            <Categories isAdmin={isAdmin} />
+            <ProductList isAdmin={isAdmin} />
           </div>
-        </div>
-      </ClientSideProductCategories>
+        </ClientSideContextHandler>
+      </div>
     </>
   );
-}
+};
+
+export default ProductCategoriesPage;

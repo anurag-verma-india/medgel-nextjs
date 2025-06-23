@@ -2,17 +2,22 @@
 
 "use client";
 
-import PopupContext from "@/contexts/PopupContext";
+import EmailPopupContext, { useEmailPopup } from "@/contexts/EmailPopupContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
 const VerificationTimer = () => {
-  const { popupState, setPopupState } = useContext(PopupContext);
-  const target = popupState && popupState.allowVerificationAfter;
+  // const { popupState: emailPopupState, setPopupState: setEmailPopupState } = useContext(EmailPopupContext);
+  const { emailPopupState, setEmailPopupState } = useEmailPopup();
+  const target = emailPopupState && emailPopupState.allowVerificationAfter;
   //   const target = 1745058568385;
   console.log("target: ", target);
   const [timeRemaining, setTimeRemaining] = useState(0);
+  useEffect(() => {
+    console.log("Email Popup state: (email Popup): ");
+    console.log(emailPopupState);
+  }, []);
 
   useEffect(() => {
     const calculateTimeRemaining = () => {
@@ -30,7 +35,7 @@ const VerificationTimer = () => {
 
       if (remaining <= 0) {
         clearInterval(interval);
-        setPopupState({ ...popupState, canResend: true });
+        setEmailPopupState({ ...emailPopupState, canResend: true });
       }
     }, 1000);
 
@@ -49,7 +54,8 @@ const VerificationTimer = () => {
 };
 
 const EmailPopup = () => {
-  const { popupState, setPopupState } = useContext(PopupContext);
+  // const { popupState: emailPopupState, setPopupState: setEmailPopupState } = useContext(EmailPopupContext);
+  const { emailPopupState, setEmailPopupState } = useEmailPopup();
   const cookies = new Cookies();
 
   // if email is in cookies set it in state too
@@ -59,13 +65,13 @@ const EmailPopup = () => {
   // }, []);
 
   const sendVerificationEmail = async () => {
-    setPopupState({ ...popupState, loading: true, errorMessage: "" });
+    setEmailPopupState({ ...emailPopupState, loading: true, errorMessage: "" });
     const emailRegex = /[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+/;
-    const email = popupState.email;
+    const email = emailPopupState.email;
 
     if (!emailRegex.test(email)) {
-      setPopupState({
-        ...popupState,
+      setEmailPopupState({
+        ...emailPopupState,
         errorMessage: "Invalid email address",
         loading: false,
       });
@@ -86,29 +92,30 @@ const EmailPopup = () => {
       console.log(`Current time ${Date.now()}`);
 
       if (response.data.success) {
-        setPopupState({
-          ...popupState,
+        setEmailPopupState({
+          ...emailPopupState,
           emailSent: true,
           loading: false,
           allowVerificationAfter: allowVerificationAfter,
           canResend: false,
-          message: "Verification email sent! (Please check your inbox and spam folder)",
+          message:
+            "Verification email sent! (Please check your inbox and spam folder)",
           submessage: "refresh this page after verification",
           errorMessage: "",
         });
-        console.log("State after sending email:", popupState);
+        console.log("State after sending email:", emailPopupState);
       } else {
         console.log("Error occurred when creating a new user: \n", response);
-        setPopupState({
-          ...popupState,
+        setEmailPopupState({
+          ...emailPopupState,
           errorMessage: "Error occurred while sending email to this address",
           loading: false,
         });
       }
     } catch (err) {
       console.log("Signup error\n", err);
-      setPopupState({
-        ...popupState,
+      setEmailPopupState({
+        ...emailPopupState,
         errorMessage: "Failed to send verification email. Please try again.",
         loading: false,
       });
@@ -116,8 +123,8 @@ const EmailPopup = () => {
   };
 
   const handleResendEmail = () => {
-    setPopupState({
-      ...popupState,
+    setEmailPopupState({
+      ...emailPopupState,
       emailSent: false,
       canResend: false,
       message: "Please verify your email to view products.",
@@ -139,7 +146,9 @@ const EmailPopup = () => {
           <div className="flex justify-end">
             <button
               type="button"
-              onClick={() => setPopupState({ ...popupState, popupOpen: false })}
+              onClick={() =>
+                setEmailPopupState({ ...emailPopupState, popupOpen: false })
+              }
               className="cursor-pointer border-none bg-transparent text-2xl"
               aria-label="Close"
             >
@@ -150,41 +159,46 @@ const EmailPopup = () => {
           {/* Message */}
           <div className="">
             <p className="flex w-full items-center justify-center text-center text-xl">
-              {popupState.message}
+              {emailPopupState.message}
             </p>
             <p className="flex w-full items-center justify-center text-center text-base text-stone-500">
-            {popupState.submessage}
+              {emailPopupState.submessage}
             </p>
             <br />
 
             {/* Only show email input if email not sent or can resend */}
-            {(!popupState.emailSent || popupState.canResend) && (
+            {(!emailPopupState.emailSent || emailPopupState.canResend) && (
               <>
-                <label className="text-3xl" htmlFor="email">Email</label>
+                <label className="text-3xl" htmlFor="email">
+                  Email
+                </label>
                 <input
                   type="text"
                   id="email"
                   className="mb-5 mt-3 w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   placeholder="user@example.com"
-                  value={popupState.email}
+                  value={emailPopupState.email}
                   onChange={(e) => {
-                    setPopupState({ ...popupState, email: e.target.value });
+                    setEmailPopupState({
+                      ...emailPopupState,
+                      email: e.target.value,
+                    });
                   }}
-                  disabled={popupState.loading}
+                  disabled={emailPopupState.loading}
                 />
               </>
             )}
           </div>
 
           {/* Timer - show only when waiting for resend cooldown */}
-          {popupState.emailSent &&
-            popupState.allowVerificationAfter > 0 &&
-            !popupState.canResend && <VerificationTimer />}
+          {emailPopupState.emailSent &&
+            emailPopupState.allowVerificationAfter > 0 &&
+            !emailPopupState.canResend && <VerificationTimer />}
 
           {/* Error */}
-          {popupState.errorMessage && (
+          {emailPopupState.errorMessage && (
             <div className="pb-4 text-center text-red-600">
-              {popupState.errorMessage}
+              {emailPopupState.errorMessage}
             </div>
           )}
 
@@ -192,18 +206,18 @@ const EmailPopup = () => {
           <div className="flex w-full flex-row">
             {/* Submit/Resend Button */}
             <div className="flex flex-auto justify-center">
-              {popupState.loading ? (
+              {emailPopupState.loading ? (
                 <button className="w-1/2 min-w-min cursor-not-allowed rounded-lg bg-green-100 py-2">
                   Sending email...
                 </button>
-              ) : popupState.emailSent && !popupState.canResend ? (
+              ) : emailPopupState.emailSent && !emailPopupState.canResend ? (
                 <button
                   className="w-1/2 min-w-min cursor-not-allowed rounded-lg bg-green-100 py-2"
                   disabled
                 >
                   Email Sent
                 </button>
-              ) : popupState.canResend ? (
+              ) : emailPopupState.canResend ? (
                 <button
                   className="w-1/2 min-w-min rounded-lg bg-green-300 py-2 hover:bg-green-400"
                   onClick={handleResendEmail}
@@ -224,16 +238,19 @@ const EmailPopup = () => {
             <div className="flex flex-auto justify-center">
               <button
                 className={`w-1/2 min-w-min rounded-lg py-2 ${
-                  popupState.loading
+                  emailPopupState.loading
                     ? "cursor-not-allowed bg-red-300"
                     : "bg-red-500 text-white hover:bg-red-600"
                 }`}
                 onClick={() => {
-                  if (!popupState.loading) {
-                    setPopupState({ ...popupState, popupOpen: false });
+                  if (!emailPopupState.loading) {
+                    setEmailPopupState({
+                      ...emailPopupState,
+                      popupOpen: false,
+                    });
                   }
                 }}
-                disabled={popupState.loading}
+                disabled={emailPopupState.loading}
               >
                 Cancel
               </button>
