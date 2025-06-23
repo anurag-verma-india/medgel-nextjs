@@ -6,6 +6,9 @@ import EmailPopupContext, { useEmailPopup } from "@/contexts/EmailPopupContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { Modal, Input, Button, Alert, Typography, Spin } from "antd";
+
+const { Title, Text } = Typography;
 
 const VerificationTimer = () => {
   // const { popupState: emailPopupState, setPopupState: setEmailPopupState } = useContext(EmailPopupContext);
@@ -135,130 +138,106 @@ const EmailPopup = () => {
   };
 
   return (
-    <>
-      {/* Overlay */}
-      <div className="fixed inset-0 z-10 bg-black bg-opacity-50" />
-
-      {/* Modal */}
-      <div className="fixed inset-0 z-20 flex h-5/6 flex-col items-center justify-center pt-20">
-        <div className="scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 mx-auto flex w-5/6 flex-col overflow-y-auto rounded-xl bg-white p-6 shadow-lg sm:w-1/2">
-          {/* Close Button (×) */}
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={() =>
-                setEmailPopupState({ ...emailPopupState, popupOpen: false })
+    <Modal
+      open={emailPopupState.popupOpen}
+      onCancel={() =>
+        setEmailPopupState({ ...emailPopupState, popupOpen: false })
+      }
+      footer={null}
+      centered
+      width={420}
+      maskClosable={false}
+      destroyOnClose
+    >
+      <div className="flex flex-col items-center justify-center">
+        <Title level={4} className="mb-1 w-full text-center">
+          {emailPopupState.message}
+        </Title>
+        <Text type="secondary" className="mb-4 w-full text-center">
+          {emailPopupState.submessage}
+        </Text>
+        {/* Only show email input if email not sent or can resend */}
+        {(!emailPopupState.emailSent || emailPopupState.canResend) && (
+          <div className="mb-4 w-full">
+            <label htmlFor="email" className="mb-1 block text-lg">
+              Email
+            </label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="user@example.com"
+              value={emailPopupState.email}
+              onChange={(e) =>
+                setEmailPopupState({
+                  ...emailPopupState,
+                  email: e.target.value,
+                })
               }
-              className="cursor-pointer border-none bg-transparent text-2xl"
-              aria-label="Close"
+              disabled={emailPopupState.loading}
+              size="large"
+            />
+          </div>
+        )}
+        {/* Timer - show only when waiting for resend cooldown */}
+        {emailPopupState.emailSent &&
+          emailPopupState.allowVerificationAfter > 0 &&
+          !emailPopupState.canResend && <VerificationTimer />}
+        {/* Error */}
+        {emailPopupState.errorMessage && (
+          <Alert
+            className="mb-4 w-full"
+            message={emailPopupState.errorMessage}
+            type="error"
+            showIcon
+          />
+        )}
+        {/* Action Buttons */}
+        <div className="mt-2 flex w-full gap-2">
+          {/* Submit/Resend Button */}
+          {emailPopupState.loading ? (
+            <Button className="flex-1" type="primary" disabled block>
+              <Spin size="small" /> Sending email...
+            </Button>
+          ) : emailPopupState.emailSent && !emailPopupState.canResend ? (
+            <Button className="flex-1" type="primary" disabled block>
+              Email Sent
+            </Button>
+          ) : emailPopupState.canResend ? (
+            <Button
+              className="flex-1"
+              type="primary"
+              onClick={handleResendEmail}
+              block
             >
-              ×
-            </button>
-          </div>
-
-          {/* Message */}
-          <div className="">
-            <p className="flex w-full items-center justify-center text-center text-xl">
-              {emailPopupState.message}
-            </p>
-            <p className="flex w-full items-center justify-center text-center text-base text-stone-500">
-              {emailPopupState.submessage}
-            </p>
-            <br />
-
-            {/* Only show email input if email not sent or can resend */}
-            {(!emailPopupState.emailSent || emailPopupState.canResend) && (
-              <>
-                <label className="text-3xl" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  type="text"
-                  id="email"
-                  className="mb-5 mt-3 w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="user@example.com"
-                  value={emailPopupState.email}
-                  onChange={(e) => {
-                    setEmailPopupState({
-                      ...emailPopupState,
-                      email: e.target.value,
-                    });
-                  }}
-                  disabled={emailPopupState.loading}
-                />
-              </>
-            )}
-          </div>
-
-          {/* Timer - show only when waiting for resend cooldown */}
-          {emailPopupState.emailSent &&
-            emailPopupState.allowVerificationAfter > 0 &&
-            !emailPopupState.canResend && <VerificationTimer />}
-
-          {/* Error */}
-          {emailPopupState.errorMessage && (
-            <div className="pb-4 text-center text-red-600">
-              {emailPopupState.errorMessage}
-            </div>
+              Resend Email
+            </Button>
+          ) : (
+            <Button
+              className="flex-1"
+              type="primary"
+              onClick={sendVerificationEmail}
+              block
+            >
+              Submit
+            </Button>
           )}
-
-          {/* Action Buttons */}
-          <div className="flex w-full flex-row">
-            {/* Submit/Resend Button */}
-            <div className="flex flex-auto justify-center">
-              {emailPopupState.loading ? (
-                <button className="w-1/2 min-w-min cursor-not-allowed rounded-lg bg-green-100 py-2">
-                  Sending email...
-                </button>
-              ) : emailPopupState.emailSent && !emailPopupState.canResend ? (
-                <button
-                  className="w-1/2 min-w-min cursor-not-allowed rounded-lg bg-green-100 py-2"
-                  disabled
-                >
-                  Email Sent
-                </button>
-              ) : emailPopupState.canResend ? (
-                <button
-                  className="w-1/2 min-w-min rounded-lg bg-green-300 py-2 hover:bg-green-400"
-                  onClick={handleResendEmail}
-                >
-                  Resend Email
-                </button>
-              ) : (
-                <button
-                  className="w-1/2 min-w-min rounded-lg bg-green-300 py-2 hover:bg-green-400"
-                  onClick={sendVerificationEmail}
-                >
-                  Submit
-                </button>
-              )}
-            </div>
-
-            {/* Cancel Button */}
-            <div className="flex flex-auto justify-center">
-              <button
-                className={`w-1/2 min-w-min rounded-lg py-2 ${
-                  emailPopupState.loading
-                    ? "cursor-not-allowed bg-red-300"
-                    : "bg-red-500 text-white hover:bg-red-600"
-                }`}
-                onClick={() => {
-                  if (!emailPopupState.loading) {
-                    setEmailPopupState({
-                      ...emailPopupState,
-                      popupOpen: false,
-                    });
-                  }
-                }}
-                disabled={emailPopupState.loading}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+          {/* Cancel Button */}
+          <Button
+            className="flex-1"
+            danger
+            onClick={() => {
+              if (!emailPopupState.loading) {
+                setEmailPopupState({ ...emailPopupState, popupOpen: false });
+              }
+            }}
+            disabled={emailPopupState.loading}
+            block
+          >
+            Cancel
+          </Button>
         </div>
       </div>
-    </>
+    </Modal>
   );
 };
 
