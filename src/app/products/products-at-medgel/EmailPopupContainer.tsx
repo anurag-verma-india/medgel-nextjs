@@ -1,7 +1,9 @@
 "use client";
 
-import EmailPopupContext, { useEmailPopup } from "@/contexts/EmailPopupContext";
-import { useContext, useEffect } from "react";
+// import EmailPopupContext, { useEmailPopup } from "@/contexts/EmailPopupContext";
+import { useEmailPopup } from "@/contexts/EmailPopupContext";
+// import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import EmailPopup from "./EmailPopup";
 import Cookies from "universal-cookie";
 

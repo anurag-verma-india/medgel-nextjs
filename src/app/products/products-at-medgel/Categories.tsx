@@ -32,7 +32,8 @@ const Categories = ({ isAdmin }: { isAdmin: boolean }) => {
     );
   }
 
-  const { activeCategory, categories, loading, errors } = productsState;
+  // const { activeCategory, categories, loading, errors } = productsState;
+  const { activeCategory, categories, loading } = productsState;
 
   const refetchData = () => {
     window.location.reload();
@@ -65,6 +66,16 @@ const Categories = ({ isAdmin }: { isAdmin: boolean }) => {
       });
     }
   }, [activeCategory, loading]);
+
+  useEffect(() => {
+    // const activeCategoryId = window.localStorage.getItem("activeCategoryId");
+    if (!loading) {
+      window.localStorage.setItem(
+        "activeCategoryId",
+        productsState.categories[activeCategory]._id,
+      );
+    }
+  }, [productsState, activeCategory, loading]);
 
   const handlePrevious = (): void => {
     const previousList =
@@ -244,7 +255,9 @@ const Categories = ({ isAdmin }: { isAdmin: boolean }) => {
                 (category: ProductCategoryItemState, index: number) => (
                   <div
                     key={category._id} // Use API 'id' as key
-                    ref={(el) => (categoryRefs.current[index] = el)} // Assign ref to element
+                    ref={(el) => {
+                      categoryRefs.current[index] = el;
+                    }} // Assign ref to element
                     className={`group relative min-w-[10rem] max-w-56 flex-none cursor-pointer justify-center border-b-2 border-r-2 border-neutral-200 p-8 text-center ${
                       activeCategory === index ? "bg-neutral-100" : ""
                     }`}

@@ -6,7 +6,8 @@ import policy from "@/models/Policy";
 import handleError from "@/helpers/handleError";
 import path from "path";
 import fs from "fs/promises";
-export async function GET(request: NextRequest) {
+// export async function GET(request: NextRequest) {
+export async function GET() {
 
 
   try {

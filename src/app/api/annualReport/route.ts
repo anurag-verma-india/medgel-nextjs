@@ -1,19 +1,16 @@
-// file_name: "@/app/api/page/route.ts"
-
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import anual from "@/models/anual";
-import { revalidateTag } from "next/cache";
+// import { revalidateTag } from "next/cache";
 import handleError from "@/helpers/handleError";
 import path from "path";
 import fs from "fs/promises";
 
-export async function GET(request: NextRequest) {
-
-
+// export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await dbConnect();
-    const anualreport = await anual.find({ });
+    const anualreport = await anual.find({});
 
     if (!anualreport) {
       return NextResponse.json({ error: "reports not found" }, { status: 404 });
@@ -32,7 +29,7 @@ export async function GET(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const body = await request.json();
-    const {  reportid,reportpath } = body;
+    const { reportid, reportpath } = body;
 
     if (!reportid || !reportpath) {
       return NextResponse.json(
@@ -40,7 +37,7 @@ export async function DELETE(request: NextRequest) {
           success: false,
           message: "Please provide both report ID and report path.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -55,7 +52,7 @@ export async function DELETE(request: NextRequest) {
           success: false,
           message: "Report not found.",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -65,16 +62,15 @@ export async function DELETE(request: NextRequest) {
       await fs.unlink(fullPdfPath);
       console.log("pdf deleted:", fullPdfPath);
     } catch (fsErr) {
-  const err = fsErr as Error;
-  console.warn("Failed to delete pdf:", err.message);
-}
+      const err = fsErr as Error;
+      console.warn("Failed to delete pdf:", err.message);
+    }
 
     return NextResponse.json({
       success: true,
       message: "Report deleted successfully.",
       deletedAward,
     });
-
   } catch (error) {
     return handleError(error, "Failed to delete Report");
   }

@@ -1,165 +1,4 @@
 // src/app/api/job_openings/route.tsx
-
-/*
-// Request body interfaces for /api/job_openings endpoints
-
-// POST request - Create new departments and jobs
-export interface PostJobOpeningsRequest {
-  departments?: {
-    department_name: string;
-    sequence: number;
-  }[];
-  jobs?: {
-    department_id: string; // MongoDB ObjectId of the department
-    designation: string;
-    experience: string;
-    qualification: string;
-    job_description: string;
-    requirement: number;
-  }[];
-}
-
-// PUT request - Update existing departments and jobs
-export interface PutJobOpeningsRequest {
-  departments?: {
-    id: string; // MongoDB ObjectId of the department to edit
-    department_name?: string; // Optional - new name for the department
-    sequence?: number; // Optional - new sequence number
-  }[];
-  jobs?: {
-    department_id: string; // MongoDB ObjectId of the department
-    job_id: string; // MongoDB ObjectId of the job to edit
-    designation?: string; // Optional - new designation
-    experience?: string; // Optional - new experience requirement
-    qualification?: string; // Optional - new qualification requirement
-    job_description?: string; // Optional - new job description
-    requirement?: number; // Optional - new requirement count
-  }[];
-}
-
-// DELETE request - Delete departments and jobs
-export interface DeleteJobOpeningsRequest {
-  jobs_to_delete?: {
-    department_id: string; // MongoDB ObjectId of the department
-    job_id: string; // MongoDB ObjectId of the job to delete
-  }[];
-  departments_to_delete?: {
-    id: string; // MongoDB ObjectId of the department to delete
-  }[];
-}
-
-// Response interfaces for all methods
-export interface JobOpeningsSuccessResponse {
-  success: true;
-  message: string;
-  departments?: any; // For GET requests - contains fetched departments
-  department_results?: any; // For POST/PUT/DELETE - MongoDB bulk operation results
-  job_results?: any; // For POST/PUT/DELETE - MongoDB bulk operation results
-}
-
-export interface JobOpeningsErrorResponse {
-  success: false;
-  message: string;
-  problems: string[]; // Array of error messages for failed operations
-  department_results?: any; // Partial results if some operations succeeded
-  job_results?: any; // Partial results if some operations succeeded
-}
-
-// GET request has no body - it returns all job openings
-// GET /api/job_openings
-// Returns: JobOpeningsSuccessResponse with departments array
-*/
-
-/*
-// Response types for /api/job_openings endpoints
-
-// MongoDB bulk write operation result type
-interface BulkWriteResult {
-  acknowledged: boolean;
-  insertedCount: number;
-  insertedIds: { [key: number]: any };
-  matchedCount: number;
-  modifiedCount: number;
-  deletedCount: number;
-  upsertedCount: number;
-  upsertedIds: { [key: number]: any };
-}
-
-// Base success response interface
-interface BaseSuccessResponse {
-  success: true;
-  message: string;
-}
-
-// Base error response interface
-interface BaseErrorResponse {
-  success: false;
-  message: string;
-  problems: string[];
-}
-
-// GET /api/job_openings - Success Response
-export interface GetJobOpeningsSuccessResponse extends BaseSuccessResponse {
-  departments: any[]; // Array of JobDepartmentType documents from MongoDB
-}
-
-// GET /api/job_openings - Error Response
-export interface GetJobOpeningsErrorResponse {
-  success: false;
-  message: string;
-  // Note: GET doesn't return problems array in current implementation
-}
-
-// POST /api/job_openings - Success Response
-export interface PostJobOpeningsSuccessResponse extends BaseSuccessResponse {
-  department_results: BulkWriteResult;
-  job_results: BulkWriteResult;
-}
-
-// POST /api/job_openings - Error Response
-export interface PostJobOpeningsErrorResponse extends BaseErrorResponse {
-  department_results?: BulkWriteResult; // Partial results if some operations succeeded
-  job_results?: BulkWriteResult; // Partial results if some operations succeeded
-}
-
-// PUT /api/job_openings - Success Response
-export interface PutJobOpeningsSuccessResponse extends BaseSuccessResponse {
-  job_results: BulkWriteResult;
-  department_results: BulkWriteResult;
-}
-
-// PUT /api/job_openings - Error Response
-export interface PutJobOpeningsErrorResponse extends BaseErrorResponse {
-  job_results?: BulkWriteResult; // Partial results if some operations succeeded
-  department_results?: BulkWriteResult; // Note: Not included in current implementation but could be
-}
-
-// DELETE /api/job_openings - Success Response
-export interface DeleteJobOpeningsSuccessResponse extends BaseSuccessResponse {
-  job_results: BulkWriteResult;
-  department_results?: BulkWriteResult; // Only included if departments were deleted
-}
-
-// DELETE /api/job_openings - Error Response
-export interface DeleteJobOpeningsErrorResponse extends BaseErrorResponse {
-  job_results?: BulkWriteResult; // Partial results if some operations succeeded
-  department_results?: BulkWriteResult; // Partial results if some operations succeeded
-}
-
-// Union types for each HTTP method
-export type GetJobOpeningsResponse = GetJobOpeningsSuccessResponse | GetJobOpeningsErrorResponse;
-export type PostJobOpeningsResponse = PostJobOpeningsSuccessResponse | PostJobOpeningsErrorResponse;
-export type PutJobOpeningsResponse = PutJobOpeningsSuccessResponse | PutJobOpeningsErrorResponse;
-export type DeleteJobOpeningsResponse = DeleteJobOpeningsSuccessResponse | DeleteJobOpeningsErrorResponse;
-
-// Overall union type for any response from this API
-export type JobOpeningsApiResponse = 
-  | GetJobOpeningsResponse 
-  | PostJobOpeningsResponse 
-  | PutJobOpeningsResponse 
-  | DeleteJobOpeningsResponse;
-*/
-
 /*
 TODO: 
 GET: Email verified
@@ -175,6 +14,24 @@ import { JobDepartmentType, JobType } from "@/types";
 import { AnyBulkWriteOperation } from "mongoose";
 
 const validMongoDBObjectId: RegExp = /^[0-9a-fA-F]{24}$/;
+
+type JobObjType = {
+  _id: string;
+  designation: string;
+  experience: string;
+  qualification: string;
+  job_description: string;
+  requirement: number;
+  other: object;
+};
+
+type job_openingType = {
+  _id: string;
+  department_name: string;
+  sequence: number;
+  jobs: JobObjType[];
+  other: object;
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -629,7 +486,9 @@ export async function DELETE(request: NextRequest) {
           `Deleting job with ID "${job_id}" from department "${department_id}"`,
         );
         // Check if the department exists
-        const existingDepartment = await JobOpening.findById(department_id);
+
+        const existingDepartment: job_openingType | null =
+          await JobOpening.findById(department_id);
         if (!existingDepartment) {
           problems.push(
             `Department with ID "${department_id}" does not exist.`,

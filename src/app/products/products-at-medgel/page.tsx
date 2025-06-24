@@ -36,9 +36,9 @@ const ProductCategoriesPage = async () => {
         </h1>
         {/* <ProductCategoriesPageContainer /> */}
         <ClientSideContextHandler
-          tokenValid={tokenValid}
-          allowVerificationAfter={allowVerificationAfter}
-          emailSent={emailSent}
+          // tokenValid={tokenValid}
+          // allowVerificationAfter={allowVerificationAfter}
+          // emailSent={emailSent}
         >
           <EmailPopupContainer
             tokenValid={tokenValid}

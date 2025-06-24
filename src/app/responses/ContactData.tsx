@@ -22,7 +22,8 @@ export default  function ContactData(){
         fetchContact()
     },[])
   const DeleteData=async(id:number)=>{
-    var con=confirm("Are You Sure You Want To Delete This?")
+    // var con=confirm("Are You Sure You Want To Delete This?")
+    const con=confirm("Are You Sure You Want To Delete This?")
     if(con){
 try {
           const res = await axios.delete(

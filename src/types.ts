@@ -121,6 +121,16 @@ export interface ProductListEntryDB {
   product_ids: string[];
 }
 
+export interface ProductTypeDB {
+  _id: string;
+  innovator: string;
+  product: string;
+  code: string;
+  composition: string;
+  color: string;
+  lastUpdated: string;
+}
+
 export type ProductListParams = {
   params: Promise<{ listId: string }>;
 };

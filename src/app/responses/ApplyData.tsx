@@ -26,7 +26,8 @@ export default  function Applydata(){
     window.open(`${process.env.NEXT_PUBLIC_SITE_URL}/${url}`, "_blank");
   };
   const DeleteData=async(id:number,resume:string)=>{
-    var con=confirm("You Sure You Want To Delete This?")
+    // var con=confirm("You Sure You Want To Delete This?")
+    const con=confirm("You Sure You Want To Delete This?")
     // alert(id)
     if(con){
       try {

@@ -21,9 +21,9 @@ import dbConnect from "@/lib/dbConnect";
 import ProductList from "@/models/productList";
 // import { MongooseError } from "mongoose";
 import handleError from "@/helpers/handleError";
-import { AnyBulkWriteOperation } from "mongoose";
-import Product from "@/models/products";
-import { product } from "@/types";
+// import { AnyBulkWriteOperation } from "mongoose";
+// import Product from "@/models/products";
+// import { product } from "@/types";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 
 /*
@@ -146,67 +146,58 @@ export async function PUT(request: NextRequest) {
     );
   }
 
-  type received_product_edit_object = {
-    _id: string;
-    product_details: product;
-  };
+  // type received_product_edit_object = {
+  //   _id: string;
+  //   product_details: product;
+  // };
 
-  type received_product_move_object = {
-    move_to_list_id: string;
-    product_id: string;
-  };
+  // type received_product_move_object = {
+  //   move_to_list_id: string;
+  //   product_id: string;
+  // };
 
-  type put_request_body = {
-    product_list_id: string;
-    products_to_edit: received_product_edit_object[];
-    product_list_name: string;
-    product_details_to_add: product[];
-    products_to_delete: string[];
-    products_to_move: received_product_move_object[];
-  };
+  // type put_request_body = {
+  //   product_list_id: string;
+  //   products_to_edit: received_product_edit_object[];
+  //   product_list_name: string;
+  //   product_details_to_add: product[];
+  //   products_to_delete: string[];
+  //   products_to_move: received_product_move_object[];
+  // };
 
-  try{
-
+  try {
     await dbConnect();
     const body = await request.json();
-    
-        const {
-            _id,
-            listId,
-            previousProductListId
-        } = body;
-        console.log(`product_id = ${_id}`)
-        console.log(`ListId = ${listId}`)
 
-        const updatedProductList = await ProductList.findByIdAndUpdate(
-          listId,
-            { $push: { product_ids: _id } },
-          { new: true } 
-        );
+    const { _id, listId, previousProductListId } = body;
+    console.log(`product_id = ${_id}`);
+    console.log(`ListId = ${listId}`);
 
-        if (!updatedProductList) {
-       return NextResponse.json(
-      {
-        success: false,
-        message: "Provided id or name does not exist in the product_list",
-      },
-      { status: 404 },
+    const updatedProductList = await ProductList.findByIdAndUpdate(
+      listId,
+      { $push: { product_ids: _id } },
+      { new: true },
     );
-    }
-    else{
-      const updatedProductList = await ProductList.findByIdAndUpdate(
-          previousProductListId,
-            { $pull: { product_ids: _id } },
-          { new: true } 
-        );
-        return NextResponse.json({
-      updatedProductList,
-    });
-    }
 
-    
-    
-  }catch (error) {
+    if (!updatedProductList) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Provided id or name does not exist in the product_list",
+        },
+        { status: 404 },
+      );
+    } else {
+      const updatedProductList = await ProductList.findByIdAndUpdate(
+        previousProductListId,
+        { $pull: { product_ids: _id } },
+        { new: true },
+      );
+      return NextResponse.json({
+        updatedProductList,
+      });
+    }
+  } catch (error) {
     return handleError(error, "Failed to Add product to list");
   }
 

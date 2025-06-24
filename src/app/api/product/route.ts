@@ -26,7 +26,6 @@ User is admin check
 PUT, POST, DELETE
 */
 
-
 export async function POST(request: NextRequest) {
   // TODO: Make sure the user is admin
   try {
@@ -78,7 +77,7 @@ export async function PUT(request: NextRequest) {
   try {
     // TODO: Make sure user is admin
     const body = await request.json();
-    const { product_id,innovator,product,code,composition,color } = body;
+    const { product_id, innovator, product, code, composition, color } = body;
     console.log("Product received\n", product);
     // const { innovator, product, code, composition, color } = body.product;
     if (!body) {
@@ -102,10 +101,10 @@ export async function PUT(request: NextRequest) {
           color,
           code,
           composition,
-          product
+          product,
         },
       },
-      { new: true } 
+      { new: true },
     );
 
     return NextResponse.json({
@@ -136,16 +135,18 @@ export async function DELETE(request: NextRequest) {
     }
     await dbConnect();
     const deleted_product = await Product.findByIdAndDelete(product_id);
-    if(deleted_product){
-      const listdel=await ProductList.findByIdAndUpdate(
-      listid,
+    let listdel;
+    if (deleted_product) {
+      listdel = await ProductList.findByIdAndUpdate(
+        listid,
         { $pull: { product_ids: product_id } },
-      
-      { new: true } 
-    );
+
+        { new: true },
+      );
     }
     return NextResponse.json({
       deleted_product,
+      product_delete_from_list_operation_result: listdel,
     });
   } catch (error) {
     return handleError(error, "Failed to delete product");

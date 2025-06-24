@@ -3,12 +3,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Award from "@/models/awards";
-import { revalidateTag } from "next/cache";
+// import { revalidateTag } from "next/cache";
 import handleError from "@/helpers/handleError";
 import path from "path";
 import fs from "fs/promises";
 
-export async function GET(request: NextRequest) {
+// export async function GET(request: NextRequest) {
+export async function GET() {
 
 
   try {

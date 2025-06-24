@@ -7,7 +7,8 @@ import { revalidateTag } from "next/cache";
 import handleError from "@/helpers/handleError";
 
 
-export async function GET(request: NextRequest) {
+// export async function GET(request: NextRequest) {
+export async function GET() {
 
 
   try {

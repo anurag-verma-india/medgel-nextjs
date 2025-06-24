@@ -6,9 +6,9 @@ import { useContext, useState } from "react";
 import ListItem from "./ListItem";
 import { PlusOutlined } from "@ant-design/icons";
 import AddProductListPopup from "./popups/AddProductListPopup";
-import { LoaderCircle } from "lucide-react";
-import { redirect, RedirectType } from "next/navigation";
-import EmailPopupContext from "@/contexts/EmailPopupContext";
+// import { LoaderCircle } from "lucide-react";
+// import { redirect, RedirectType } from "next/navigation";
+// import EmailPopupContext from "@/contexts/EmailPopupContext";
 
 // export default ProductList;
 

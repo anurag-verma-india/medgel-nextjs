@@ -2,8 +2,8 @@
 
 "use client";
 
-import EmailPopupContext, { useEmailPopup } from "@/contexts/EmailPopupContext";
-import { useContext, useEffect, useState } from "react";
+import { useEmailPopup } from "@/contexts/EmailPopupContext";
+import {  useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { Modal, Input, Button, Alert, Typography, Spin } from "antd";
