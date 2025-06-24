@@ -14,11 +14,11 @@ import EditModalContainer from "./_common_component/EditModalContainer";
 const SliderComponentTitle = "home$slider";
 const CardRowTitle = "home$cardrow";
 
-const PurposeSectionTitle = "home$PurposeSectionTitle";
-const BpurposeTitle = "home$BpurposeTitle";
-const HomeNewsTitle = "home$HomeNewsTitle";
-const PortfolioTitle = "home$PortfolioTitle";
-const CpurposeTitle = "home$CpurposeTitle";
+// const PurposeSectionTitle = "home$PurposeSectionTitle";
+// const BpurposeTitle = "home$BpurposeTitle";
+// const HomeNewsTitle = "home$HomeNewsTitle";
+// const PortfolioTitle = "home$PortfolioTitle";
+// const CpurposeTitle = "home$CpurposeTitle";
 
 export type CardRowType = {
   value1: string;
@@ -68,10 +68,10 @@ const HomePage = async () => {
         {isAdmin && <EditModalContainer title={CardRowTitle} />}
       </CardRow>
       <PurposeSection>
-        {isAdmin && <EditModalContainer title={CardRowTitle} />}
+        {/* {isAdmin && <EditModalContainer title={CardRowTitle} />} */}
       </PurposeSection>
       <Bpurpose>
-        {isAdmin && <EditModalContainer title={CardRowTitle} />}
+        {/* {isAdmin && <EditModalContainer title={CardRowTitle} />} */}
       </Bpurpose>
       {/* Will Get checked  */}
       <HomeNews adminCheck={isAdmin} />

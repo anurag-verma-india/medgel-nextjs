@@ -8,13 +8,13 @@ import { NewsObject } from "@/types";
 import { useSearchParams } from 'next/navigation';
 const inter = Inter({ subsets: ["latin"] });
 import NewsEditPopup from "../home/NewsEditPopup";
-import { NextRequest, NextResponse } from "next/server";
+// import { NextRequest, NextResponse } from "next/server";
 
 
 export default function NewsPage({checkAdmin}: {checkAdmin: boolean}) {
    const searchParams = useSearchParams();
   const id = searchParams?.get('id');
-   const [openEditModal,setOpenEditModal]=useState<Boolean>(false)
+   const [openEditModal,setOpenEditModal]=useState<boolean>(false)
    const [NewId,setNewId]=useState("")
     // const [isAdmin,setIsAdmin]=useState<Boolean>(false)
        const [newsList, setNewsList] = useState<NewsObject>({} as NewsObject);

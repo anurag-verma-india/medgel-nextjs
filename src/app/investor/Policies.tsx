@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./page.module.css";
 import PolicyPopup from "./PolicyPopup";
-import { ReactNode, useState, useEffect } from "react";
+import {  useState, useEffect } from "react";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 
@@ -14,10 +14,10 @@ export default function Policies() {
     policy_Report: string;
   };
 
-  const rpype: ReportType[] = [
-    { _id: "8569745dfr85", title: "Award 1", policy_Report: "uploads/1.pdf" },
-    // ...
-  ];
+  // const rpype: ReportType[] = [
+  //   { _id: "8569745dfr85", title: "Award 1", policy_Report: "uploads/1.pdf" },
+  //   // ...
+  // ];
   const [openEditModal, setOpenEditModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [report, setreport] = useState<ReportType[]>([]);

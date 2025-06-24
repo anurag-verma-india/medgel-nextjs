@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./page.module.css";
 import AnualReportPopup from "./AnualReportPopup";
-import { ReactNode, useState, useEffect } from "react";
+import {  useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 
@@ -13,10 +13,10 @@ export default function AnualReturn() {
     anual_Report: string;
   };
 
-  const rpype: ReportType[] = [
-    { _id: "8781215ftr8966", title: "Award 1", anual_Report: "uploads/1.pdf" },
-    // ...
-  ];
+  // const rpype: ReportType[] = [
+  //   { _id: "8781215ftr8966", title: "Award 1", anual_Report: "uploads/1.pdf" },
+  //   // ...
+  // ];
   const [openEditModal, setOpenEditModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [report, setreport] = useState<ReportType[]>([]);

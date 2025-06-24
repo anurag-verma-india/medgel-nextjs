@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     if (id) {
       const productCategoriesItem = await ProductCategory.findById(id);
       if (!productCategoriesItem) {
-        return NextResponse.json({ error: "News not found" }, { status: 404 });
+        return NextResponse.json({ error: "Category not found" }, { status: 404 });
       } else {
         return NextResponse.json({
           success: true,
