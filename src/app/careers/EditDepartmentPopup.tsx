@@ -14,6 +14,7 @@ import { ExclamationCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { JobDepartmentTypeDB } from "@/types";
+import { BulkWriteResult } from "mongodb";
 
 // Request body interfaces for API calls (copied from ContextCode.tsx for clarity in this file)
 interface PutJobOpeningsRequest {
@@ -34,8 +35,8 @@ interface JobOpeningsResponse {
   success: boolean;
   message: string;
   problems?: string[];
-  department_results?: any;
-  job_results?: any;
+  department_results?: BulkWriteResult;
+  job_results?: BulkWriteResult;
 }
 
 interface EditDepartmentPopupProps {

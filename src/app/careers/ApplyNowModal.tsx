@@ -5,12 +5,12 @@ import { Modal } from "antd";
 import { JobTypeDB } from "@/types";
 
 const ApplyNowModal = ({
-  openEditModal,
-  setOpenEditModal,
+  openApplyModal,
+  setOpenApplyModal,
   JobDetails,
 }: {
-  openEditModal: boolean;
-  setOpenEditModal: (openEditModal: boolean) => void;
+  openApplyModal: boolean;
+  setOpenApplyModal: (openEditModal: boolean) => void;
   JobDetails: JobTypeDB;
 }) => {
   const [showspin, setShowSpin] = useState(false);
@@ -126,7 +126,7 @@ const ApplyNowModal = ({
       if (res.status === 201) {
         setShowSpin(false);
         alert("Applied Successfully!!!");
-        setOpenEditModal(false);
+        setOpenApplyModal(false);
       }
     } catch (err: unknown) {
       setShowSpin(false);
@@ -142,7 +142,7 @@ const ApplyNowModal = ({
   };
 
   const handleCancel = () => {
-    setOpenEditModal(false);
+    setOpenApplyModal(false);
     setForm(emptyApply);
     setErrors({ name: "", email: "", mobilenumber: "", resume: "", api: "" });
   };
@@ -175,7 +175,7 @@ const ApplyNowModal = ({
   return (
     <Modal
       title={<span className="text-[#3F5D97]">Apply Now</span>}
-      open={openEditModal}
+      open={openApplyModal}
       onOk={handleOk}
       onCancel={handleCancel}
       width={450}

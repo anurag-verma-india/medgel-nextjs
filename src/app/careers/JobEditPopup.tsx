@@ -16,8 +16,9 @@ import {
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { JobDepartmentTypeDB, JobTypeDB, JobType } from "@/types"; // Assuming these types are defined in "@/types"
+import { BulkWriteResult } from "mongodb";
 
 // API Interface Types (Moved out of comments and defined as actual interfaces)
 interface PostJobOpeningsRequest {
@@ -66,10 +67,13 @@ interface JobOpeningsResponse {
   success: boolean;
   message: string;
   departments?: JobDepartmentTypeDB[];
-  department_results?: any; // Generic type, could be more specific if MongoDB results are typed
-  job_results?: any; // Generic type, could be more specific if MongoDB results are typed
+  department_results?: BulkWriteResult;
+  job_results?: BulkWriteResult; // Generic type, could be more specific if MongoDB results are typed
   problems?: string[];
 }
+
+// Type for API request promises
+type JobOpeningsApiResponse = AxiosResponse<JobOpeningsResponse>;
 
 // Component Props
 interface JobEditPopupProps {
@@ -224,7 +228,8 @@ const JobEditPopup: React.FC<JobEditPopupProps> = ({
   const handleSaveChanges = async (): Promise<void> => {
     setLoading(true); // Set loading state to true
     try {
-      const requests: Promise<any>[] = []; // Array to hold all API request promises
+      // Array to hold all API request promises with proper typing
+      const requests: Promise<JobOpeningsApiResponse>[] = [];
       let hasErrors: boolean = false; // Flag to track if any errors occurred
       const allErrors: string[] = []; // Array to collect all error messages
 
@@ -296,9 +301,9 @@ const JobEditPopup: React.FC<JobEditPopupProps> = ({
         );
       }
 
-      const responses = await Promise.all(requests);
+      const responses: JobOpeningsApiResponse[] = await Promise.all(requests);
 
-      responses.forEach((response: { data: JobOpeningsResponse }) => {
+      responses.forEach((response: JobOpeningsApiResponse) => {
         const result: JobOpeningsResponse = response.data;
         if (!result.success) {
           hasErrors = true;
@@ -388,7 +393,8 @@ const JobEditPopup: React.FC<JobEditPopupProps> = ({
         ) : (
           <Form form={form} layout="vertical">
             <div className="max-h-96 overflow-y-auto pr-2">
-              {jobChanges.map((job: JobChange, index: number) => (
+              {/* {jobChanges.map((job: JobChange, index: number) => ( */}
+              {jobChanges.map((job: JobChange) => (
                 <div
                   key={job._id}
                   className="mb-6 rounded border border-gray-200 p-4"

@@ -2,9 +2,12 @@
 "use client";
 
 import { Button, Form, Input, message, Modal, InputNumber } from "antd";
-import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+// import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import axios from "axios";
+// import BulkWriteResult from "mongoose"
+import { BulkWriteResult } from "mongodb";
 
 // Request body interfaces for API calls (copied from ContextCode.tsx for clarity in this file)
 interface PostJobOpeningsRequest {
@@ -18,8 +21,10 @@ interface JobOpeningsResponse {
   success: boolean;
   message: string;
   problems?: string[];
-  department_results?: any;
-  job_results?: any;
+  // department_results?: any;
+  department_results?: BulkWriteResult;
+  // job_results?: any;
+  job_results?: BulkWriteResult;
 }
 
 interface AddDepartmentPopupProps {
@@ -35,7 +40,10 @@ interface AddDepartmentPopupProps {
  * @param onClose - Function to close the modal.
  * @returns JSX Modal component for adding a new department.
  */
-const AddDepartmentPopup: React.FC<AddDepartmentPopupProps> = ({ visible, onClose }) => {
+const AddDepartmentPopup: React.FC<AddDepartmentPopupProps> = ({
+  visible,
+  onClose,
+}) => {
   // State for the new department's data
   const [newDepartmentName, setNewDepartmentName] = useState<string>("");
   const [newDepartmentSequence, setNewDepartmentSequence] = useState<number>(1);
@@ -44,7 +52,8 @@ const AddDepartmentPopup: React.FC<AddDepartmentPopupProps> = ({ visible, onClos
   // State to store error messages from API calls
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   // State to control the visibility of the error modal
-  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+  const [isErrorModalVisible, setIsErrorModalVisible] =
+    useState<boolean>(false);
   // Ant Design Form instance
   const [form] = Form.useForm();
 
@@ -79,7 +88,10 @@ const AddDepartmentPopup: React.FC<AddDepartmentPopupProps> = ({ visible, onClos
         ],
       };
 
-      const response = await axios.post<JobOpeningsResponse>("/api/job_openings", createPayload);
+      const response = await axios.post<JobOpeningsResponse>(
+        "/api/job_openings",
+        createPayload,
+      );
 
       if (response.data.success) {
         message.success("Department added successfully!");
@@ -143,7 +155,9 @@ const AddDepartmentPopup: React.FC<AddDepartmentPopupProps> = ({ visible, onClos
           <Form.Item
             label="Department Name"
             name="department_name"
-            rules={[{ required: true, message: "Please enter department name!" }]}
+            rules={[
+              { required: true, message: "Please enter department name!" },
+            ]}
           >
             <Input
               value={newDepartmentName}
@@ -167,8 +181,8 @@ const AddDepartmentPopup: React.FC<AddDepartmentPopupProps> = ({ visible, onClos
           >
             <InputNumber
               value={newDepartmentSequence}
-              onChange={(value: number | null) =>
-                setNewDepartmentSequence(value || 1) // Default to 1 if null
+              onChange={
+                (value: number | null) => setNewDepartmentSequence(value || 1) // Default to 1 if null
               }
               placeholder="Enter sequence"
               min={1}
@@ -196,7 +210,9 @@ const AddDepartmentPopup: React.FC<AddDepartmentPopupProps> = ({ visible, onClos
         width={600}
       >
         <div className="max-h-96 overflow-y-auto">
-          <p className="mb-4">The following errors occurred while adding the department:</p>
+          <p className="mb-4">
+            The following errors occurred while adding the department:
+          </p>
           <ul className="list-inside list-disc space-y-2">
             {errorMessages.map((error: string, index: number) => (
               <li key={index} className="text-red-600">

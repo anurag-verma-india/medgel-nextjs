@@ -13,7 +13,8 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Button, Popconfirm, message, Modal } from "antd";
 import axios from "axios";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import ApplyNowModal from "./ApplyNowModal"
+import ApplyNowModal from "./ApplyNowModal";
+import { BulkWriteResult } from "mongodb";
 
 // Request body interfaces for API calls (copied from ContextCode.tsx for clarity in this file)
 interface DeleteJobOpeningsRequest {
@@ -31,8 +32,10 @@ interface JobOpeningsResponse {
   message: string;
   departments?: JobDepartmentTypeDB[];
   problems?: string[];
-  department_results?: any;
-  job_results?: any;
+  // department_results?: any;
+  department_results?: BulkWriteResult;
+  // job_results?: any;
+  job_results?: BulkWriteResult;
 }
 
 interface CurrentOpeningsProps {
@@ -41,7 +44,7 @@ interface CurrentOpeningsProps {
 
 const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
   // State management
-  const [openEditModal, setOpenEditModal]=useState<Boolean>(false)
+  const [openApplyModal, setOpenApplyModal] = useState<boolean>(false);
   const [jobOpenings, setJobOpenings] = useState<JobDepartmentTypeDB[]>([]);
   const [addDepartmentVisible, setAddDepartmentVisible] =
     useState<boolean>(false);
@@ -67,7 +70,7 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
   const [deleteLoading, setDeleteLoading] = useState<string>(""); // Loading state for department deletion
   const [jobDeleteLoading, setJobDeleteLoading] = useState<string>(""); // Loading state for job deletion
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
-  const [JobDetails, setJobDetails] = useState({});
+  const [JobDetails, setJobDetails] = useState<JobTypeDB>();
   const [isErrorModalVisible, setIsErrorModalVisible] =
     useState<boolean>(false);
 
@@ -333,11 +336,10 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
       </div>
     );
   }
-  const apply=(jobdet:any)=>{
-    setOpenEditModal(true)
-    setJobDetails(jobdet)
-
-  }
+  const apply = (jobdet: JobTypeDB) => {
+    setOpenApplyModal(true);
+    setJobDetails(jobdet);
+  };
 
   return (
     <>
@@ -350,15 +352,16 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
           What Inspires You, Inspires Us
         </p>
         <p className="current-openings-subtitle-description">
-          Are you inspired to lead, learn, grow, and make a difference? You've
-          come to the right place.
+          {
+            "Are you inspired to lead, learn, grow, and make a difference? You've come to the right place."
+          }
         </p>
 
         <div className="department-section">
           {jobOpenings.map((department: JobDepartmentTypeDB) => (
             <div key={department._id} className="department-item">
               <div className="department-header">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
+                <div className="flex w-full flex-col sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <h2>{department.department_name}</h2>
                     <div className="department-header-underline"></div>
@@ -428,8 +431,12 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
                         {job.requirement}
                       </p>
                     </div>
-                    <div className="flex flex-col items-center gap-2 mt-auto"> {/* Centered buttons */}
-                      <button onClick={()=>apply(job)} className="apply-btn">Apply Now</button>
+                    <div className="mt-auto flex flex-col items-center gap-2">
+                      {" "}
+                      {/* Centered buttons */}
+                      <button onClick={() => apply(job)} className="apply-btn">
+                        Apply Now
+                      </button>
                       {checkAdmin && (
                         <>
                           <Button
@@ -444,7 +451,9 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
                           <Popconfirm
                             title="Delete Job"
                             description={`Are you sure you want to delete the job "${job.designation}"?`}
-                            onConfirm={() => handleDeleteJob(department._id, job._id)}
+                            onConfirm={() =>
+                              handleDeleteJob(department._id, job._id)
+                            }
                             okText="Yes, Delete"
                             cancelText="Cancel"
                             okButtonProps={{ danger: true }}
@@ -530,13 +539,13 @@ const CurrentOpenings: React.FC<CurrentOpeningsProps> = ({ checkAdmin }) => {
         />
       )}
 
-      {
-        openEditModal && <ApplyNowModal 
-        openEditModal={openEditModal}
-        setOpenEditModal={setOpenEditModal}
-        JobDetails={JobDetails}
+      {openApplyModal && JobDetails && (
+        <ApplyNowModal
+          openApplyModal={openApplyModal}
+          setOpenApplyModal={setOpenApplyModal}
+          JobDetails={JobDetails}
         />
-      }
+      )}
 
       {/* General Error Modal for CurrentOpenings component's direct API calls */}
       <Modal
