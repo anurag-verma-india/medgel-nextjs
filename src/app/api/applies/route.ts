@@ -1,23 +1,12 @@
-// TODO: 
+// TODO:
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Apply from "@/models/apply";
 import handleError from "@/helpers/handleError";
 import path from "path";
 import fs from "fs/promises";
+import { ApplySchemaType } from "@/types";
 
-type ApplySchemaType = {
-  _id: string;
-  deptid: string;
-  designation: string;
-  experience: string;
-  qualification: string;
-  jobdesc: string;
-  name: string;
-  email: string;
-  mobilenumber: number;
-  resume: string;
-};
 
 // export async function GET(request: NextRequest) {
 export async function GET() {
@@ -63,7 +52,7 @@ export async function DELETE(request: NextRequest) {
     // const fullPdfPath = path.join(process.cwd(), "public", resume);
     let fullPdfPath;
     if (resume) {
-      fullPdfPath = path.join(process.cwd(), "public", resume);
+      fullPdfPath = path.join(process.cwd(), "private-files", resume);
     }
     if (!fullPdfPath) {
       return NextResponse.json({
