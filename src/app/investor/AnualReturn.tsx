@@ -6,7 +6,7 @@ import {  useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 
-export default function AnualReturn() {
+export default function AnualReturn({ isAdmin }: { isAdmin: boolean }) {
   type ReportType = {
     _id: string;
     title: string;
@@ -18,7 +18,7 @@ export default function AnualReturn() {
   //   // ...
   // ];
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [report, setreport] = useState<ReportType[]>([]);
   async function fetchData() {
     try {
@@ -34,10 +34,10 @@ export default function AnualReturn() {
     }
   }
   useEffect(() => {
-    fetch("/api/check-admin")
-      .then((res) => res.json())
-      .then((data) => setIsAdmin(data.isAdmin))
-      .catch((err) => console.log("Auth check error:", err));
+    // fetch("/api/check-admin")
+    //   .then((res) => res.json())
+    //   .then((data) => setIsAdmin(data.isAdmin))
+    //   .catch((err) => console.log("Auth check error:", err));
 
     fetchData();
   }, []);

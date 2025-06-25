@@ -2,10 +2,10 @@ import React from "react";
 import styles from "./page.module.css";
 import AnualReturn from "./AnualReturn";
 import Policies from "./Policies";
+import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 
-
-
-export default function Page() {
+export default async function Page() {
+  const isAdmin = await checkAdminFromCookie();
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -13,8 +13,8 @@ export default function Page() {
       </div>
 
       <div className={styles.content}>
-        <AnualReturn />
-        <Policies />
+        <AnualReturn isAdmin={isAdmin} />
+        <Policies isAdmin={isAdmin} />
       </div>
     </div>
   );

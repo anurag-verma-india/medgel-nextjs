@@ -2,11 +2,11 @@
 import React from "react";
 import styles from "./page.module.css";
 import PolicyPopup from "./PolicyPopup";
-import {  useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 
-export default function Policies() {
+export default function Policies({ isAdmin }: { isAdmin: boolean }) {
   type ReportType = {
     _id: string;
     title: string;
@@ -19,7 +19,7 @@ export default function Policies() {
   //   // ...
   // ];
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [report, setreport] = useState<ReportType[]>([]);
 
   async function fetchData() {
@@ -37,10 +37,10 @@ export default function Policies() {
   }
 
   useEffect(() => {
-    fetch("/api/check-admin")
-      .then((res) => res.json())
-      .then((data) => setIsAdmin(data.isAdmin))
-      .catch((err) => console.log("Auth check error:", err));
+    // fetch("/api/check-admin")
+    //   .then((res) => res.json())
+    //   .then((data) => setIsAdmin(data.isAdmin))
+    //   .catch((err) => console.log("Auth check error:", err));
 
     fetchData();
   }, []);
