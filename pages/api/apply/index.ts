@@ -160,7 +160,8 @@ export default async function handler(
           .json({ success: false, error: "Job description is required." });
       }
 
-      const imageRelativePath = `resume/${path.basename(file.filepath)}`;
+      // const PdfRelativePath = `resume/${path.basename(file.filepath)}`;
+      const PdfPathInResumeFolder = `${path.basename(file.filepath)}`;
 
       const ApplyData = new Apply({
         deptid,
@@ -171,7 +172,8 @@ export default async function handler(
         name,
         email,
         mobilenumber,
-        resume: imageRelativePath,
+        // resume: PdfRelativePath,
+        resume: PdfPathInResumeFolder,
       });
 
       await ApplyData.save();
