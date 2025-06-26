@@ -2,7 +2,7 @@
 "use client";
 import axios from "axios";
 // import { RedirectType, useRouter } from "next/navigation";
-import { RedirectType, redirect, useSearchParams } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import { ProductListParams } from "@/types";
 import { use, useEffect, useState } from "react";
 import AddProductPopup from "./AddProductPopup";
@@ -26,9 +26,9 @@ const MobileProductList = ({
   isAdmin,
 }: {
   productList: ProductPageState;
-  isAdmin: Boolean;
+  isAdmin: boolean;
 }) => {
-  const openeditmodal = (product) => {
+  const openeditmodal = (product: ProductType) => {
     setProductData(product);
     setProductOpenEditModal(true);
   };
@@ -123,11 +123,11 @@ const DesktopProductList = ({
   listId,
 }: {
   productList: ProductPageState;
-  isAdmin: Boolean;
+  isAdmin: boolean;
   listId: string;
 }) => {
   const [openProductEditModal, setProductOpenEditModal] =
-    useState<Boolean>(false);
+    useState<boolean>(false);
   const [productdata, setProductData] = useState({});
   const openeditmodal = (product) => {
     setProductData(product);
@@ -261,7 +261,7 @@ export default function ProductList({
   const handleBackClick = () => {
     redirect("/products/products-at-medgel", RedirectType.push);
   };
-  const [openEditModal, setOpenEditModal] = useState<Boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
 
   return (
     <>
