@@ -201,12 +201,6 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
             renderTextField(key, value),
           )}
           {/* <div className="w-full resize-none rounded-lg border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500"> */}
-          <div className="block w-full text-center text-3xl font-bold text-[#0D9488] underline">
-            IMAGES
-          </div>
-          <div className="my-2 w-full text-center text-xl text-red-700">
-            Make sure to replace images with same width to hight ratio
-          </div>
           <EditImages images={children.images} title={title} />
         </div>
       </div>

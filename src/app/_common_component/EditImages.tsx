@@ -9,10 +9,10 @@ import React from "react";
 
 type EditImagesParams = {
   images: ImageObj[];
-  title:string
+  title: string;
 };
 
-const EditImages = ({ images,title }:EditImagesParams) => {
+const EditImages = ({ images, title }: EditImagesParams) => {
   const downloadImage = (imageUrl: string, fileName: string): void => {
     const link = document.createElement("a");
     link.href = imageUrl;
@@ -21,11 +21,12 @@ const EditImages = ({ images,title }:EditImagesParams) => {
   };
 
   const renderImages = (key: string, img: ImageObj) => {
-    console.log(`key = ${key} and value= ${img.url}`)
+    console.log(`key = ${key} and value= ${img.url}`);
     const imageURL = `${process.env.NEXT_PUBLIC_SITE_URL}/${img.url}`;
     return (
       <div key={key} className="grid place-items-center p-4">
-        {img && img.width && img.height && (
+        {/* {img && img.width && img.height && ( */}
+        {img && (
           <div key={key} className="mb-6 text-justify">
             <div className="rounded-2xl border border-gray-300 p-3 shadow-sm focus:border-blue-500 focus:ring-blue-500">
               <Image
@@ -46,7 +47,10 @@ const EditImages = ({ images,title }:EditImagesParams) => {
                 </button>
                 <button
                   onClick={() => {
-                    redirect(`/imageupload?imgurl=${img.url}&title=${title}&key=${key}`, RedirectType.push);
+                    redirect(
+                      `/imageupload?imgurl=${img.url}&title=${title}&key=${key}`,
+                      RedirectType.push,
+                    );
                   }}
                   className="my-4 mt-1 w-24 rounded-2xl bg-[#46A6A5] p-2 text-white hover:bg-[#3a8a89]"
                 >
@@ -88,7 +92,19 @@ const EditImages = ({ images,title }:EditImagesParams) => {
   };
   return (
     <>
-      {Object.entries(images).map(([key, value]) => renderImages(key, value))}
+      {images && images[0] && images[0].height && images[0].width && (
+        <>
+          <div className="block w-full text-center text-3xl font-bold text-[#0D9488] underline">
+            IMAGES
+          </div>
+          <div className="my-2 w-full text-center text-xl text-red-700">
+            Make sure to replace images with same width to hight ratio
+          </div>
+          {Object.entries(images).map(([key, value]) =>
+            renderImages(key, value),
+          )}
+        </>
+      )}
     </>
   );
 };

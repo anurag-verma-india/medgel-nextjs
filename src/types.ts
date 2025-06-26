@@ -166,4 +166,17 @@ export interface JobDepartmentTypeDB extends JobDepartmentType {
   jobs: JobTypeDB[];
 }
 
+export type ApplySchemaType = {
+  _id: string;
+  deptid: string;
+  designation: string;
+  experience: string;
+  qualification: string;
+  jobdesc: string;
+  name: string;
+  email: string;
+  mobilenumber: number;
+  resume: string;
+};
+
 // Job Related Types end

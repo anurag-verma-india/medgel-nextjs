@@ -2,23 +2,23 @@
 import React from "react";
 import styles from "./page.module.css";
 import AnualReportPopup from "./AnualReportPopup";
-import { ReactNode, useState, useEffect } from "react";
+import {  useState, useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 
-export default function AnualReturn() {
+export default function AnualReturn({ isAdmin }: { isAdmin: boolean }) {
   type ReportType = {
     _id: string;
     title: string;
     anual_Report: string;
   };
 
-  const rpype: ReportType[] = [
-    { _id: "8781215ftr8966", title: "Award 1", anual_Report: "uploads/1.pdf" },
-    // ...
-  ];
+  // const rpype: ReportType[] = [
+  //   { _id: "8781215ftr8966", title: "Award 1", anual_Report: "uploads/1.pdf" },
+  //   // ...
+  // ];
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [report, setreport] = useState<ReportType[]>([]);
   async function fetchData() {
     try {
@@ -34,10 +34,10 @@ export default function AnualReturn() {
     }
   }
   useEffect(() => {
-    fetch("/api/check-admin")
-      .then((res) => res.json())
-      .then((data) => setIsAdmin(data.isAdmin))
-      .catch((err) => console.log("Auth check error:", err));
+    // fetch("/api/check-admin")
+    //   .then((res) => res.json())
+    //   .then((data) => setIsAdmin(data.isAdmin))
+    //   .catch((err) => console.log("Auth check error:", err));
 
     fetchData();
   }, []);

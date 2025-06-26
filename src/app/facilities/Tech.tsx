@@ -1,4 +1,4 @@
-import { Weight } from "lucide-react";
+// import { Weight } from "lucide-react";
 import "./Tech.css";
 
 const TechnologySection = () => {

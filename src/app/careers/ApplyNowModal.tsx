@@ -123,17 +123,32 @@ const ApplyNowModal = ({
           },
         },
       );
-      if (res.status === 201) {
+      if (res.status === 201 && res.data.success) {
         setShowSpin(false);
         alert("Applied Successfully!!!");
         setOpenApplyModal(false);
+      } else if (res.data && res.data.success === false) {
+        setShowSpin(false);
+        setErrors((prev) => ({
+          ...prev,
+          api: res.data.error || "Operation failed.",
+        }));
       }
     } catch (err: unknown) {
       setShowSpin(false);
       let errorMsg = "An error occurred. Please try again.";
       if (err && typeof err === "object" && err !== null && "response" in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        if (axiosErr.response?.data?.message) {
+        const axiosErr = err as {
+          response?: {
+            data?: { error?: string; message?: string; success?: boolean };
+          };
+        };
+        if (
+          axiosErr.response?.data?.success === false &&
+          axiosErr.response.data.error
+        ) {
+          errorMsg = axiosErr.response.data.error;
+        } else if (axiosErr.response?.data?.message) {
           errorMsg = axiosErr.response.data.message;
         }
       }
