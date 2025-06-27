@@ -89,7 +89,7 @@ export default function Header({ checkAdmin }: { checkAdmin: boolean }) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
+    <header className="sticky top-0 z-10 bg-white shadow-md">
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}

@@ -167,7 +167,7 @@ const EditModal = ({ children, title, setModalOpen }: EditModalProps) => {
   return (
     <>
       {/* Modal overlay */}
-      <div className="fixed inset-0 z-10 bg-black bg-opacity-50" />
+      <div className="fixed inset-0 z-20 bg-black bg-opacity-50" />
 
       {/* Modal content */}
       <div className="fixed inset-0 z-50 flex h-5/6 flex-col items-center justify-center pt-20">
