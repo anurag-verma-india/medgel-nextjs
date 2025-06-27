@@ -1,7 +1,13 @@
-import { checkAdminFromCookie } from "@/helpers/checkAdmin"
-import NewsPage from "./NewsPage"
+import { checkAdminFromCookie } from "@/helpers/checkAdmin";
+import NewsPage from "./NewsPage";
 
 export default async function page() {
-  const isAdmin = await checkAdminFromCookie()
-  return <NewsPage checkAdmin={isAdmin}/>
+  let isAdmin = false;
+  try {
+    isAdmin = await checkAdminFromCookie();
+  } catch (error) {
+    console.error("Error in checking admin: ", error);
+  }
+
+  return <NewsPage checkAdmin={isAdmin} />;
 }

@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./slider.css";
-import React from "react";
+import React, { ReactNode } from "react";
 import { PageObject } from "@/types";
 import { SliderComponentType } from "../page";
 import Link from "next/link";
@@ -45,10 +45,10 @@ function LeftPointerBracketSvg() {
 
 const SliderComponent = ({
   data,
-  // children,
+  children,
 }: {
   data: PageObject<SliderComponentType>;
-  // children: ReactNode;
+  children: ReactNode;
 }) => {
   const slides = [
     {

@@ -6,7 +6,7 @@ import Cpurpose from "./home/Cpurpose";
 // import Header from "./Header";
 // import Footer from "./Footer";
 import Portfolio from "./home/Portfolio";
-import HomeNews from "./home/homenews";
+import HomeNews from "./home/HomeNews";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import fetchPage from "@/helpers/getPage";
 import EditModalContainer from "./_common_component/EditModalContainer";
@@ -59,7 +59,7 @@ const HomePage = async () => {
   // console.log("Card Row data: ", CardRowData);
 
   return (
-    <div>
+    <>
       <SliderComponent data={SliderComponentData}>
         {isAdmin && <EditModalContainer title={CardRowTitle} />}
       </SliderComponent>
@@ -77,7 +77,7 @@ const HomePage = async () => {
       <HomeNews adminCheck={isAdmin} />
       <Portfolio />
       <Cpurpose />
-    </div>
+    </>
   );
 };
 

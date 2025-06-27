@@ -2,21 +2,32 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "antd";
-const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
+const NewsAddPopup = ({
+  openEditModal,
+  setOpenEditModal,
+}: {
+  openEditModal: boolean;
+  setOpenEditModal: (openEditModal: boolean) => void;
+}) => {
   const [showspin, setShowSpin] = useState(false);
+  const [error, setError] = useState<string>("");
   const [form, setForm] = useState({
     title: "",
     description: "",
   });
 
-  const submit = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleOk = async (e) => {
+  const handleOk = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     setShowSpin(true);
 
@@ -34,9 +45,9 @@ const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
           },
         },
       );
-
       console.log("News created:", res.data);
-      if (res.data.message === "News Created SuccessFully") {
+      if (res.data.success && res.data.news) {
+        // if (res.data.message === "News Created SuccessFully") {
         setShowSpin(false);
         alert("News Added successfully");
         window.location.reload();
@@ -45,12 +56,14 @@ const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
       setForm({ title: "", description: "" });
     } catch (err) {
       console.error("Error uploading News:", err);
+      setError("Error in adding news, please refresh the page and try again");
     }
   };
 
+  const emptyFormData = { title: "", description: "" };
   const handleCancel = () => {
     setOpenEditModal(false);
-    setForm({});
+    setForm(emptyFormData);
   };
 
   return (
@@ -66,6 +79,7 @@ const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
           <button
             type="button"
             onClick={handleOk}
+            // onClick={(e)=>e}
             className="w-full rounded-md border border-[#3F5D97] bg-[#3F5D97] p-2 font-semibold text-white hover:bg-[#5d7cb9] hover:text-[#3F5D97]"
           >
             Add
@@ -89,6 +103,9 @@ const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
         ) : (
           <></>
         )}
+
+        {error && <p className="text-red-500">{error}</p>}
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Title:
@@ -101,7 +118,8 @@ const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
             placeholder="Enter News Title"
             name="title"
             value={form.title}
-            onChange={submit}
+            onChange={handleChange}
+            // onChange={(e)=>e}
           />
         </div>
 
@@ -115,14 +133,14 @@ const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
             </label>
 
             <textarea
-              rows="10"
-              type="text"
+              // rows="10"
+              // type="text"
               id="AddNewOffer"
               className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter News Description"
               name="description"
               value={form.description}
-              onChange={submit}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -131,4 +149,4 @@ const NewsPopup = ({ openEditModal, setOpenEditModal }) => {
   );
 };
 
-export default NewsPopup;
+export default NewsAddPopup;

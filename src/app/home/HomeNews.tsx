@@ -5,23 +5,36 @@ import axios from "axios";
 import "./homenews.css";
 // import { latestNews } from "./fetch_news";
 import Image from "next/image";
-import { NewsType } from "@/types";
-import NewsPopup from "./NewsPopup";
+import { NewsObject } from "@/types";
+import NewsAddPopup from "./NewsAddPopup";
+import { LoaderCircle } from "lucide-react";
 const HomeNews = ({ adminCheck }: { adminCheck: boolean }) => {
-  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+  const [openNewsModal, setOpenNewsModal] = useState<boolean>(false);
   // const [adminCheck,setIsAdmin]=useState<Boolean>(false)
-  const [newsList, setNewsList] = useState<NewsType[]>([]);
+  const [newsList, setNewsList] = useState<NewsObject[]>([]);
+  const [newsError, setNewsError] = useState<string>("");
+  const [isLoadingSpinner, setIsLoadingSpinner] = useState<boolean>(false);
+  const [isLoadingNews, setIsLoadingNews] = useState<boolean>(true);
+
   const fetchNews = async () => {
+    // setIsLoadingNews(true);
     try {
       const newsResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/news`,
       );
-      console.log(newsResponse.data);
-      if (newsResponse.data.length >= 1) {
-        setNewsList(newsResponse.data);
+      console.log("newsResponse.data", newsResponse.data.data);
+      if (newsResponse.data.success && newsResponse.data.data.length >= 1) {
+        setNewsList(newsResponse.data.data);
+      } else {
+        setNewsList([]);
+        setNewsError(
+          newsResponse.data.error || "An error occurred while getting news",
+        );
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoadingNews(false);
     }
   };
   useEffect(() => {
@@ -37,15 +50,15 @@ const HomeNews = ({ adminCheck }: { adminCheck: boolean }) => {
       <div className="homecontent">
         <div className="flex justify-center">
           <h2 className="mx-auto text-red-500">LATEST AT MEDGEL</h2>
-          {adminCheck && (
-            <button
-              onClick={() => setOpenEditModal(true)}
-              className="m-3 ml-auto rounded-lg bg-[#1D8892] p-3 text-white"
-            >
-              Add News
-            </button>
-          )}
         </div>
+        {adminCheck && (
+          <button
+            onClick={() => setOpenNewsModal(true)}
+            className="m-3 ml-auto rounded-lg bg-[#1D8892] p-3 text-white"
+          >
+            Add News
+          </button>
+        )}
         <div className="homenews-section">
           <div className="homenews-list">
             <div className="homenews-list-content">
@@ -56,7 +69,10 @@ const HomeNews = ({ adminCheck }: { adminCheck: boolean }) => {
                     <p className="text-left">
                       {news.description.slice(0, 300)}...
                     </p>
-                    <div className="flex content-start">
+                    <div
+                      className="flex content-start"
+                      onClick={() => setIsLoadingSpinner(true)}
+                    >
                       <a
                         href={`/news?id=${news._id}`}
                         className="homeread-more"
@@ -67,7 +83,14 @@ const HomeNews = ({ adminCheck }: { adminCheck: boolean }) => {
                   </div>
                 ))
               ) : (
-                <p>No latest news available</p>
+                <>
+                  {newsError && <p>{newsError}</p>}
+                  {isLoadingNews && (
+                    <>
+                      <p>Loading News...</p>
+                    </>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -84,11 +107,16 @@ const HomeNews = ({ adminCheck }: { adminCheck: boolean }) => {
           <button className="homenews-stories-button">More Stories ❯❯ </button>
         </div> */}
       </div>
-      {openEditModal && (
-        <NewsPopup
-          openEditModal={openEditModal}
-          setOpenEditModal={setOpenEditModal}
+      {openNewsModal && (
+        <NewsAddPopup
+          openEditModal={openNewsModal}
+          setOpenEditModal={setOpenNewsModal}
         />
+      )}
+      {isLoadingSpinner && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-gray-800 bg-opacity-75 backdrop-blur-sm">
+          <LoaderCircle className="h-12 w-12 animate-spin text-[#008080]" />
+        </div>
       )}
     </div>
   );

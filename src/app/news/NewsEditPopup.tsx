@@ -2,41 +2,67 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
+import { NewsObject } from "@/types";
 
-const NewsEditPopup = ({ openEditModal, setOpenEditModal, NewsId }) => {
-  const [showspin, setShowSpin] = useState(false);
-  const [newsList, setNewsList] = useState({});
+const NewsEditPopup = ({
+  openEditModal,
+  setOpenEditModal,
+  NewsId,
+}: {
+  openEditModal: boolean;
+  setOpenEditModal: (openEditModal: boolean) => void;
+  NewsId: string;
+}) => {
+  const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
+  const emptyNewsObject: NewsObject = {
+    _id: "",
+    title: "",
+    description: "",
+  };
+  const [newsList, setNewsList] = useState<NewsObject>(emptyNewsObject);
+  const [newsError, setNewsError] = useState("");
+
   const fetchNews = async () => {
+    // setShowLoadingSpinner(true)
     try {
       const newsResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/news?id=${NewsId}`,
       );
-      console.log(newsResponse.data);
-      if (newsResponse.data) {
-        setNewsList(newsResponse.data);
+      console.log("newsResponse.data in news edit popup", newsResponse.data);
+      if (newsResponse.data.success && newsResponse.data.data) {
+        setNewsList(newsResponse.data.data);
+      } else {
+        setNewsList(emptyNewsObject);
+        setNewsError(
+          newsResponse.data.error || "An error occurred while getting news",
+        );
       }
     } catch (error) {
       console.log(error);
-    }
+      setNewsError("An error occurred while getting news");
+    } 
+    // finally {
+    //   setShowLoadingSpinner(false);
+    // }
   };
   useEffect(() => {
     fetchNews();
   }, []);
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-  });
 
-  const submit = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setNewsList({
       ...newsList,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleOk = async (e) => {
+  const handleOk = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
-    setShowSpin(true);
+    setShowLoadingSpinner(true);
 
     const formData = new FormData();
     formData.append("title", newsList.title);
@@ -55,23 +81,26 @@ const NewsEditPopup = ({ openEditModal, setOpenEditModal, NewsId }) => {
 
       console.log("News Updated:", res.data);
       if (res.data.success === true) {
-        setShowSpin(false);
+        setShowLoadingSpinner(false);
         alert("News Upadted successfully");
         window.location.reload();
       }
       setOpenEditModal(false);
-      setForm({ title: "", description: "" });
+      // setForm({ title: "", description: "" });
     } catch (err) {
       console.error("Error Updating News:", err);
+      setNewsError("An error occurred while updating news");
+    } finally {
+      setShowLoadingSpinner(false);
     }
   };
 
   const handleCancel = () => {
     setOpenEditModal(false);
-    setForm({});
+    // setForm({});
   };
-  const handleDelete = async (id) => {
-    setShowSpin(true);
+  const handleDelete = async (id: string) => {
+    setShowLoadingSpinner(true);
     // alert(id)
     try {
       const res = await axios.delete(
@@ -85,13 +114,16 @@ const NewsEditPopup = ({ openEditModal, setOpenEditModal, NewsId }) => {
 
       console.log("News Deleted:", res.data);
       if (res.data.success === true) {
-        setShowSpin(false);
+        setShowLoadingSpinner(false);
         alert("News Deleted successfully");
         window.location.href = "/";
       }
       setOpenEditModal(false);
     } catch (err) {
       console.error("Error Updating News:", err);
+      setNewsError("An error occurred while deleting news");
+    } finally {
+      setShowLoadingSpinner(false);
     }
     // setOpenEditModal(false);
   };
@@ -132,13 +164,14 @@ const NewsEditPopup = ({ openEditModal, setOpenEditModal, NewsId }) => {
       // className="bg-gray-100 rounded-lg" // <-- Modal background color
     >
       <div className="shadsow-md rounded-lg p-1">
-        {showspin ? (
+        {showLoadingSpinner ? (
           <div className="flex items-center justify-center">
             <div className="h-16 w-16 animate-spin rounded-full border-4 border-dashed border-blue-500"></div>
           </div>
         ) : (
           <></>
         )}
+        {newsError && <div className="mb-4 text-red-500">{newsError}</div>}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Title:
@@ -151,7 +184,7 @@ const NewsEditPopup = ({ openEditModal, setOpenEditModal, NewsId }) => {
             placeholder="Enter News Title"
             name="title"
             value={newsList.title}
-            onChange={submit}
+            onChange={handleChange}
           />
         </div>
 
@@ -165,14 +198,15 @@ const NewsEditPopup = ({ openEditModal, setOpenEditModal, NewsId }) => {
             </label>
 
             <textarea
-              rows="10"
-              type="text"
+              // rows="10"
+              rows={10}
+              // type="text"
               id="AddNewOffer"
               className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter News Description"
               name="description"
               value={newsList.description}
-              onChange={submit}
+              onChange={handleChange}
             />
           </div>
         </div>

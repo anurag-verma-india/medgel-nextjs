@@ -37,11 +37,11 @@ export interface NewsObject {
   // ...other fields
 }
 
-export type NewsType = {
-  _id: string;
-  title: string;
-  description: string;
-};
+// export type NewsType = {
+//   _id: string;
+//   title: string;
+//   description: string;
+// };
 
 export enum EmailTypes {
   VERIFY = "VERIFY",

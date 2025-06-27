@@ -5,43 +5,61 @@ import axios from "axios";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import { NewsObject } from "@/types";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 const inter = Inter({ subsets: ["latin"] });
-import NewsEditPopup from "../home/NewsEditPopup";
+import NewsEditPopup from "./NewsEditPopup";
 // import { NextRequest, NextResponse } from "next/server";
-
-
-export default function NewsPage({checkAdmin}: {checkAdmin: boolean}) {
-   const searchParams = useSearchParams();
-  const id = searchParams?.get('id');
-   const [openEditModal,setOpenEditModal]=useState<boolean>(false)
-   const [NewId,setNewId]=useState("")
-    // const [isAdmin,setIsAdmin]=useState<Boolean>(false)
-       const [newsList, setNewsList] = useState<NewsObject>({} as NewsObject);
-    const fetchNews = async () => {
-      try {
+export default function NewsPage({ checkAdmin }: { checkAdmin: boolean }) {
+  const searchParams = useSearchParams();
+  const id = searchParams?.get("id");
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+  const [NewId, setNewId] = useState("");
+  // const [isAdmin,setIsAdmin]=useState<Boolean>(false)
+  const emptyNewsObject = {
+    _id: "",
+    title: "",
+    description: "",
+  };
+  const [fetchedNews, setNewsList] = useState<NewsObject>(emptyNewsObject);
+  const [newsError, setNewsError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const fetchNews = async () => {
+    try {
       const newsResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/news?id=${id}`,
       );
-      console.log(newsResponse.data)
-      if (newsResponse.data) {
-        setNewsList(newsResponse.data)
+      // console.log("newsResponse news page", newsResponse);
+      // console.log("newsResponse.data news page", newsResponse.data);
+      if (newsResponse.data.success && newsResponse.data.data) {
+        setNewsList(newsResponse.data.data);
+      } else {
+        // setNewsList({} as NewsObject);
+        setNewsList(emptyNewsObject);
+        setNewsError(
+          newsResponse.data.error || "An error occurred while getting news",
+        );
       }
     } catch (error) {
-      console.log(error);
+      // } catch  {
+      console.log("error", error);
+      // console.log(error.response.data);
+      setNewsList(emptyNewsObject);
+      setNewsError("An error occurred while getting news");
+    } finally {
+      setIsLoading(false);
     }
-    };
-    useEffect(() => {
-          // fetch("/api/check-admin")
-          //   .then((res) => res.json())
-          //   .then((data) => setIsAdmin(data.isAdmin))
-          //   .catch((err) => console.log("Auth check error:", err));
-          fetchNews()
-        }, []);
-       const openModal: (id: string) => void = (id) => {
-          setNewId(id)
-          setOpenEditModal(true)
-        }
+  };
+  useEffect(() => {
+    // fetch("/api/check-admin")
+    //   .then((res) => res.json())
+    //   .then((data) => setIsAdmin(data.isAdmin))
+    //   .catch((err) => console.log("Auth check error:", err));
+    fetchNews();
+  }, []);
+  const openModal: (id: string) => void = (id) => {
+    setNewId(id);
+    setOpenEditModal(true);
+  };
   return (
     <div className={`min-h-screen bg-gray-50 ${inter.className}`}>
       {/* Hero Section */}
@@ -62,17 +80,29 @@ export default function NewsPage({checkAdmin}: {checkAdmin: boolean}) {
         <div className="rounded-2xl bg-white p-6 shadow-xl sm:p-8 lg:p-12">
           {/* Title */}
           <div className="flex justify-center">
-          <h1 className="mb-6 text-3xl text-center font-bold leading-tight text-[#20878c] sm:text-4xl lg:text-5xl">
-            {newsList.title}
-          </h1>
-          {
-          // isAdmin && 
-          checkAdmin &&
-        <button onClick={()=>openModal(newsList._id)} className="bg-[#1D8892]  w-44 h-10 rounded-lg m-3 ml-auto text-white">Edit</button>
-        }
+            <h1 className="mb-6 text-center text-3xl font-bold leading-tight text-[#20878c] sm:text-4xl lg:text-5xl">
+              {fetchedNews && fetchedNews.title}
+              {isLoading && <>Loading...</>}
+            </h1>
+            {
+              // isAdmin &&
+              checkAdmin && (
+                <button
+                  onClick={() => openModal(fetchedNews._id)}
+                  className="m-3 ml-auto h-10 w-44 rounded-lg bg-[#1D8892] text-white"
+                >
+                  Edit
+                </button>
+              )
+            }
           </div>
-
-          
+          {/* News Content */}
+          <div className="prose prose-lg max-w-none">
+            <p className="mb-6 leading-relaxed text-gray-700">
+              {fetchedNews.description || newsError}
+              {isLoading && <>Loading...</>}
+            </p>
+          </div>
 
           {/* Meta Information */}
           <div className="mb-8 flex flex-wrap items-center gap-4 border-b border-gray-200 pb-8">
@@ -88,25 +118,16 @@ export default function NewsPage({checkAdmin}: {checkAdmin: boolean}) {
             </div> */}
           </div>
 
-          {/* News Content */}
-          <div className="prose prose-lg max-w-none">
-            <p className="mb-6 leading-relaxed text-gray-700">
-             {newsList.description}
-            </p>
-
-            
-          </div>
-
           {/* Call to Action */}
         </div>
       </div>
-      {
-              openEditModal && <NewsEditPopup
-              openEditModal={openEditModal}
-              setOpenEditModal={setOpenEditModal}
-              NewsId={NewId}
-              />
-            }
+      {openEditModal && (
+        <NewsEditPopup
+          openEditModal={openEditModal}
+          setOpenEditModal={setOpenEditModal}
+          NewsId={NewId}
+        />
+      )}
 
       {/* Bottom Spacing */}
       <div className="h-20"></div>
