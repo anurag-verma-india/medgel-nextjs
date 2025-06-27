@@ -48,7 +48,7 @@ const ContactUs = () => {
 
   return (
     <div className="contact-container">
-      <h1 className="title">Contact Us</h1>
+      <h1 className="contact-title">Contact Us</h1>
       <div className="subtitle">Enquiry / Feedback</div>
 
       <div className="content-grid">
