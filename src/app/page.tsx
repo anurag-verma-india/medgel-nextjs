@@ -10,6 +10,7 @@ import HomeNews from "./home/HomeNews";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import fetchPage from "@/helpers/getPage";
 import EditModalContainer from "./_common_component/EditModalContainer";
+// import dbConnect from "@/lib/dbConnect";
 
 const SliderComponentTitle = "home$slider";
 const CardRowTitle = "home$cardrow";
@@ -43,6 +44,23 @@ export type SliderComponentType = {
 };
 
 const HomePage = async () => {
+  // try {
+  //   await dbConnect();
+  // } catch (error) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen bg-gray-100">
+  //       <div className="p-10 bg-white rounded-lg shadow-xl">
+  //         <h1 className="text-2xl font-bold text-red-500">
+  //           Error connecting to the database
+  //         </h1>
+  //         <p className="text-gray-600">
+  //           There was an issue connecting to the database. Please try again
+  //           later.
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   let isAdmin = false;
   try {
     isAdmin = await checkAdminFromCookie();
@@ -63,7 +81,7 @@ const HomePage = async () => {
       <SliderComponent data={SliderComponentData}>
         {isAdmin && <EditModalContainer title={CardRowTitle} />}
       </SliderComponent>
-      
+
       <CardRow data={CardRowData}>
         {isAdmin && <EditModalContainer title={CardRowTitle} />}
       </CardRow>

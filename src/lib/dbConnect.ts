@@ -17,6 +17,7 @@ const dbConnect = async () => {
     //         useUnifiedTopology: true,
     //     }
     // );
+    // await mongoose.connect(uri, { bufferCommands: false });
     console.log("MongoDB Connected!");
   } catch (error) {
     console.error("MongoDB connection error:", error);
