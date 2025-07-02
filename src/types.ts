@@ -180,3 +180,11 @@ export type ApplySchemaType = {
 };
 
 // Job Related Types end
+
+export type ContactUsType = {
+  _id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
