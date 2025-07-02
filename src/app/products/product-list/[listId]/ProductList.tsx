@@ -3,32 +3,37 @@
 import axios from "axios";
 // import { RedirectType, useRouter } from "next/navigation";
 import { RedirectType, redirect } from "next/navigation";
-import { ProductListParams } from "@/types";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddProductPopup from "./AddProductPopup";
 import ProductEditPopup from "./ProductEditPopup";
-type ProductType = {
-  id: string;
-  innovator: string;
-  product: string;
-  code: string;
-  composition: string;
-  color: string;
-};
+import { ProductTypeDB } from "@/types";
+// type ProductTypeDB = {
+//   id: string;
+//   innovator: string;
+//   product: string;
+//   code: string;
+//   composition: string;
+//   color: string;
+// };
 
 interface ProductPageState {
   title: string;
-  list: ProductType[];
+  list: ProductTypeDB[];
 }
 
 const MobileProductList = ({
   productList,
   isAdmin,
+  listId,
 }: {
   productList: ProductPageState;
   isAdmin: boolean;
+  listId: string;
 }) => {
-  const openeditmodal = (product: ProductType) => {
+  const [openProductEditModal, setProductOpenEditModal] =
+    useState<boolean>(false);
+  const [productdata, setProductData] = useState<ProductTypeDB>();
+  const openeditmodal = (product: ProductTypeDB) => {
     setProductData(product);
     setProductOpenEditModal(true);
   };
@@ -95,17 +100,17 @@ const MobileProductList = ({
 
                 {isAdmin && (
                   <div className="py-2">
-                    <dt className="mb-1 text-sm font-medium text-gray-500">
+                    {/* <dt className="mb-1 text-sm font-medium text-gray-500">
                       Edit
-                    </dt>
-                    <dd className="text-sm">
+                    </dt> */}
+                    <div className="text-sm">
                       <button
                         onClick={() => openeditmodal(product)}
                         className="rounded-lg bg-[#1d8892] p-3 text-white"
                       >
                         Edit
                       </button>
-                    </dd>
+                    </div>
                   </div>
                 )}
               </dl>
@@ -113,6 +118,15 @@ const MobileProductList = ({
           </div>
         ))}
       </div>
+
+      {openProductEditModal && productdata && (
+        <ProductEditPopup
+          openProductEditModal={openProductEditModal}
+          setProductOpenEditModal={setProductOpenEditModal}
+          productdata={productdata}
+          listId={listId}
+        />
+      )}
     </>
   );
 };
@@ -128,8 +142,8 @@ const DesktopProductList = ({
 }) => {
   const [openProductEditModal, setProductOpenEditModal] =
     useState<boolean>(false);
-  const [productdata, setProductData] = useState({});
-  const openeditmodal = (product) => {
+  const [productdata, setProductData] = useState<ProductTypeDB>();
+  const openeditmodal = (product: ProductTypeDB) => {
     setProductData(product);
     setProductOpenEditModal(true);
   };
@@ -180,30 +194,32 @@ const DesktopProductList = ({
                 </td>
               </tr>
             ))}
-
-            {openProductEditModal && (
-              <ProductEditPopup
-                openProductEditModal={openProductEditModal}
-                setProductOpenEditModal={setProductOpenEditModal}
-                productdata={productdata}
-                listId={listId}
-              />
-            )}
           </tbody>
         </table>
       </div>
+
+      {openProductEditModal && productdata && (
+        <ProductEditPopup
+          openProductEditModal={openProductEditModal}
+          setProductOpenEditModal={setProductOpenEditModal}
+          productdata={productdata}
+          listId={listId}
+        />
+      )}
     </>
   );
 };
 
 export default function ProductList({
-  params,
+  listId,
+  // params,
   checkAdmin,
 }: {
+  listId: string;
   checkAdmin: boolean;
-  params: ProductListParams;
+  // params: ProductListParams;
 }) {
-  const { listId } = use(params);
+  // const { listId } = use(params);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [productList, setProductList] = useState<ProductPageState>({
@@ -240,7 +256,7 @@ export default function ProductList({
           const products_list = productsRes.data.products;
           console.log("products list:", products_list);
 
-          const processedProducts: ProductType[] = [];
+          const processedProducts: ProductTypeDB[] = [];
 
           for (const product of products_list) {
             processedProducts.push(product);
@@ -256,6 +272,7 @@ export default function ProductList({
       }
     }
     fetchData();
+    // }, [listId]);
   }, []);
 
   const handleBackClick = () => {
@@ -322,6 +339,7 @@ export default function ProductList({
                   <MobileProductList
                     isAdmin={checkAdmin}
                     productList={productList}
+                    listId={listId}
                   />
                   <DesktopProductList
                     listId={listId}

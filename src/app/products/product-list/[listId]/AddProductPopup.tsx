@@ -1,27 +1,40 @@
 "use client";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal } from "antd";
 
-const AddProductPopup = ({ openEditModal, setOpenEditModal,listId }) => {
+const AddProductPopup = ({
+  openEditModal,
+  setOpenEditModal,
+  listId,
+}: {
+  openEditModal: boolean;
+  setOpenEditModal: (openEditModal: boolean) => void;
+  listId: string;
+}) => {
   const [showspin, setShowSpin] = useState(false);
 
-  const [form, setForm] = useState({
+  const emptyForm = {
     innovator: "",
     product: "",
     code: "",
     composition: "",
     color: "",
-  });
+  };
+  const [form, setForm] = useState(emptyForm);
 
-  const submit = (e) => {
+  const submit = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleOk = async (e) => {
+  const handleOk = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     setShowSpin(true);
 
@@ -34,25 +47,26 @@ const AddProductPopup = ({ openEditModal, setOpenEditModal,listId }) => {
 
     // console.log(form)
     try {
-          const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/product`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            },
-          );
-    
-          console.log("Product created:", res.data.savedProduct._id);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/product`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
-          if (res.status === 200) {
-            setShowSpin(false);
-            const formData = new FormData();
-            formData.append("_id", res.data.savedProduct._id);
-            formData.append("listId", listId);
-            try {
-          const res = await axios.put(
+      console.log("Product created:", res.data.savedProduct._id);
+
+      if (res.status === 200) {
+        setShowSpin(false);
+        const formData = new FormData();
+        formData.append("_id", res.data.savedProduct._id);
+        formData.append("listId", listId);
+        try {
+          // const res = await axios.put(
+          await axios.put(
             `${process.env.NEXT_PUBLIC_API_URL}/product_list`,
             formData,
             {
@@ -61,28 +75,26 @@ const AddProductPopup = ({ openEditModal, setOpenEditModal,listId }) => {
               },
             },
           );
-        //   console.log(res)
-        }catch(error){
-            console.log(error)
+          //   console.log(res)
+        } catch (error) {
+          console.log(error);
         }
-        if(res.status===200){
-            alert("Product Added successfully");
-            window.location.reload();
-            setOpenEditModal(false);
+        if (res.status === 200) {
+          alert("Product Added successfully");
+          window.location.reload();
+          setOpenEditModal(false);
         }
-            
-          }
-        } catch (err) {
-          console.error("Error Adding product:", err);
-        
-      };
-  }
+      }
+    } catch (err) {
+      console.error("Error Adding product:", err);
+    }
+  };
 
   const handleCancel = () => {
     setOpenEditModal(false);
-    setForm({});
+    // setForm({});
+    setForm(emptyForm);
   };
-  
 
   return (
     <Modal
@@ -178,32 +190,32 @@ const AddProductPopup = ({ openEditModal, setOpenEditModal,listId }) => {
             </label>
 
             <textarea
-              rows="5"
-              type="text"
+              rows={5}
               id="AddNewOffer"
               className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter Composition"
               name="composition"
               value={form.composition}
               onChange={submit}
+              // onChange={(e)=>e}
             />
           </div>
 
           <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Color:
-          </label>
+            <label className="block text-sm font-medium text-gray-700">
+              Color:
+            </label>
 
-          <input
-            type="text"
-            id="AddNewOffer"
-            className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Color"
-            name="color"
-            value={form.color}
-            onChange={submit}
-          />
-        </div>
+            <input
+              type="text"
+              id="AddNewOffer"
+              className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter Color"
+              name="color"
+              value={form.color}
+              onChange={submit}
+            />
+          </div>
         </div>
       </div>
     </Modal>

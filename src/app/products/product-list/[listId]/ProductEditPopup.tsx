@@ -1,35 +1,61 @@
 "use client";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { Modal } from "antd";
+import { ProductListEntryDB, ProductTypeDB } from "@/types";
 
-const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, productdata,listId }) => {
+const ProductEditPopup = ({
+  openProductEditModal,
+  setProductOpenEditModal,
+  productdata,
+  listId,
+}: {
+  openProductEditModal: boolean;
+  setProductOpenEditModal: (openProductEditModal: boolean) => void;
+  productdata: ProductTypeDB;
+  listId: string;
+}) => {
   const [showspin, setShowSpin] = useState(false);
-  const [ProdcutList, setProdcutList] = useState([]);
-  const activeCategoryId = window.localStorage.getItem('activeCategoryId')
+  const [ProductList, setProductList] = useState<ProductListEntryDB[]>([]);
+  const activeCategoryId = window.localStorage.getItem("activeCategoryId");
+  const emptyProduct = {
+    product_id: "",
+    innovator: "",
+    product: "",
+    code: "",
+    composition: "",
+    color: "",
+    product_list: "",
+  };
   // alert(listId)
   async function getcategories() {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/product_category?id=${activeCategoryId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/product_category?id=${activeCategoryId}`,
       );
-
       if (res.status === 200) {
+        // type productListsResType
         const productLists = res.data.productCategoriesItem.productLists;
-        const parr = []
+        const parr: ProductListEntryDB[] = [];
         for (const product_list_id of productLists) {
           try {
-            const res2 = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_URL}/product_list?product_list_id=${product_list_id}`
+            const res2 = await axios.get<{
+              success: boolean;
+              product_list: ProductListEntryDB;
+            }>(
+              `${process.env.NEXT_PUBLIC_API_URL}/product_list?product_list_id=${product_list_id}`,
             );
-            parr.push(res2.data.product_list)
+            console.log("res2");
+            console.log(res2);
+            parr.push(res2.data.product_list);
             // console.log(res2.data.product_list);
           } catch (error) {
             console.error("Error fetching product list:", error);
           }
         }
-        // console.log(parr)
-        setProdcutList(parr)
+        console.log("Product lists from category");
+        console.log(parr);
+        setProductList(parr);
       }
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -37,8 +63,8 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
   }
 
   useEffect(() => {
-    getcategories()
-  }, [])
+    getcategories();
+  }, []);
   const [form, setForm] = useState({
     product_id: productdata._id,
     innovator: productdata.innovator,
@@ -46,17 +72,21 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
     code: productdata.code,
     composition: productdata.composition,
     color: productdata.color,
-    product_list: ""
+    product_list: "",
   });
 
-  const submit = (e) => {
+  const submit = (
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>,
+  ) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleOk = async (e) => {
+  const handleOk = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     setShowSpin(true);
 
@@ -70,91 +100,88 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
     formData.append("product_list", form.product_list);
     // console.log(form)
     try {
-  // First: Update the product
-  const productUpdateRes = await axios.put(
-    `${process.env.NEXT_PUBLIC_API_URL}/product`,
-    formData, // This should be plain JSON if you're using JSON headers
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+      // First: Update the product
+      const productUpdateRes = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/product`,
+        formData, // This should be plain JSON if you're using JSON headers
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
-  if (productUpdateRes.status === 200) {
-    // Second: Add product ID to product list if selected
-    if (form.product_list !== "") {
-      const formListData = new FormData();
-      formListData.append("listId", form.product_list);  // New product ID to add
-      formListData.append("_id", form.product_id);      // ID of the product list
-      formListData.append("previousProductListId", listId);      // ID of the product list
+      if (productUpdateRes.status === 200) {
+        // Second: Add product ID to product list if selected
+        if (form.product_list !== "") {
+          const formListData = new FormData();
+          formListData.append("listId", form.product_list); // New product ID to add
+          formListData.append("_id", form.product_id); // ID of the product list
+          formListData.append("previousProductListId", listId); // ID of the product list
 
-      try {
-        const listUpdateRes = await axios.put(
-          `${process.env.NEXT_PUBLIC_API_URL}/product_list`,
-          formListData,
-          {
-            // DO NOT manually set content-type for FormData
-            headers: {
-              'Content-Type': 'application/json'  
-            },
+          try {
+            const listUpdateRes = await axios.put(
+              `${process.env.NEXT_PUBLIC_API_URL}/product_list`,
+              formListData,
+              {
+                // DO NOT manually set content-type for FormData
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              },
+            );
+
+            console.log(listUpdateRes);
+
+            if (listUpdateRes.status === 200) {
+              alert("Product updated and added to list successfully!");
+              setShowSpin(false);
+              setProductOpenEditModal(false);
+              window.location.reload();
+            }
+          } catch (listUpdateError) {
+            console.error("Error updating product list:", listUpdateError);
           }
-        );
-
-        console.log(listUpdateRes)
-
-        if (listUpdateRes.status === 200) {
-          alert("Product updated and added to list successfully!");
-          setShowSpin(false)
-          setProductOpenEditModal(false)
-          window.location.reload()
+        } else {
+          alert("Product Updated Successfully!");
+          setShowSpin(false);
+          setProductOpenEditModal(false);
+          window.location.reload();
         }
-      } catch (listUpdateError) {
-        console.error("Error updating product list:", listUpdateError);
       }
-    } else {
-      alert("Product Updated Successfully!");
-      setShowSpin(false)
-      setProductOpenEditModal(false)
-      window.location.reload()
+    } catch (error) {
+      console.error("Error updating product:", error);
     }
-  }
-} catch (error) {
-  console.error("Error updating product:", error);
-}
-
-
-
-  }
+  };
 
   const handleCancel = () => {
     setProductOpenEditModal(false);
-    setForm({});
+    // setForm({});
+    setForm(emptyProduct);
   };
 
-  const handleDelete = async(id) => {
+  const handleDelete = async (id: string) => {
     // alert(id)
-    try{
-      const con=confirm("Are You Sure??")
-      if(con){
-        setShowSpin(true)
-        const res=await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/product?product_id=${id}&listid=${listId}`)
-      // console.log(res)
-      if(res.status==200){
-        
-        alert("Product Deleted SuccessFully")
-        setProductOpenEditModal(false);
-        window.location.reload()
-        setForm({});
+    try {
+      const con = confirm("Are You Sure??");
+      if (con) {
+        setShowSpin(true);
+        const res = await axios.delete(
+          `${process.env.NEXT_PUBLIC_API_URL}/product?product_id=${id}&listid=${listId}`,
+        );
+        // console.log(res)
+        if (res.status == 200) {
+          alert("Product Deleted SuccessFully");
+          setProductOpenEditModal(false);
+          window.location.reload();
+          // setForm({});
+          setForm(emptyProduct);
+        }
       }
-      }
-      
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
-    
   };
-
 
   return (
     <Modal
@@ -169,6 +196,7 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
           <button
             type="button"
             onClick={handleOk}
+            // onClick={(e)=>{e}}
             className="w-full rounded-md border border-[#3F5D97] bg-[#3F5D97] p-2 font-semibold text-white hover:bg-[#5d7cb9] hover:text-[#3F5D97]"
           >
             Add
@@ -183,14 +211,14 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
 
           <button
             type="button"
-            onClick={()=>handleDelete(form.product_id)}
+            onClick={() => handleDelete(form.product_id)}
             className="w-full rounded-md border border-red-500 bg-red-600 p-2 font-semibold text-white hover:bg-red-500 hover:text-white"
           >
             Delete
           </button>
         </div>
       }
-    // className="bg-gray-100 rounded-lg" // <-- Modal background color
+      // className="bg-gray-100 rounded-lg" // <-- Modal background color
     >
       <div className="shadsow-md rounded-lg p-1">
         {showspin ? (
@@ -213,6 +241,7 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
             name="innovator"
             value={form.innovator}
             onChange={submit}
+            // onChange={(e)=>{e}}
           />
         </div>
 
@@ -258,8 +287,9 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
             </label>
 
             <textarea
-              rows="5"
-              type="text"
+              // rows="5"
+              rows={5}
+              // type="text"
               id="AddNewOffer"
               className="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter Composition"
@@ -286,41 +316,36 @@ const ProductEditPopup = ({ openProductEditModal, setProductOpenEditModal, produ
           </div>
 
           <div className="mb-4">
-            <labels
+            {/* <labels
               htmlFor="roomType"
               className="block text-sm font-medium text-gray-700"
-            >
-              ProductList:
-            </labels>
-
+            > */}
+            ProductList:
+            {/* </labels> */}
             <select
               id="roomType"
-              placeholder="Select ProductList"
+              // placeholder="Select ProductList"
               name="product_list"
               onChange={submit}
-              className="mt-2 h-10 w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-
+              className="mt-2 h-10 w-full rounded-md border border-gray-300 p-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
+              {/* <option value="0">Select Product List</option> */}
               <option value="0">Select Product List</option>
 
-              {
-                ProdcutList.length >= 1 ?
-                
-                  ProdcutList.map((item, index) => {
-                    return (
-                      <option value={item._id} className="text-black">{item.product_list_name}</option>
-
-                    )
-                  })
-                  :
-                  
-                  <option value="Loading" className="text-black">Loading..</option>
-
-
-              }
+              {ProductList.length >= 1 ? (
+                ProductList.map((item, index) => {
+                  return (
+                    <option key={index} value={item._id} className="text-black">
+                      {item.product_list_name}
+                    </option>
+                  );
+                })
+              ) : (
+                <option value="Loading" className="text-black">
+                  Loading..
+                </option>
+              )}
             </select>
-
-
           </div>
         </div>
       </div>

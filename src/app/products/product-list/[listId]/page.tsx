@@ -8,12 +8,18 @@ import { ProductListParams } from "@/types";
 
 const page = async ({ params }: ProductListParams) => {
   const isAdmin = await checkAdminFromCookie();
+  const { listId } = await params;
+  // console.log("params");
+  // console.log(params);
+  // console.log("listId");
+  // console.log(listId);
 
   return (
     <>
       {/* Edit Button */}
       {/* {isAdmin && <ProductListEditPopup />} */}
-      <ProductList checkAdmin={isAdmin} params={params}>
+      {/* <ProductList checkAdmin={isAdmin} params={params}> */}
+      <ProductList checkAdmin={isAdmin} listId={listId}>
         {/* {isAdmin && <ProductListEditPopup />} */}
       </ProductList>
     </>

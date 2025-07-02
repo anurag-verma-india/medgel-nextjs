@@ -28,7 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/helpers/unusedGenToken.ts.nobuild",
-    "src/lib/dbConnect.js"
   ],
   "exclude": ["node_modules"]
 }

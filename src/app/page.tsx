@@ -79,7 +79,7 @@ const HomePage = async () => {
   return (
     <>
       <SliderComponent data={SliderComponentData}>
-        {isAdmin && <EditModalContainer title={CardRowTitle} />}
+        {/* {isAdmin && <EditModalContainer title={CardRowTitle} />} */}
       </SliderComponent>
 
       <CardRow data={CardRowData}>
