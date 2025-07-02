@@ -4,7 +4,7 @@
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import ProductList from "./ProductList";
 import { ProductListParams } from "@/types";
-import ProductListEditPopup from "./ProductListEditPopup";
+// import ProductListEditPopup from "./ProductListEditPopup";
 
 const page = async ({ params }: ProductListParams) => {
   const isAdmin = await checkAdminFromCookie();

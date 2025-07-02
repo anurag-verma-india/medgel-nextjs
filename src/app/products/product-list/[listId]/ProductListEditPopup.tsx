@@ -1,5 +1,6 @@
 "use client";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+// import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 // import ProductDataContext from "@/contexts/ProductDataContext";
 // import { ProductContextProps, ProductsStateType } from "@/types";
 
@@ -51,7 +52,10 @@ const EditProductsPopup = ({ setModalOpen }: EditProductsPopupParams) => {
       setModalOpen(false);
     }
   };
-  const handleListAdd = (e: any) => {
+  // const handleListAdd = (e: any) => {
+  const handleListAdd = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     const newList = {
       id: demoDataList.length + 1,
