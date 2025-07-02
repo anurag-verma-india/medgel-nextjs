@@ -2,34 +2,63 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Modal } from "antd";
-const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
+
+type AnnualReportFormType = {
+  title: string;
+  // anual_Report: string;
+  anual_Report: File;
+};
+
+const AnualReportPopup = ({
+  openEditModal,
+  setOpenEditModal,
+}: {
+  openEditModal: boolean;
+  setOpenEditModal: (openEditModal: boolean) => void;
+}) => {
   const [showspin, setShowSpin] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<AnnualReportFormType>({
     title: "",
-    anual_Report: "",
+    anual_Report: new File([], ""),
   });
 
-  const submit = (e) => {
+  const submit = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleOk = async (e) => {
+  const blankAnnualReportForm = {
+    title: "",
+    anual_Report: new File([], ""),
+  };
+
+  const handleOk = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     setShowSpin(true);
 
     const formData = new FormData();
-    formData.append("title", form.title);
     // for (let pair of formData.entries()) {
     //         console.log(pair[0], pair[1]); // Now price will be logged as a proper JSON string
     //     }
+
+    if (form.title && form.title.length > 0) {
+      formData.append("title", form.title);
+    } else {
+      alert("Please enter a valid title");
+      setShowSpin(false);
+      return;
+    }
+
     // Ensure it's a File before appending
-    if (form.anual_Report instanceof File) {
+    if (form.anual_Report instanceof File && form.anual_Report.size > 0) {
       formData.append("anual_Report", form.anual_Report); // 👈 send actual file
     } else {
       alert("Please upload a valid pdf file");
+      setShowSpin(false);
       return;
     }
 
@@ -51,15 +80,16 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
         window.location.reload();
       }
       setOpenEditModal(false);
-      setForm({ title: "", award_Image: "" });
+      setForm(blankAnnualReportForm);
     } catch (err) {
       console.error("Error uploading anual Report:", err);
+      setShowSpin(false);
     }
   };
-
   const handleCancel = () => {
     setOpenEditModal(false);
-    setForm({});
+    // setForm({});
+    setForm(blankAnnualReportForm);
   };
 
   return (
@@ -130,7 +160,12 @@ const AnualReportPopup = ({ openEditModal, setOpenEditModal }) => {
               name="anual_Report"
               id="product-images"
               onChange={(e) => {
-                setForm({ ...form, anual_Report: e.target.files[0] });
+                if (e.target.files && e.target.files.length > 0) {
+                  setForm({ ...form, anual_Report: e.target.files[0] });
+                } else {
+                  // User canceled the file dialog, so reset the file in the state
+                  setForm({ ...form, anual_Report: new File([], "") });
+                }
               }}
               // onChange={submit}
               required

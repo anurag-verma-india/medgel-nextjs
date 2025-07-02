@@ -12,34 +12,60 @@ import { Modal } from "antd";
 // import { API_URL } from "../../Features/NwConfig";
 // import { ProductUpdateFetcher } from "../../Features/Product/ProductUpdate";
 // import { useNavigate } from "react-router-dom";
-const PolicyPopup = ({ openEditModal, setOpenEditModal }) => {
-  const [showspin, setShowSpin] = useState(false);
-  const [form, setForm] = useState({
-    title: "",
-    policy_Report: "",
-  });
 
-  const submit = (e) => {
+type PolicyReportType = {
+  title: string;
+  policy_Report: File;
+};
+
+const PolicyPopup = ({
+  openEditModal,
+  setOpenEditModal,
+}: {
+  openEditModal: boolean;
+  setOpenEditModal: (openEditModal: boolean) => void;
+}) => {
+  const blankPolicy = {
+    title: "",
+    policy_Report: new File([], ""),
+  };
+
+  const [showspin, setShowSpin] = useState(false);
+  const [form, setForm] = useState<PolicyReportType>(blankPolicy);
+
+  const submit = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleOk = async (e) => {
+  const handleOk = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.preventDefault();
     setShowSpin(true);
 
     const formData = new FormData();
-    formData.append("title", form.title);
+    // formData.append("title", form.title);
+
+    if (form.title && form.title.length > 0) {
+      formData.append("title", form.title);
+    } else {
+      alert("Please enter a valid title");
+      setShowSpin(false);
+      return;
+    }
+
     // for (let pair of formData.entries()) {
     //         console.log(pair[0], pair[1]); // Now price will be logged as a proper JSON string
     //     }
     // Ensure it's a File before appending
-    if (form.policy_Report instanceof File) {
+    if (form.policy_Report instanceof File && form.policy_Report.size > 0) {
       formData.append("policy_Report", form.policy_Report); // 👈 send actual file
     } else {
-      alert("Please upload a valid policy file");
+      alert("Please select a valid PDF file for policy");
+      setShowSpin(false);
       return;
     }
 
@@ -61,7 +87,7 @@ const PolicyPopup = ({ openEditModal, setOpenEditModal }) => {
         window.location.reload();
       }
       setOpenEditModal(false);
-      setForm({ title: "", policy_Report: "" });
+      setForm(blankPolicy);
     } catch (err) {
       console.error("Error uploading Policy File:", err);
     }
@@ -69,7 +95,7 @@ const PolicyPopup = ({ openEditModal, setOpenEditModal }) => {
 
   const handleCancel = () => {
     setOpenEditModal(false);
-    setForm({});
+    setForm(blankPolicy);
   };
 
   return (
@@ -140,9 +166,13 @@ const PolicyPopup = ({ openEditModal, setOpenEditModal }) => {
               name="policy_Report"
               id="product-images"
               onChange={(e) => {
-                setForm({ ...form, policy_Report: e.target.files[0] });
+                if (e.target.files && e.target.files.length > 0) {
+                  setForm({ ...form, policy_Report: e.target.files[0] });
+                } else {
+                  // User canceled the file dialog, so reset the file in the state
+                  setForm({ ...form, policy_Report: new File([], "") });
+                }
               }}
-              // onChange={submit}
               required
             />
           </div>
