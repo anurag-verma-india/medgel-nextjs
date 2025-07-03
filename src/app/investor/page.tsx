@@ -4,6 +4,8 @@ import AnualReturn from "./AnualReturn";
 import Policies from "./Policies";
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const isAdmin = await checkAdminFromCookie();
   return (

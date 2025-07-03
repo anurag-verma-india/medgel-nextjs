@@ -1,6 +1,8 @@
 import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import NewsPage from "./NewsPage";
 
+export const dynamic = "force-dynamic";
+
 export default async function page() {
   let isAdmin = false;
   try {

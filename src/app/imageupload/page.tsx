@@ -3,6 +3,8 @@ import ImageUploadClientComponent from "./ImageUploadClientComponent";
 
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const Page = async () => {
   let isAdmin = false;
   try {

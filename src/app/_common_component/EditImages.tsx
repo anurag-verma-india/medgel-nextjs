@@ -98,7 +98,7 @@ const EditImages = ({ images, title }: EditImagesParams) => {
             IMAGES
           </div>
           <div className="my-2 w-full text-center text-xl text-red-700">
-            Make sure to replace images with same width to hight ratio
+            Make sure to replace images with same width to height ratio
           </div>
           {Object.entries(images).map(([key, value]) =>
             renderImages(key, value),
