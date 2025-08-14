@@ -3,36 +3,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import News from "@/models/news";
-// import handleError from "@/helpers/handleError";
-import { checkAdminFromCookie } from "@/helpers/checkAdmin";
 import LogError from "@/helpers/LogError";
-
-async function checkAdmin(): Promise<NextResponse | null> {
-  let isAdmin = false;
-  try {
-    isAdmin = await checkAdminFromCookie();
-  } catch (error) {
-    console.log("Error while checking authorization level");
-    console.log(error);
-  }
-
-  if (!isAdmin) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Unauthorized",
-      },
-      {
-        status: 401,
-      },
-    );
-  }
-  // console.log("Admin is authorized");
-  return null;
-}
+import checkAdminRequestIntercept from "@/helpers/checkAdminServer";
 
 export async function POST(request: NextRequest) {
-  const adminResponse = await checkAdmin();
+  const adminResponse = await checkAdminRequestIntercept();
   if (adminResponse) return adminResponse;
 
   try {
@@ -96,7 +71,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const adminResponse = await checkAdmin();
+  const adminResponse = await checkAdminRequestIntercept();
   if (adminResponse) return adminResponse;
 
   try {
@@ -139,7 +114,7 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const adminResponse = await checkAdmin();
+  const adminResponse = await checkAdminRequestIntercept();
   if (adminResponse) return adminResponse;
 
   try {
