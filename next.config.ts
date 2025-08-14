@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "192.168.29.218",
       },
+      {
+        hostname: "medgel.vercel.app",
+      },
     ],
   },
   // Fix for cross-origin request warning
@@ -33,6 +36,7 @@ const nextConfig: NextConfig = {
     "10.10.16.243",
     "pika-welcome-cicada.ngrok-free.app",
     "192.168.29.218",
+    "medgel.vercel.app",
   ],
 };
 
