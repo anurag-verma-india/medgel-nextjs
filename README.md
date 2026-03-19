@@ -1,102 +1,53 @@
-# Medgel Pvt. Ltd.
+# Medgel Pvt. Ltd. - Web Platform
 
-Medgel is a state-of-the-art facility for the manufacturing of Soft Gel Capsules, uniquely featuring In-line Drying Technology, one of its kind in Asia. This project is a modern web application built for Medgel Pvt. Ltd. using the latest web technologies and development practices.
+Medgel is a state-of-the-art facility for the manufacturing of Soft Gel Capsules, uniquely featuring In-line Drying Technology, one of its kind in Asia. This repository contains the modern web application and Content Management System (CMS) built for Medgel Pvt. Ltd.
 
-## 🚀 Technologies Used
+## 📄 Documentation
 
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **UI Library**: [React 19](https://react.dev/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [Styled Components](https://styled-components.com/)
-- **UI Components**: [Ant Design (antd)](https://ant.design/) & [Lucide React](https://lucide.dev/) (Icons)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Database**: [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/)
-- **Authentication**: JWT (JSON Web Tokens)
-- **Email Service**: [Nodemailer](https://nodemailer.com/)
-- **Form Handling**: [Formidable](https://github.com/node-formidable/formidable) & [Multer](https://github.com/expressjs/multer) (for file uploads)
+We have comprehensive documentation available in the `docs/` folder:
 
-## 🛠 Modern Development Practices
+- **[Project Overview](docs/overview.md)**: What the project does, core features, and target audience.
+- **[Technical Architecture](docs/architecture.md)**: Technologies used, directory structure, and database models.
+- **[Development Setup](docs/development.md)**: How to set up and run the project locally.
+- **[API Documentation](docs/api.md)**: Detailed information about the available API endpoints.
+- **[Production Deployment](docs/production.md)**: Guidelines for deploying the application to a production environment.
 
-- **App Router**: Leverages the latest Next.js App Router for optimized routing and layout management.
-- **Server Components**: Extensive use of React Server Components (RSC) for improved performance and SEO.
-- **Type Safety**: Full TypeScript integration for robust and maintainable code.
-- **API Routes**: Next.js 15 Route Handlers for efficient backend logic.
-- **Responsive Design**: Mobile-first approach using Tailwind CSS.
-- **Clean Architecture**: Separation of concerns between models, components, contexts, and helper functions.
+---
 
-## 📂 Project Structure
-
-```text
-├── public/                 # Static assets (images, PDFs, logos)
-├── src/
-│   ├── app/                # Next.js App Router (Pages, API Routes, Layouts)
-│   │   ├── _common_component/ # Shared components (Header, Footer, Modals)
-│   │   ├── api/            # API Route Handlers (Modern)
-│   │   └── ...             # Page-specific routes (about, products, etc.)
-│   ├── contexts/           # React Context Providers for global state
-│   ├── helpers/            # Utility functions and server-side helpers
-│   ├── lib/                # Library configurations (e.g., dbConnect)
-│   ├── models/             # Mongoose schemas and models
-│   └── types.ts            # Global TypeScript types
-├── pages/                  # Legacy API routes (Pages Router)
-├── .env.sample             # Sample environment variables
-├── package.json            # Project dependencies and scripts
-└── tsconfig.json           # TypeScript configuration
-```
-
-## 📡 API Structure
-
-The project primarily uses Next.js 15 Route Handlers located in `src/app/api/`. Each directory within `src/app/api/` contains a `route.ts` file defining the supported HTTP methods (GET, POST, etc.).
-
-Key API Endpoints:
-- `/api/users`: User management and authentication.
-- `/api/product`: Product-related operations.
-- `/api/annualReport`: Annual report management.
-- `/api/contactus`: Handling contact form submissions.
-
-## 🏃 How to Run
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js (v20 or higher)
-- MongoDB instance
+- Node.js (v20+)
+- MongoDB
 
-### Steps
+### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd medgel-nextjs
-   ```
+1. Clone the repo: `git clone <repo-url>`
+2. Install dependencies: `npm install`
+3. Configure environment: `cp .env.sample .env` (and update the values)
+4. Run development server: `npm run dev`
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### Production
 
-3. **Set up Environment Variables:**
-   Create a `.env` file in the root directory and copy the contents from `.env.sample`. Update the values as needed.
-   ```bash
-   cp .env.sample .env
-   ```
+1. Build: `npm run build`
+2. Start: `npm run start`
 
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+## 🛠 Tech Stack Highlights
 
-5. **Build for production:**
-   ```bash
-   npm run build
-   npm run start
-   ```
+- **Framework**: Next.js 15 (App Router)
+- **UI**: React 19, Tailwind CSS, Ant Design
+- **Database**: MongoDB with Mongoose
+- **Auth**: JWT-based authentication
+- **Mailing**: Nodemailer for automated notifications
 
-## 📜 Scripts
+For more details on the tech stack, see [Technical Architecture](docs/architecture.md).
 
-- `npm run dev`: Starts the development server with Turbopack.
-- `npm run build`: Builds the application for production.
-- `npm run start`: Starts the production server.
-- `npm run lint`: Runs ESLint to check for code quality issues.
+## 📂 Key Directories
 
+- `src/app`: Application routes and API handlers.
+- `src/models`: Mongoose database schemas.
+- `src/contexts`: Global React state management.
+- `public`: Static assets (images, PDFs).
 
+---
